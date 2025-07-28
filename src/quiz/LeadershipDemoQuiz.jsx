@@ -108,10 +108,10 @@ const LeadershipDemoQuiz = ({ onClose }) => {
   let bonusExample = null;
   switch (answers.teaser) {
     case 'unhappy_team':
-      bonusExample = "Example: Disengaged teams cost businesses billions in lost productivity every year.";
+      bonusExample = "Disengaged teams cost businesses billions in lost productivity every year.";
       break;
     case 'tough_convo':
-      bonusExample = "Example: Leaders who address conflict directly see higher retention and trust.";
+      bonusExample = "Leaders who address conflict directly see higher retention and trust.";
       break;
     default:
       break;
