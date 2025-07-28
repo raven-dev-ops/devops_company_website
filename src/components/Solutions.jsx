@@ -1,8 +1,7 @@
-// components/Solutions.jsx
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
+import TestimonialCarousel from './TestimonialCarousel';
 
 const solutionsList = [
   "Manual, repetitive tasks wasting time? We automate busywork with custom apps so your people can focus on what matters.",
@@ -41,21 +40,7 @@ const Solutions = ({ id }) => {
           ))}
         </div>
 
-        {/* Optional Testimonial */}
-        <motion.div
-          className="mt-12 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow text-center italic border-l-4 border-raven-blue"
-          initial={{ opacity: 0, scale: 0.94 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-gray-700 text-lg">
-            “I didn't have to think about it, Damon answered all of my questions. It gave me peace of mind being able to ask about anything I wanted to and get the help I needed.”
-          </p>
-          <p className="mt-2 text-sm font-semibold text-gray-600">
-            — TwiinZ Beard Balm & Essentials
-          </p>
-        </motion.div>
+        <TestimonialCarousel />
       </div>
     </section>
   );
