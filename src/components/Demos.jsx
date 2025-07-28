@@ -52,7 +52,7 @@ const Demos = ({ id }) => {
                             <motion.div
                                 key={demo.id}
                                 id={`demo-${demo.id}`}
-                                className="border border-gray-200 rounded-lg p-6 md:p-8 shadow-sm"
+                                className="border border-gray-200 rounded-lg p-6 md:p-8 shadow-sm flex flex-col"
                                 initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0.3 }}
@@ -62,6 +62,15 @@ const Demos = ({ id }) => {
                                 <p className="text-gray-600 mb-6">{demo.desc}</p>
                                 <div className="bg-gray-50 p-4 rounded-md border border-gray-100 min-h-[200px] flex items-center justify-center overflow-hidden">
                                     <demo.Component />
+                                </div>
+                                {/* LEARN MORE BUTTON */}
+                                <div className="flex justify-center mt-6">
+                                    <a
+                                        href={`/pages/${demo.id}`}
+                                        className="bg-raven-blue hover:bg-raven-red text-white font-semibold py-2 px-6 rounded-lg shadow transition duration-200"
+                                    >
+                                        LEARN MORE
+                                    </a>
                                 </div>
                             </motion.div>
                         ) : (
