@@ -60,12 +60,11 @@ function App() {
           </Helmet>
           <main role="main" className="flex-grow max-w-7xl mx-auto w-full px-2 sm:px-6 lg:px-8">
             <Hero id="hero" scrollToContact={() => scrollToSection('contact')} scrollToSection={scrollToSection} />
+            <WhyRaven id="why-raven" />
+            <Solutions id="solutions" />
+            <Pricing id="pricing" />
             <Services id="services" scrollToSection={scrollToSection} />
             <Demos id="demos" />
-            <Solutions id="solutions" />
-            <Process id="process" />
-            <WhyRaven id="why-raven" />
-            <Pricing id="pricing" />
             <Contact id="contact" />
           </main>
           <Footer />
