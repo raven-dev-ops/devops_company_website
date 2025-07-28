@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useQuizModal } from '../componenets/QuizModalContext';
+import { useQuizModal } from '../components/QuizModalContext';
 
 const servicesList = [
   { 
