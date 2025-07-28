@@ -50,7 +50,7 @@ const Solutions = ({ id }) => {
           transition={{ duration: 0.5 }}
         >
           <p className="text-gray-700 text-lg">
-            “I didn't have to think about it, Damon answered all of my questions. It gave me peace of mind being able to watch the project develop any time I wanted was amazing.”
+            “I didn't have to think about it, Damon answered all of my questions. It gave me peace of mind being able to ask about anything I wanted to and get the help I needed.”
           </p>
           <p className="mt-2 text-sm font-semibold text-gray-600">
             — TwiinZ Beard Balm & Essentials
