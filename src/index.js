@@ -6,7 +6,7 @@ import './index.css';
 import App from './App';
 
 // Import QuizModalProvider (use the correct relative path)
-import { QuizModalProvider } from './quiz/QuizModalContext';
+import { QuizModalProvider } from './components/QuizModalContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
