@@ -23,7 +23,7 @@ const Footer = () => {
         {/* Tagline */}
         <div>
           <p className="text-sm text-raven-blue font-bold mb-2">
-            🇺🇸 Proudly Veteran-Owned Small Business
+            🇺🇸 Veteran-Owned Small Business
           </p>
         </div>
         
@@ -57,7 +57,7 @@ const Footer = () => {
       </div>
       {/* Divider */}
       <div className="mt-6 border-t border-gray-800 pt-4 text-center text-xs text-gray-500">
-        Veteran contracting and Apex Accelerator support available for local, state, and federal clients.
+        Veteran contracting available for local, state, and federal clients.
       </div>
     </footer>
   );
