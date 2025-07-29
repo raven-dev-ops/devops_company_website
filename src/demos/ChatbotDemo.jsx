@@ -52,6 +52,7 @@ const ChatbotDemo = () => {
   const [isBotTyping, setIsBotTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
+  // Scroll only the log, not the page!
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -76,8 +77,9 @@ const ChatbotDemo = () => {
   const handleSend = () => sendMessage(input);
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow p-4 border border-gray-200 flex flex-col h-[340px]">
-      <div className="flex-grow overflow-y-auto mb-3 pr-2 space-y-3">
+    <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow p-4 border border-gray-200 flex flex-col" style={{ minHeight: 340 }}>
+      {/* Only the log scrolls, not the whole card */}
+      <div className="overflow-y-auto mb-3 pr-2 space-y-3 max-h-56 min-h-[100px]">
         {messages.map((msg, index) => (
           <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             <span className={`inline-block px-3 py-1.5 rounded-lg max-w-[80%] text-sm ${
