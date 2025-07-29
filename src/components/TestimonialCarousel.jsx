@@ -31,19 +31,15 @@ const testimonials = [
 
 const variants = {
   enter: (direction) => ({
-    x: direction > 0 ? 300 : -300,
+    x: direction > 0 ? 60 : -60,
     opacity: 0,
-    position: "absolute", // Prevents stacking artifacts
+    zIndex: 0,
   }),
-  center: {
-    x: 0,
-    opacity: 1,
-    position: "relative",
-  },
+  center: { x: 0, opacity: 1, zIndex: 1 },
   exit: (direction) => ({
-    x: direction < 0 ? 300 : -300,
+    x: direction < 0 ? 60 : -60,
     opacity: 0,
-    position: "absolute", // Prevents stacking artifacts
+    zIndex: 0,
   }),
 };
 
@@ -61,8 +57,8 @@ const TestimonialCarousel = () => {
   };
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto mt-10">
-      <div className="relative w-full flex flex-col items-center justify-center">
+    <div className="relative w-full max-w-2xl mx-auto mt-10 flex flex-col items-center">
+      <div className="relative w-full flex flex-col items-center">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={page}
@@ -72,13 +68,15 @@ const TestimonialCarousel = () => {
             animate="center"
             exit="exit"
             transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 40,
+              type: "tween",
+              ease: "anticipate",
+              duration: 0.42,
             }}
-            layout // This line makes the height animate smoothly!
+            layout
             className={`w-full p-6 rounded-lg shadow bg-gradient-to-r ${testimonial.colorFrom} ${testimonial.colorTo} border-l-4 border-raven-blue text-center flex flex-col justify-center items-center`}
-            style={{ minHeight: 120 }}
+            style={{
+              minHeight: 0, // REMOVE any minHeight or height
+            }}
           >
             <p className="text-gray-700 text-lg italic">{testimonial.quote}</p>
             <p className="mt-2 text-sm font-semibold text-gray-600">{testimonial.author}</p>
