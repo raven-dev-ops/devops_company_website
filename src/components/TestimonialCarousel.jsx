@@ -21,6 +21,12 @@ const testimonials = [
     colorFrom: "from-purple-50",
     colorTo: "to-violet-100",
   },
+  {
+    quote: `“Raven Development was my solution to get some niche graphics made quickly and within budget. The research and consideration, attention to detail, is really important for our graphics to be designed and tailored to our guest experience.”`,
+    author: "Mound City Pool Manager",
+    colorFrom: "from-teal-50",
+    colorTo: "to-blue-100",
+  },
 ];
 
 const variants = {
