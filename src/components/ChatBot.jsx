@@ -269,34 +269,7 @@ const ChatBot = ({
               </div>
               {step === 1 && (
                 <div>
-                  <div className="text-sm text-gray-800 font-medium mb-2">
-                    What brings you to the website today?
-                  </div>
-                  <div className="grid grid-cols-1 gap-2">
-                    {[
-                      'Learn about our services',
-                      'Request a demo',
-                      'Request a trial',
-                      'Product walkthrough',
-                      'Feature showcase',
-                      'I need help on a project',
-                      'Evaluate a retainer option',
-                      'Other',
-                    ].map((r) => (
-                      <button
-                        key={r}
-                        onClick={() => {
-                          setReason(r);
-                          appendMessage('user', r);
-                          appendMessage('bot', 'Which services are you interested in? You can pick multiple.');
-                          setStep(2);
-                        }}
-                        className="text-left border border-gray-200 hover:border-raven-blue hover:bg-blue-50 rounded-lg px-3 py-2 text-sm"
-                      >
-                        {r}
-                      </button>
-                    ))}
-                  </div>
+                  {/* Quick-reply buttons removed in favor of free text input */}
                 </div>
               )}
 
