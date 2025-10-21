@@ -2,12 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import useSound from '../hooks/useSound';
 import flagOverlayImage from '../assets/american_flag_background.png';
 
-const Hero = ({ id, onBookConsultation, onRequestDemo, onJoinRetainer, scrollToSection }) => {
-  const playRavenSound = useSound('/audio/raven-caw.mp3');
-
+const Hero = ({ id, scrollToSection }) => {
   return (
     <section
       id={id}
@@ -37,7 +34,7 @@ const Hero = ({ id, onBookConsultation, onRequestDemo, onJoinRetainer, scrollToS
           transition={{ duration: 0.6, delay: 0.08 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-raven-dark mb-4 leading-tight"
         >
-          Veteran-Owned, US-Based Tech Solutions
+          US-Based Tech Solutions
         </motion.h1>
 
         <motion.p
@@ -46,35 +43,9 @@ const Hero = ({ id, onBookConsultation, onRequestDemo, onJoinRetainer, scrollToS
           transition={{ duration: 0.6, delay: 0.15 }}
           className="text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto"
         >
-          Veteran-owned, US-based tech solutions to eliminate inefficiencies and drive growth. DevOps, cloud, analytics dashboards, and custom software—delivered with discipline and transparency.
+          Providing freedom to eliminate inefficiencies and drive growth. DevOps, cloud, analytics dashboards, and custom software—delivered with discipline and transparency.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.24 }}
-        >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button
-              onClick={() => { playRavenSound(); onBookConsultation && onBookConsultation(); }}
-              className="bg-raven-blue hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-lg text-base transition duration-300 shadow"
-            >
-              Book a Consultation
-            </button>
-            <button
-              onClick={() => { playRavenSound(); onRequestDemo && onRequestDemo(); }}
-              className="bg-white hover:bg-gray-50 text-raven-blue border border-raven-blue font-semibold py-3 px-6 rounded-lg text-base transition duration-300 shadow"
-            >
-              Request a Demo
-            </button>
-            <button
-              onClick={() => { playRavenSound(); onJoinRetainer && onJoinRetainer(); }}
-              className="bg-raven-red hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-base transition duration-300 shadow"
-            >
-              Join CI Retainer Program
-            </button>
-          </div>
-        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
