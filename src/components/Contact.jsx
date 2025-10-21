@@ -117,7 +117,7 @@ const handleSubmit = async (e) => {
           )}
           {submitStatus === 'error' && (
             <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-800 rounded text-center" role="alert">
-              Oops! Something went wrong. Please try again or email us at <a href="mailto:support@ravdevops.com" className="font-semibold underline">support@ravdevops.com</a>.
+              Oops! Something went wrong. Please try again.
             </div>
           )}
 
@@ -210,16 +210,7 @@ const handleSubmit = async (e) => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <p>
-            Or call us:{" "}
-            <a href="tel: -- " className="font-semibold hover:underline">
-              402-969-9711
-            </a>
-            {" "} | Email:{" "}
-            <a href="mailto: -- " className="font-semibold hover:underline">
-              support@ravdevops.com
-            </a>
-          </p>
+          
           <p className="mt-2">We’re also available via your preferred scheduling tool upon request.</p>
         </motion.div>
       </div>
@@ -228,5 +219,4 @@ const handleSubmit = async (e) => {
 };
 
 export default Contact;
-
 

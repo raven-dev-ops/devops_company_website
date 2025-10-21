@@ -2,17 +2,7 @@
 
 import React from 'react';
 
-const socials = [
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/ravdevops",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
-        <path d="M19 0h-14c-2.8 0-5 2.2-5 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5v-14c0-2.8-2.2-5-5-5zm-11.5 19h-3v-9h3v9zm-1.5-10.3c-1 0-1.7-.8-1.7-1.7s.8-1.7 1.7-1.7 1.7.8 1.7 1.7-.7 1.7-1.7 1.7zm13.5 10.3h-3v-4.5c0-1.1 0-2.5-1.5-2.5s-1.7 1.2-1.7 2.4v4.6h-3v-9h2.8v1.2h.1c.4-.8 1.3-1.7 2.7-1.7 2.9 0 3.5 1.9 3.5 4.3v5.2z"/>
-      </svg>
-    ),
-  },
-];
+const socials = [];
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -53,9 +43,7 @@ const Footer = () => {
         {/* Info */}
         <div>
           <p className="font-semibold text-lg text-white">© {currentYear} RAV DevOps</p>
-          <p>
-            Kansas City, MO · Serving clients nationwide
-          </p>
+          
         </div>
       </div>
       <div className="mt-6 border-t border-gray-800 pt-4 text-center text-xs text-gray-500">

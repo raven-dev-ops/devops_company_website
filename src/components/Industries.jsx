@@ -63,9 +63,9 @@ const Industries = ({ id }) => (
       </div>
 
       {/* Logos bar placeholder */}
-      <div className="mt-10 border-t border-gray-200 pt-6">
+      <div className="hidden mt-10 border-t border-gray-200 pt-6">
         <p className="text-center text-sm text-gray-500">
-          Logos/partners placeholder — add agency, enterprise, and defense partner marks as available.
+          
         </p>
       </div>
     </div>
@@ -73,4 +73,3 @@ const Industries = ({ id }) => (
 );
 
 export default Industries;
-
