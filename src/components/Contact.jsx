@@ -1,14 +1,19 @@
 // components/Contact.jsx
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import useSound from '../hooks/useSound';
 
-const Contact = ({ id }) => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+const Contact = ({ id, initialInterest = 'Consultation' }) => {
+  const [formData, setFormData] = useState({ name: '', email: '', interest: initialInterest, message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' or 'error'
   const playRavenSound = useSound('/audio/raven-caw.mp3');
+
+  // Keep interest in sync with incoming prop
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, interest: initialInterest }));
+  }, [initialInterest]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +31,7 @@ const Contact = ({ id }) => {
       await new Promise(resolve => setTimeout(resolve, 1500));
       if (Math.random() > 0.18) { // simulate 82% success
         setSubmitStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', interest: initialInterest, message: '' });
       } else {
         throw new Error('Simulated error');
       }
@@ -47,7 +52,7 @@ const Contact = ({ id }) => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Ready to Eliminate Inefficiencies?
+          Contact & Next Steps
         </motion.h2>
         <motion.p
           className="text-lg md:text-xl text-blue-100 mb-10"
@@ -56,7 +61,7 @@ const Contact = ({ id }) => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          Let's talk about how Raven Development can build the right solution for you. Start with a free, no-pressure consult.
+          Book a free 30-minute discovery call, request a live demo, or ask about our CI/CD retainers. We’ll respond within one business day.
         </motion.p>
 
         <motion.form
@@ -100,6 +105,25 @@ const Contact = ({ id }) => {
                 />
               </div>
               <div>
+                <label htmlFor="contact-interest" className="block text-sm font-medium text-gray-700 mb-1">
+                  I’m interested in <span aria-hidden="true" className="text-raven-red">*</span>
+                </label>
+                <select
+                  name="interest"
+                  id="contact-interest"
+                  value={formData.interest}
+                  onChange={handleChange}
+                  required
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-1 focus:ring-raven-blue focus:border-raven-blue"
+                >
+                  <option>Consultation</option>
+                  <option>Demo Request</option>
+                  <option>CI Retainer Program</option>
+                  <option>General Inquiry</option>
+                </select>
+              </div>
+              <div>
                 <label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email <span aria-hidden="true" className="text-raven-red">*</span>
                 </label>
@@ -136,7 +160,7 @@ const Contact = ({ id }) => {
                   disabled={isSubmitting}
                   className={`w-full bg-raven-red hover:bg-red-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}`}
                 >
-                  {isSubmitting ? 'Sending...' : 'Request Your Free Consultation'}
+                  {isSubmitting ? 'Sending...' : 'Submit'}
                 </button>
               </div>
             </div>
@@ -160,7 +184,7 @@ const Contact = ({ id }) => {
               support@ravdevops.com
             </a>
           </p>
-          <p className="mt-2">Thanks for reaching the bottom of our expo demo!</p>
+          <p className="mt-2">We’re also available via your preferred scheduling tool upon request.</p>
         </motion.div>
       </div>
     </section>

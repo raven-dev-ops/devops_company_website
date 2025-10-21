@@ -5,13 +5,8 @@ import { motion } from 'framer-motion';
 import useSound from '../hooks/useSound';
 import flagOverlayImage from '../assets/american_flag_background.png';
 
-const Hero = ({ id, scrollToContact }) => {
+const Hero = ({ id, onBookConsultation, onRequestDemo, onJoinRetainer, scrollToSection }) => {
   const playRavenSound = useSound('/audio/raven-caw.mp3');
-
-  const handleCTAClick = () => {
-    playRavenSound();
-    scrollToContact();
-  };
 
   return (
     <section
@@ -33,7 +28,7 @@ const Hero = ({ id, scrollToContact }) => {
           transition={{ duration: 0.6 }}
           className="inline-block bg-blue-100 text-raven-blue text-sm font-semibold px-3 py-1 rounded-full mb-4 shadow-sm"
         >
-          🇺🇸 Veteran-Owned & Operated
+          Proudly Veteran-Owned & Operated
         </motion.div>
 
         <motion.h1
@@ -42,7 +37,7 @@ const Hero = ({ id, scrollToContact }) => {
           transition={{ duration: 0.6, delay: 0.08 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-raven-dark mb-4 leading-tight"
         >
-          American-Made <span className="text-raven-blue">Software</span>.
+          Veteran-Owned, US-Based Tech Solutions
         </motion.h1>
 
         <motion.p
@@ -51,8 +46,7 @@ const Hero = ({ id, scrollToContact }) => {
           transition={{ duration: 0.6, delay: 0.15 }}
           className="text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto"
         >
-          Don’t get caught in the <span className="font-semibold text-raven-red">AI slop train</span>.
-          Trust real developers who deliver—Raven Development builds robust, custom software, automation, and training systems for businesses and agencies that demand reliability. We rescue, refactor, and finish projects that AI or others couldn’t.
+          Veteran-owned, US-based tech solutions to eliminate inefficiencies and drive growth. DevOps, cloud, analytics dashboards, and custom software—delivered with discipline and transparency.
         </motion.p>
 
         <motion.div
@@ -60,12 +54,26 @@ const Hero = ({ id, scrollToContact }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.24 }}
         >
-          <button
-            onClick={handleCTAClick}
-            className="bg-raven-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-raven-blue"
-          >
-            Get Your Free Consultation
-          </button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              onClick={() => { playRavenSound(); onBookConsultation && onBookConsultation(); }}
+              className="bg-raven-blue hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-lg text-base transition duration-300 shadow"
+            >
+              Book a Consultation
+            </button>
+            <button
+              onClick={() => { playRavenSound(); onRequestDemo && onRequestDemo(); }}
+              className="bg-white hover:bg-gray-50 text-raven-blue border border-raven-blue font-semibold py-3 px-6 rounded-lg text-base transition duration-300 shadow"
+            >
+              Request a Demo
+            </button>
+            <button
+              onClick={() => { playRavenSound(); onJoinRetainer && onJoinRetainer(); }}
+              className="bg-raven-red hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-base transition duration-300 shadow"
+            >
+              Join CI Retainer Program
+            </button>
+          </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -73,11 +81,20 @@ const Hero = ({ id, scrollToContact }) => {
           transition={{ duration: 0.4, delay: 0.36 }}
           className="mt-6 text-gray-500 text-sm"
         >
-          Serving small business, contractors, and public agencies nationwide. When you’re ready for real results, partner with Raven Development.
+          Serving federal, enterprise, and defense clients nationwide.
         </motion.div>
+        <div className="mt-8">
+          <button
+            onClick={() => scrollToSection && scrollToSection('services')}
+            className="text-sm text-gray-600 hover:text-raven-blue underline"
+          >
+            Explore our services
+          </button>
+        </div>
       </div>
     </section>
   );
 };
 
 export default Hero;
+

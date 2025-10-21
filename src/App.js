@@ -1,16 +1,15 @@
 // App.js
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ErrorBoundary } from 'react-error-boundary';
 
 // Site Sections (in homepage order)
+import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import WhyRaven from './components/WhyRaven';
-import Solutions from './components/Solutions';
-import Pricing from './components/Pricing';
 import Services from './components/Services';
-import Demos from './components/Demos';
+import Industries from './components/Industries';
+import About from './components/About';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -31,6 +30,8 @@ function ErrorFallback({ error, resetErrorBoundary }) {
 }
 
 function App() {
+  const [contactInterest, setContactInterest] = useState('Consultation');
+
   // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -44,28 +45,43 @@ function App() {
     }
   };
 
+  const goToContactWith = useCallback((interest) => {
+    setContactInterest(interest);
+    scrollToSection('contact');
+  }, []);
+
   return (
     <HelmetProvider>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <div className="App bg-gray-50 min-h-screen flex flex-col">
           <Helmet>
-            <title>Raven DevOps – Custom Apps, SaaS, & Automation</title>
+            <title>RAV DevOps — Veteran-Owned, US-Based Tech Solutions</title>
             <meta
               name="description"
-              content="Transform your business with expert app development, SaaS solutions, and workflow automation. Explore our demos and discover what Raven DevOps can do for you."
+              content="Veteran-owned, US-based DevOps, cloud, analytics, and custom software to eliminate inefficiencies and drive growth."
             />
-            <meta property="og:title" content="Raven DevOps" />
-            <meta property="og:description" content="Custom software, SaaS, and business automation demos." />
+            <meta property="og:title" content="RAV DevOps" />
+            <meta property="og:description" content="DevOps, cloud, analytics dashboards, and custom software." />
             <meta property="og:type" content="website" />
           </Helmet>
+          <Navbar
+            onNavigate={scrollToSection}
+            onBookConsultation={() => goToContactWith('Consultation')}
+            onRequestDemo={() => goToContactWith('Demo Request')}
+            onJoinRetainer={() => goToContactWith('CI Retainer Program')}
+          />
           <main role="main" className="flex-grow max-w-7xl mx-auto w-full px-2 sm:px-6 lg:px-8">
-            <Hero id="hero" scrollToContact={() => scrollToSection('contact')} scrollToSection={scrollToSection} />
-            <WhyRaven id="why-raven" />
-            <Solutions id="solutions" />
-            <Pricing id="pricing" />
-            <Services id="services" scrollToSection={scrollToSection} />
-            <Demos id="demos" />
-            <Contact id="contact" />
+            <Hero
+              id="hero"
+              onBookConsultation={() => goToContactWith('Consultation')}
+              onRequestDemo={() => goToContactWith('Demo Request')}
+              onJoinRetainer={() => goToContactWith('CI Retainer Program')}
+              scrollToSection={scrollToSection}
+            />
+            <Services id="services" />
+            <Industries id="industries" />
+            <About id="about" />
+            <Contact id="contact" initialInterest={contactInterest} />
           </main>
           <Footer />
         </div>
@@ -75,3 +91,4 @@ function App() {
 }
 
 export default App;
+
