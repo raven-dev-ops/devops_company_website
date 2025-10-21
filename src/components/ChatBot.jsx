@@ -26,6 +26,7 @@ const ChatBot = ({
   const [selectedMeetingType, setSelectedMeetingType] = useState('');
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [userInput, setUserInput] = useState('');
   const listEndRef = useRef(null);
 
   const options = useMemo(
@@ -104,6 +105,87 @@ const ChatBot = ({
 
   const appendMessage = (role, text) => {
     setMessages((prev) => [...prev, { id: `${Date.now()}-${Math.random()}`, role, text }]);
+  };
+
+  const handleSend = async () => {
+    const text = (userInput || '').trim();
+    if (!text) return;
+    appendMessage('user', text);
+    setUserInput('');
+
+    try {
+      if (step === 1) {
+        setReason(text);
+        appendMessage('bot', 'Which services are you interested in? You can pick multiple.');
+        setStep(2);
+        return;
+      }
+
+      if (step === 2) {
+        const lowered = text.toLowerCase();
+        let parsed = [];
+        if (/(all|any|everything)/i.test(text)) {
+          parsed = options.slice();
+        } else {
+          parsed = options.filter((opt) => lowered.includes(opt.toLowerCase()));
+        }
+        if (parsed.length) {
+          setSelectedServices((prev) => Array.from(new Set([...(prev || []), ...parsed])));
+        }
+        appendMessage('bot', 'Got it. Please share your contact details.');
+        setStep(3);
+        return;
+      }
+
+      if (step === 3) {
+        const emailMatch = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+        const nameRegexes = [
+          /name\s*[:=-]?\s*([^,\n]+)/i,
+          /my name is\s+([^,\n]+)/i,
+          /i am\s+([^,\n]+)/i,
+          /i'm\s+([^,\n]+)/i,
+        ];
+        let nameCandidate = null;
+        for (const re of nameRegexes) {
+          const m = text.match(re);
+          if (m) { nameCandidate = m[1].trim(); break; }
+        }
+        if (!nameCandidate && !emailMatch) {
+          const wordCount = text.split(/\s+/).filter(Boolean).length;
+          if (wordCount > 0 && wordCount <= 4) nameCandidate = text;
+        }
+        if (nameCandidate) setName((prev) => prev || nameCandidate);
+        if (emailMatch) setEmail(emailMatch[0]);
+
+        if (emailMatch) {
+          appendMessage('bot', 'Choose your preferred consultation type.');
+          setStep(4);
+        } else {
+          appendMessage('bot', 'Thanks! Please share your email so we can follow up.');
+        }
+        return;
+      }
+
+      if (step === 4) {
+        const t = text.toLowerCase();
+        let meetingType = '';
+        if (t.includes('zoom')) meetingType = 'zoom';
+        else if (t.includes('teams')) meetingType = 'teams';
+        else if (t.includes('google') || t.includes('meet')) meetingType = 'google';
+        else if (t.includes('phone') || t.includes('call')) meetingType = 'phone';
+        if (meetingType) {
+          await scheduleViaFunction(meetingType);
+        } else {
+          appendMessage('bot', 'Please choose Zoom, Microsoft Teams, Google Meet, or Phone Call.');
+        }
+        return;
+      }
+
+      // Fallback for other steps
+      appendMessage('bot', 'Thanks! If you need help scheduling, just say Zoom, Teams, Google Meet, or Phone.');
+    } catch (e) {
+      // No-op; keep the conversation resilient
+    }
   };
 
   const toggleService = (svc) => {
@@ -371,6 +453,26 @@ const ChatBot = ({
                   )}
                 </div>
               )}
+
+              {/* Freeform input */}
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="text"
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+                  placeholder="Type your message..."
+                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-raven-blue"
+                  disabled={loading}
+                />
+                <button
+                  onClick={handleSend}
+                  disabled={loading || !userInput.trim()}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium text-white ${userInput.trim() && !loading ? 'bg-raven-blue hover:bg-blue-800' : 'bg-gray-300 cursor-not-allowed'}`}
+                >
+                  Send
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
