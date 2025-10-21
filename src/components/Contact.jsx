@@ -212,11 +212,11 @@ const handleSubmit = async (e) => {
         >
           <p>
             Or call us:{" "}
-            <a href="tel:4029699711" className="font-semibold hover:underline">
+            <a href="tel: -- " className="font-semibold hover:underline">
               402-969-9711
             </a>
             {" "} | Email:{" "}
-            <a href="mailto:support@ravdevops.com" className="font-semibold hover:underline">
+            <a href="mailto: -- " className="font-semibold hover:underline">
               support@ravdevops.com
             </a>
           </p>
