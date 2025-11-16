@@ -2,6 +2,18 @@ import discordBotSs1 from '../assets/discord_bot_ss_1.png';
 import discordBotSs2 from '../assets/discord_bot_ss_2.png';
 import discordBotSs3 from '../assets/discord_bot_ss_3.png';
 import discordBotSs4 from '../assets/discord_bot_ss_4.png';
+import artbayBackendSs1 from '../assets/artbay_backend_ss_1.png';
+import artbayBackendSs2 from '../assets/artbay_backend_ss_2.png';
+import artbayBackendSs3 from '../assets/artbay_backend_ss_3.png';
+import artbayBackendSs4 from '../assets/artbay_backend_ss_4.png';
+import artbayFrontendSs1 from '../assets/artbay_frontend_ss_1.png';
+import artbayFrontendSs2 from '../assets/artbay_frontend_ss_2.png';
+import artbayFrontendSs3 from '../assets/artbay_frontend_ss_3.png';
+import artbayFrontendSs4 from '../assets/artbay_frontend_ss_4.png';
+import helldiverSiteSs1 from '../assets/helldiver2_website_ss_1.png';
+import helldiverSiteSs2 from '../assets/helldiver2_website_ss_2.png';
+import helldiverSiteSs3 from '../assets/helldiver2_website_ss_3.png';
+import helldiverSiteSs4 from '../assets/helldiver2_website_ss_4.png';
 
 export const portfolioItems = [
   {
@@ -16,12 +28,7 @@ export const portfolioItems = [
       'Discord webhook automation implemented with rate-aware queues to stay within API limits while remaining responsive.',
     ],
     github: 'https://github.com/ravdevops/helldivers2_clan_website',
-    screenshots: [
-      '/portfolio/galactic-phantom-1.png',
-      '/portfolio/galactic-phantom-2.png',
-      '/portfolio/galactic-phantom-3.png',
-      '/portfolio/galactic-phantom-4.png',
-    ],
+    screenshots: [helldiverSiteSs1, helldiverSiteSs2, helldiverSiteSs3, helldiverSiteSs4],
   },
   {
     title: 'Art Bay Backend (Django)',
@@ -35,12 +42,7 @@ export const portfolioItems = [
       'Pre-commit hooks and CI workflows that keep migrations, tests, and linting consistently green.',
     ],
     github: 'https://github.com/ravdevops/e-commerce-backend',
-    screenshots: [
-      '/portfolio/art-bay-backend-1.png',
-      '/portfolio/art-bay-backend-2.png',
-      '/portfolio/art-bay-backend-3.png',
-      '/portfolio/art-bay-backend-4.png',
-    ],
+    screenshots: [artbayBackendSs1, artbayBackendSs2, artbayBackendSs3, artbayBackendSs4],
   },
   {
     title: 'Art Bay Frontend (Next.js Storefront)',
@@ -54,12 +56,7 @@ export const portfolioItems = [
       'Secure payment flow with retries and safeguards around Stripe API and webhook failures.',
     ],
     github: 'https://github.com/ravdevops/e-commerce-frontend',
-    screenshots: [
-      '/portfolio/art-bay-frontend-1.png',
-      '/portfolio/art-bay-frontend-2.png',
-      '/portfolio/art-bay-frontend-3.png',
-      '/portfolio/art-bay-frontend-4.png',
-    ],
+    screenshots: [artbayFrontendSs1, artbayFrontendSs2, artbayFrontendSs3, artbayFrontendSs4],
   },
   {
     title: 'Helldivers 2 Discord Bot',
