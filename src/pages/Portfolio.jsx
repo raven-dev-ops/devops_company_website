@@ -24,12 +24,7 @@ export default function Portfolio() {
             key={item.slug}
             className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
           >
-            <div className="flex items-start justify-between gap-4">
-              <h2 className="text-2xl font-semibold text-white">{item.title}</h2>
-              <span className="rounded-full border border-raven-border/60 bg-raven-surface/60 px-3 py-1 text-xs font-semibold text-raven-cyan">
-                Case study
-              </span>
-            </div>
+            <h2 className="text-2xl font-semibold text-white">{item.title}</h2>
             <p className="text-sm text-slate-300">{item.description}</p>
             <div className="flex flex-wrap gap-2 text-xs text-slate-200">
               {item.tech.map((tech) => (
@@ -59,6 +54,7 @@ export default function Portfolio() {
                 View code on GitHub
               </a>
               <span className="text-xs text-slate-400 text-center sm:text-right">Problem �+' Build �+' Outcome</span>
+              <span className="text-xs font-semibold text-raven-cyan sm:ml-4">Case study</span>
             </div>
           </article>
         ))}

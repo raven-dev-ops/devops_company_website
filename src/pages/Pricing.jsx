@@ -1,5 +1,8 @@
 import React from 'react';
 import SeoHead from '../components/SeoHead';
+import tier1Image from '../assets/tier1.png';
+import tier2Image from '../assets/tier2.png';
+import tier3Image from '../assets/tier3.png';
 
 const tiers = [
   {
@@ -7,18 +10,21 @@ const tiers = [
     price: 'Starts at $7,600',
     description: 'Fixed-scope pipeline setup for one service (Next.js site or Django API).',
     bullets: ['Automated tests + lint', 'Security checks and secrets management', 'Zero-downtime deploy flow'],
+    image: tier1Image,
   },
   {
     name: 'DevOps Modernization Sprint',
     price: 'Starts at $15,200',
     description: 'Assessment + 2–3 week implementation across pipelines, infra, and observability.',
     bullets: ['Roadmap + quick wins', 'IaC + cloud hardening', 'Dashboards + alert tuning'],
+    image: tier2Image,
   },
   {
     name: 'Fractional DevOps Partner',
     price: 'Starts at $2,700 / month',
     description: 'Ongoing support, incident response, and roadmap execution for growing teams.',
     bullets: ['Weekly delivery cadence', 'Incident response coverage', 'Backlog of automation improvements'],
+    image: tier3Image,
   },
 ];
 
@@ -58,6 +64,15 @@ export default function Pricing() {
       <div className="grid gap-6 md:grid-cols-3">
         {tiers.map((tier) => (
           <div key={tier.name} className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
+            {tier.image && (
+              <div className="flex justify-center">
+                <img
+                  src={tier.image}
+                  alt={tier.name}
+                  className="mb-3 h-16 w-auto rounded-xl border border-raven-border/70 bg-raven-surface/60 object-contain"
+                />
+              </div>
+            )}
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-raven-cyan">Engagement</p>
               <h2 className="text-2xl font-semibold text-white">{tier.name}</h2>
@@ -73,7 +88,7 @@ export default function Pricing() {
               ))}
             </ul>
             <a
-              href="https://calendly.com/damonheath/discovery-phone-call"
+              href="https://calendly.com/damon-heath-ravdevops/discovery-meeting"
               className="mt-auto inline-flex justify-center rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-4 py-2 text-sm font-semibold text-black shadow-soft-glow"
             >
               Book a call

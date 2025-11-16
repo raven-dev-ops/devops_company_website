@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SeoHead from '../components/SeoHead';
+import damonPortrait from '../assets/damonheath_portrait.png';
 
 const milestones = [
   { year: '2016', text: 'Shipped first production deployment and learned to tame on-call pages.' },
@@ -42,29 +43,40 @@ export default function About() {
         </p>
       </header>
 
-      <section className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
-          <h2 className="text-2xl font-semibold text-white">What I bring</h2>
-          <ul className="mt-4 space-y-2 text-sm text-slate-300">
-            <li>Cloud deployments across Heroku, Netlify, and container platforms.</li>
-            <li>Containerization with Docker and pragmatic GitHub Actions automation.</li>
-            <li>Full-stack experience across Next.js, Django, and Discord bots.</li>
-            <li>Documentation-first mindset with observability and security baked in.</li>
-          </ul>
+      <section className="grid gap-8 md:grid-cols-2 md:items-start">
+        <div className="space-y-6">
+          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
+            <h2 className="text-2xl font-semibold text-white">What I bring</h2>
+            <ul className="mt-4 space-y-2 text-sm text-slate-300">
+              <li>Cloud deployments across Heroku, Netlify, and container platforms.</li>
+              <li>Containerization with Docker and pragmatic GitHub Actions automation.</li>
+              <li>Full-stack experience across Next.js, Django, and Discord bots.</li>
+              <li>Documentation-first mindset with observability and security baked in.</li>
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
+            <h2 className="text-2xl font-semibold text-white">How I work</h2>
+            <p className="mt-3 text-sm text-slate-300">
+              Every engagement starts with context: what uptime, cost, and velocity goals matter to you. From there I build
+              transparent plans, instrument systems for visibility, and leave teams with documentation they can trust.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3 text-sm text-raven-cyan">
+              <a href="https://github.com/raven-dev-ops" target="_blank" rel="noreferrer" className="hover:text-white">
+                GitHub
+              </a>
+              <a href="https://www.linkedin.com/in/ravdevops/" target="_blank" rel="noreferrer" className="hover:text-white">
+                LinkedIn
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
-          <h2 className="text-2xl font-semibold text-white">How I work</h2>
-          <p className="mt-3 text-sm text-slate-300">
-            Every engagement starts with context: what uptime, cost, and velocity goals matter to you. From there I build
-            transparent plans, instrument systems for visibility, and leave teams with documentation they can trust.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3 text-sm text-raven-cyan">
-            <a href="https://github.com/raven-dev-ops" target="_blank" rel="noreferrer" className="hover:text-white">
-              GitHub
-            </a>
-            <a href="https://www.linkedin.com/in/ravdevops/" target="_blank" rel="noreferrer" className="hover:text-white">
-              LinkedIn
-            </a>
+        <div className="flex justify-center md:justify-end">
+          <div className="overflow-hidden rounded-3xl border border-raven-border/70 bg-raven-card/80 p-2 shadow-soft-glow">
+            <img
+              src={damonPortrait}
+              alt="Portrait of Damon Heath, Raven Development Operations"
+              className="h-full w-full max-w-sm rounded-2xl object-cover"
+            />
           </div>
         </div>
       </section>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import SeoHead from '../components/SeoHead';
+import ravenHomeLogo from '../assets/raven_home_logo.png';
 
 const benefits = [
   {
@@ -35,16 +36,23 @@ export default function Home() {
           <p className="inline-flex rounded-full border border-raven-border/70 bg-raven-card px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-raven-cyan">
             Raven Development Operations
           </p>
-          <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
-            Fractional DevOps with clear timelines and milestones.
-          </h1>
+          <div className="flex items-center gap-4">
+            <img
+              src={ravenHomeLogo}
+              alt="Raven Development Operations logo"
+              className="hidden h-14 w-14 rounded-2xl border border-raven-border/70 bg-raven-card/80 object-contain shadow-soft-glow sm:block"
+            />
+            <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
+              Fractional DevOps with clear timelines and milestones.
+            </h1>
+          </div>
           <p className="text-lg text-slate-300">
             I help teams move from ad-hoc releases to disciplined delivery: CI/CD pipelines, cloud automation, observability,
             and SRE practices tailored to your stack.
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="https://calendly.com/damonheath/discovery-phone-call"
+              href="https://calendly.com/damon-heath-ravdevops/discovery-meeting"
               target="_blank"
               rel="noreferrer"
               className="rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow hover:from-raven-accent/90 hover:to-raven-cyan/90"

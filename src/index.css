@@ -11,6 +11,10 @@
 body {
   @apply font-sans antialiased bg-raven-navy text-slate-100;
   scroll-behavior: smooth;
+  background-image: url('./assets/site_background.gif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 h1, h2, h3 {

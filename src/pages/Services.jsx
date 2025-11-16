@@ -33,15 +33,8 @@ export default function Services() {
             key={service.title}
             className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
           >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h2 className="text-2xl font-semibold text-white">{service.title}</h2>
-                <p className="mt-1 text-sm text-slate-300">{service.blurb}</p>
-              </div>
-              <span className="rounded-full border border-raven-border/60 bg-raven-surface/60 px-3 py-1 text-xs font-semibold text-raven-cyan">
-                {service.format}
-              </span>
-            </div>
+            <h2 className="text-2xl font-semibold text-white">{service.title}</h2>
+            <p className="text-sm text-slate-300">{service.blurb}</p>
             <ul className="space-y-2 text-sm text-slate-200">
               {service.outcomes.map((outcome) => (
                 <li key={outcome} className="flex items-start gap-2">
@@ -50,6 +43,11 @@ export default function Services() {
                 </li>
               ))}
             </ul>
+            <div className="mt-auto">
+              <span className="inline-flex rounded-full border border-raven-border/60 bg-raven-surface/60 px-3 py-1 text-xs font-semibold text-raven-cyan">
+                {service.format}
+              </span>
+            </div>
           </div>
         ))}
       </section>
@@ -66,7 +64,7 @@ export default function Services() {
         </div>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <a
-            href="https://calendly.com/damonheath/discovery-phone-call"
+            href="https://calendly.com/damon-heath-ravdevops/discovery-meeting"
             className="rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow"
           >
             Book a discovery call
