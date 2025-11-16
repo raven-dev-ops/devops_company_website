@@ -74,22 +74,6 @@ export default function About() {
                 designed in from day one.
               </li>
             </ul>
-            <h3 className="mt-6 text-lg font-semibold text-white">How I work</h3>
-            <p className="mt-3 text-sm text-slate-300">
-              Every engagement starts with context: the uptime, cost, compliance, and delivery expectations that matter most to
-              your organization. From there, I design small, testable changes instead of risky big-bang migrations. As a
-              veteran-owned business putting America first, I provide transparent plans, instrument systems for visibility, and
-              leave your team with clear documentation, dashboards, and runbooks they can rely on long after the engagement
-              ends.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3 text-sm text-raven-cyan">
-              <a href="https://github.com/raven-dev-ops" target="_blank" rel="noreferrer" className="hover:text-white">
-                GitHub
-              </a>
-              <a href="https://www.linkedin.com/in/ravdevops/" target="_blank" rel="noreferrer" className="hover:text-white">
-                LinkedIn
-              </a>
-            </div>
           </div>
         </div>
       </section>

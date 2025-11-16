@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { ArrowTopRightOnSquareIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import ravenHomeLogo from '../../assets/raven_home_logo.png';
 
 const navItems = [
@@ -49,26 +49,6 @@ export default function Header({ theme, toggleTheme }) {
           >
             {theme === 'dark' ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
           </button>
-          <div className="flex items-center gap-2">
-            <a
-              href="https://github.com/raven-dev-ops"
-              target="_blank"
-              rel="noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-raven-border/60 bg-raven-card text-slate-200 hover:border-raven-accent/80 hover:text-white"
-            >
-              <ArrowTopRightOnSquareIcon className="h-5 w-5" />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/ravdevops/"
-              target="_blank"
-              rel="noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-raven-border/60 bg-raven-card text-slate-200 hover:border-raven-accent/80 hover:text-white"
-            >
-              in
-              <span className="sr-only">LinkedIn</span>
-            </a>
-          </div>
         </div>
       </div>
     </header>
