@@ -10,21 +10,33 @@ const tiers = [
     name: 'CI/CD Kickstart',
     price: 'Starts at $2,400',
     description: 'Fixed-scope pipeline setup for one service (Next.js site or Django API).',
-    bullets: ['Automated tests + lint', 'Security checks and secrets management', 'Zero-downtime deploy flow'],
+    bullets: [
+      'Establish or repair a CI/CD pipeline that runs tests and linting on every change.',
+      'Harden secrets and environment configuration so deployments are safe and repeatable.',
+      'Implement a simple, zero-downtime deployment flow with clear rollback steps.',
+    ],
     image: tier1Image,
   },
   {
     name: 'DevOps Modernization Sprint',
     price: 'Starts at $7,600',
     description: 'Assessment plus a 2-3 week implementation across pipelines, infrastructure, and observability.',
-    bullets: ['Roadmap + quick wins', 'IaC + cloud hardening', 'Dashboards + alert tuning'],
+    bullets: [
+      'Deliver a practical roadmap plus “quick win” improvements to pipelines and infra.',
+      'Introduce or improve infrastructure-as-code and cloud hardening aligned to your policies.',
+      'Stand up or refine dashboards and alerts so on-call engineers see issues early, not after the fact.',
+    ],
     image: tier2Image,
   },
   {
     name: 'Fractional DevOps Partner',
     price: 'Starts at $1,350 / month',
     description: 'Ongoing support, incident response, and roadmap execution for growing teams.',
-    bullets: ['Weekly delivery cadence', 'Incident response coverage', 'Backlog of automation improvements'],
+    bullets: [
+      'Maintain a weekly delivery cadence for DevOps and platform improvements.',
+      'Provide hands-on support during incidents and help stabilize recurring issues.',
+      'Continuously work through a prioritized backlog of automation and reliability enhancements.',
+    ],
     image: tier3Image,
   },
 ];
@@ -49,6 +61,8 @@ const faqs = [
 ];
 
 export default function Pricing() {
+  const [openFaqIndex, setOpenFaqIndex] = React.useState(null);
+
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-12 px-4 py-12 lg:px-6">
       <SeoHead
@@ -114,13 +128,27 @@ export default function Pricing() {
 
       <section className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-6">
         <h2 className="text-2xl font-semibold text-white">FAQ</h2>
-        <div className="mt-4 space-y-4">
-          {faqs.map((faq) => (
-            <div key={faq.q} className="rounded-xl border border-raven-border/60 bg-raven-surface/50 p-4">
-              <p className="text-sm font-semibold text-white">{faq.q}</p>
-              <p className="mt-2 text-sm text-slate-300">{faq.a}</p>
-            </div>
-          ))}
+        <div className="mt-4 space-y-3">
+          {faqs.map((faq, index) => {
+            const isOpen = openFaqIndex === index;
+            return (
+              <div key={faq.q} className="rounded-xl border border-raven-border/60 bg-raven-surface/50">
+                <button
+                  type="button"
+                  onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                  className="flex w-full items-center justify-between px-4 py-3 text-left"
+                >
+                  <span className="text-sm font-semibold text-white">{faq.q}</span>
+                  <span className="text-xs text-slate-400">{isOpen ? '−' : '+'}</span>
+                </button>
+                {isOpen && (
+                  <div className="border-t border-raven-border/60 px-4 py-3">
+                    <p className="text-sm text-slate-300">{faq.a}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
     </div>

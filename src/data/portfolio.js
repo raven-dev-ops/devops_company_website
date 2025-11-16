@@ -6,9 +6,9 @@ export const portfolioItems = [
       'Helldivers clan platform with authentication, Discord automation, and cloud deployment built for resilience.',
     tech: ['Next.js', 'TypeScript', 'MongoDB', 'NextAuth', 'Docker', 'Heroku'],
     outcomes: [
-      'Containerized build pipeline with CI-ready Dockerfile',
-      'Secure secret management and environment parity for preview deployments',
-      'Discord webhook automation with rate-limit aware queues',
+      'Containerized build and deploy pipeline with CI-ready Dockerfiles for consistent releases.',
+      'Secrets management and environment configuration kept in sync across preview and production deployments.',
+      'Discord webhook automation implemented with rate-aware queues to stay within API limits while remaining responsive.',
     ],
     github: 'https://github.com/ravdevops/helldivers2_clan_website',
     screenshots: [
@@ -25,9 +25,9 @@ export const portfolioItems = [
       'Modular Django backbone for storefronts with payments, orders, and CI-ready Docker images.',
     tech: ['Django', 'Docker', 'PostgreSQL', 'GitHub Actions'],
     outcomes: [
-      'Production-grade container images with health checks and static asset pipeline',
-      'Environment templating with .env.example to simplify onboarding',
-      'Pre-commit hooks and CI to keep migrations, tests, and linting green',
+      'Production-grade container images with health checks and an automated static asset pipeline.',
+      'Environment templates and .env.example files that make onboarding new developers straightforward.',
+      'Pre-commit hooks and CI workflows that keep migrations, tests, and linting consistently green.',
     ],
     github: 'https://github.com/ravdevops/e-commerce-backend',
     screenshots: [
@@ -44,9 +44,9 @@ export const portfolioItems = [
       'Headless storefront with Stripe, JWT auth, and DRF integration shipped to Netlify.',
     tech: ['Next.js', 'Stripe', 'Netlify', 'JWT', 'DRF'],
     outcomes: [
-      'Clear separation of public vs secret env vars for safe builds',
-      'Optimized static asset pipeline and CDN-friendly deployment',
-      'Secure payment flow with resilience around API and webhook retries',
+      'Clear separation of public versus secret environment variables for safe, reproducible builds.',
+      'Optimized static asset pipeline and CDN-friendly deployment tuned for fast page loads.',
+      'Secure payment flow with retries and safeguards around Stripe API and webhook failures.',
     ],
     github: 'https://github.com/ravdevops/e-commerce-frontend',
     screenshots: [
@@ -63,9 +63,9 @@ export const portfolioItems = [
       'Python bot with OCR pipelines, scheduled leaderboards, and multi-guild configuration.',
     tech: ['Python', 'Docker', 'MongoDB', 'OCR', 'Heroku'],
     outcomes: [
-      'Scheduled jobs for leaderboard generation and uptime monitoring',
-      'Background OCR processing with safe concurrency for image queues',
-      'Config and secrets managed per guild with environment isolation',
+      'Scheduled jobs for leaderboard generation and health checks so the bot remains reliable during peak usage.',
+      'Background OCR processing with controlled concurrency to keep image queues flowing without overloading services.',
+      'Per-guild configuration and secrets isolation so each community stays logically separated and secure.',
     ],
     github: 'https://github.com/ravdevops/helldivers2_discord_ocr_lfg_clan_bot',
     screenshots: [
