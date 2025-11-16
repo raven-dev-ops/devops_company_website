@@ -74,14 +74,12 @@ export default function About() {
                 in from day one.
               </li>
             </ul>
-          </div>
-          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
-            <h2 className="text-2xl font-semibold text-white">How I work</h2>
+            <h3 className="mt-6 text-lg font-semibold text-white">How I work</h3>
             <p className="mt-3 text-sm text-slate-300">
               Every engagement starts with context: what uptime, cost, compliance, and velocity goals matter most to you and the
-              people you serve. From there, I design small, testable changes instead of big-bang migrations.
-              As a veteran-owned business putting America first, I build transparent plans, instrument systems for visibility,
-              and leave teams with documentation, dashboards, and runbooks they can trust long after the engagement ends.
+              people you serve. From there, I design small, testable changes instead of big-bang migrations. As a veteran-owned
+              business putting America first, I build transparent plans, instrument systems for visibility, and leave teams with
+              documentation, dashboards, and runbooks they can trust long after the engagement ends.
             </p>
             <div className="mt-4 flex flex-wrap gap-3 text-sm text-raven-cyan">
               <a href="https://github.com/raven-dev-ops" target="_blank" rel="noreferrer" className="hover:text-white">

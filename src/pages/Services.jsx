@@ -4,14 +4,48 @@ import { serviceAreas } from '../data/services';
 import SeoHead from '../components/SeoHead';
 
 const steps = [
-  'Discovery call',
-  'Assessment',
-  'Proposal',
-  'Implementation',
-  'Handover / ongoing support',
+  {
+    number: 1,
+    title: 'Discovery call',
+    description: 'A short call to understand your goals, current stack, and delivery pain points.',
+    videoSrc: '/videos/step1-discovery-call.mp4',
+  },
+  {
+    number: 2,
+    title: 'Assessment',
+    description: 'Deep-dive into your repos, pipelines, and cloud accounts to map risks and opportunities.',
+    videoSrc: '/videos/step2-assessment.mp4',
+  },
+  {
+    number: 3,
+    title: 'Proposal',
+    description: 'A clear, written plan with milestones, timelines, and success criteria you can react to.',
+    videoSrc: '/videos/step3-proposal.mp4',
+  },
+  {
+    number: 4,
+    title: 'Implementation',
+    description: 'Hands-on delivery: CI/CD changes, infra updates, and reliability improvements tested in stages.',
+    videoSrc: '/videos/step4-implementation.mp4',
+  },
+  {
+    number: 5,
+    title: 'Handover / ongoing support',
+    description: 'Documentation, runbooks, and knowledge transfer — plus optional fractional support going forward.',
+    videoSrc: '/videos/step5-handover.mp4',
+  },
 ];
 
 export default function Services() {
+  const [activeStep, setActiveStep] = React.useState(null);
+
+  const selectedStep = React.useMemo(
+    () => steps.find((step) => step.number === activeStep) || null,
+    [activeStep],
+  );
+
+  const closeModal = () => setActiveStep(null);
+
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-12 lg:px-6">
       <SeoHead
@@ -23,7 +57,7 @@ export default function Services() {
         <p className="text-sm uppercase tracking-[0.3em] text-raven-cyan">Services</p>
         <h1 className="text-4xl font-bold text-white">How we ship confident software delivery</h1>
         <p className="text-lg text-slate-300">
-          Clear DevOps engagements with outcomes you can measure—from assessments to automation sprints to fractional support.
+          Clear DevOps engagements with outcomes you can measure — from assessments to automation sprints to fractional support.
         </p>
       </header>
 
@@ -33,6 +67,15 @@ export default function Services() {
             key={service.title}
             className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
           >
+            {service.image && (
+              <div className="overflow-hidden rounded-xl border border-raven-border/60 bg-raven-card/80">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="h-40 w-full object-cover"
+                />
+              </div>
+            )}
             <h2 className="text-2xl font-semibold text-white">{service.title}</h2>
             <p className="text-sm text-slate-300">{service.blurb}</p>
             <ul className="space-y-2 text-sm text-slate-200">
@@ -55,16 +98,21 @@ export default function Services() {
       <section className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-8">
         <h2 className="text-2xl font-bold text-white">How engagements work</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-5">
-          {steps.map((step, idx) => (
-            <div key={step} className="rounded-xl border border-raven-border/60 bg-raven-surface/50 p-4 text-center">
-              <p className="text-xs uppercase tracking-[0.2em] text-raven-cyan">Step {idx + 1}</p>
-              <p className="mt-2 text-sm font-semibold text-white">{step}</p>
-            </div>
+          {steps.map((step) => (
+            <button
+              key={step.number}
+              type="button"
+              onClick={() => setActiveStep(step.number)}
+              className="flex flex-col items-center rounded-xl border border-raven-border/60 bg-raven-surface/50 p-4 text-center text-left transition hover:border-raven-accent hover:shadow-soft-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
+            >
+              <p className="text-xs uppercase tracking-[0.2em] text-raven-cyan">Step {step.number}</p>
+              <p className="mt-2 text-sm font-semibold text-white">{step.title}</p>
+            </button>
           ))}
         </div>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <a
-            href="https://calendly.com/ravendevops/discovery-meeting"
+            href="https://calendly.com/ravdevops/discovery-meeting"
             className="rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow"
           >
             Book a discovery call
@@ -77,6 +125,33 @@ export default function Services() {
           </Link>
         </div>
       </section>
+
+      {selectedStep && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 p-4">
+          <div className="relative w-full max-w-3xl rounded-2xl border border-raven-border/70 bg-raven-card/90 p-4 shadow-soft-glow">
+            <button
+              type="button"
+              onClick={closeModal}
+              className="absolute right-3 top-3 rounded-full border border-raven-border/70 bg-raven-surface/80 px-2 py-1 text-xs font-semibold text-slate-100 hover:border-raven-accent/70"
+              aria-label="Close video"
+            >
+              ✕
+            </button>
+            <h3 className="pr-8 text-xl font-semibold text-white">Step {selectedStep.number}: {selectedStep.title}</h3>
+            <p className="mt-2 text-sm text-slate-300">{selectedStep.description}</p>
+            <div className="mt-4 overflow-hidden rounded-xl border border-black/60 bg-black">
+              <video
+                src={selectedStep.videoSrc}
+                controls
+                className="h-64 w-full bg-black object-contain sm:h-80"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
