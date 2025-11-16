@@ -102,13 +102,11 @@ function TrustedByCarousel({ index }) {
   return (
     <div className="mt-6 mb-6 flex flex-col items-center gap-4">
       <div className="flex w-full max-w-xl flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6">
-        <div className="flex h-24 w-40 items-center justify-center overflow-hidden rounded-xl border border-raven-border/70 bg-raven-surface/70 shadow-soft-glow sm:h-28 sm:w-52">
-          <img
-            src={current.src}
-            alt={current.name}
-            className="h-full w-auto object-contain"
-          />
-        </div>
+        <img
+          src={current.src}
+          alt={current.name}
+          className="h-20 w-20 rounded-md object-contain sm:h-24 sm:w-24"
+        />
         <div className="flex flex-col text-center sm:text-left gap-1.5">
           <p className="text-sm font-semibold text-white">{current.name}</p>
           <p className="text-xs text-slate-300">{current.review}</p>
