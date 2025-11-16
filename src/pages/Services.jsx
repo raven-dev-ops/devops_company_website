@@ -68,11 +68,11 @@ export default function Services() {
             className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
           >
             {service.image && (
-              <div className="overflow-hidden rounded-xl border border-raven-border/60 bg-raven-card/80">
+              <div className="flex items-center justify-center overflow-hidden rounded-xl border border-raven-border/60 bg-raven-card/80">
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="h-40 w-full object-cover"
+                  className="h-40 w-auto max-w-full transform scale-75 object-contain"
                 />
               </div>
             )}
@@ -154,4 +154,3 @@ export default function Services() {
     </div>
   );
 }
-

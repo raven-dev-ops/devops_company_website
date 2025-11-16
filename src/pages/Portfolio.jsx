@@ -104,7 +104,6 @@ export default function Portfolio() {
               >
                 View code on GitHub
               </a>
-              <span className="text-xs text-slate-400 text-center sm:text-right">Problem -> Build -> Outcome</span>
               <span className="text-xs font-semibold text-raven-cyan sm:ml-4">Case study</span>
             </div>
           </article>

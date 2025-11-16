@@ -37,6 +37,7 @@ const tiers = [
       'Provide hands-on support during incidents and help stabilize recurring issues.',
       'Continuously work through a prioritized backlog of automation and reliability enhancements.',
     ],
+    featured: true,
     image: tier3Image,
   },
 ];
@@ -77,10 +78,18 @@ export default function Pricing() {
       </header>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {tiers.map((tier) => (
+        {tiers.map((tier, index) => {
+          const orderClass =
+            tier.featured ? 'md:order-2' : index === 0 ? 'md:order-1' : 'md:order-3';
+
+          return (
           <div
             key={tier.name}
-            className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
+            className={`flex h-full flex-col gap-4 rounded-2xl border p-6 ${orderClass} ${
+              tier.featured
+                ? 'border-raven-accent/80 bg-raven-card shadow-soft-glow'
+                : 'border-raven-border/70 bg-raven-card/70'
+            }`}
           >
             {tier.image && (
               <div className="flex justify-center">
@@ -93,6 +102,11 @@ export default function Pricing() {
             )}
             <div className="flex h-full flex-col gap-4">
               <div>
+                {tier.featured && (
+                  <p className="mb-2 inline-flex rounded-full bg-raven-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-raven-accent">
+                    Recommended
+                  </p>
+                )}
                 <p className="text-xs uppercase tracking-[0.2em] text-raven-cyan">Engagement</p>
                 <h2 className="text-2xl font-semibold text-white">{tier.name}</h2>
                 <p className="text-sm text-slate-300">{tier.description}</p>
@@ -108,7 +122,8 @@ export default function Pricing() {
               </ul>
             </div>
           </div>
-        ))}
+        );
+        })}
       </div>
 
       <div className="flex flex-wrap justify-center gap-4">

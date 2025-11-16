@@ -1,3 +1,9 @@
+import service1Banner from '../assets/service1_banner.png';
+import service2Banner from '../assets/service2_banner.png';
+import service3Banner from '../assets/service3_banner.png';
+import service4Banner from '../assets/service4_banner.png';
+import service5Banner from '../assets/service5_banner.png';
+
 export const serviceAreas = [
   {
     title: 'DevOps Assessment & Roadmap',
@@ -8,7 +14,7 @@ export const serviceAreas = [
       'Executive-ready roadmap that ties technical work to business outcomes',
     ],
     format: 'Assessment + roadmap workshop',
-    image: '/services/devops-assessment-roadmap.png',
+    image: service1Banner,
   },
   {
     title: 'CI/CD Pipelines & Automation',
@@ -19,7 +25,7 @@ export const serviceAreas = [
       'Automated quality gates for tests, security scans, and policy checks',
     ],
     format: 'Implementation sprint or retainer',
-    image: '/services/cicd-pipelines-automation.png',
+    image: service2Banner,
   },
   {
     title: 'Infrastructure as Code & Cloud',
@@ -30,7 +36,7 @@ export const serviceAreas = [
       'Hardened secrets management and least-privilege access patterns',
     ],
     format: 'Fixed-scope deployment or ongoing support',
-    image: '/services/infrastructure-as-code-cloud.png',
+    image: service3Banner,
   },
   {
     title: 'Observability & Reliability',
@@ -41,7 +47,7 @@ export const serviceAreas = [
       'Runbooks and reliability practices that reduce weekend fire drills',
     ],
     format: 'Reliability sprint + training',
-    image: '/services/observability-reliability.png',
+    image: service4Banner,
   },
   {
     title: 'Dev Environment & Tooling',
@@ -52,7 +58,7 @@ export const serviceAreas = [
       'Developer workflows that reduce context switching and review friction',
     ],
     format: 'Pairing sessions or enablement workshop',
-    image: '/services/dev-environment-tooling.png',
+    image: service5Banner,
   },
   {
     title: 'Custom Software Development',
@@ -63,6 +69,6 @@ export const serviceAreas = [
       'Quality-focused delivery with tests, monitoring, and clear deployment paths',
     ],
     format: 'Fixed-scope build or ongoing product support',
-    image: '/services/custom-software-development.png',
+    image: service1Banner,
   },
 ];

@@ -16,85 +16,87 @@ export default function Contact() {
         <p className="text-lg text-slate-300">CTOs, founders, and solo devs welcome. Typical projects range from CI/CD builds to fractional DevOps support.</p>
       </header>
 
-      <div className="overflow-hidden rounded-2xl border border-raven-border/70 bg-raven-card/80">
-        <img
-          src={contactBanner}
-          alt="Raven Development Operations contact form banner"
-          className="h-48 w-full object-cover md:h-56"
-        />
-      </div>
-
       <div className="grid gap-8 md:grid-cols-2">
-        <form
-          name="contact"
-          method="POST"
-          data-netlify="true"
-          className="space-y-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
-        >
-          <input type="hidden" name="form-name" value="contact" />
-          <div className="grid gap-4 md:grid-cols-2">
-            <label className="text-sm text-slate-200">
-              Name
-              <input
-                name="name"
-                required
-                className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
-              />
-            </label>
-            <label className="text-sm text-slate-200">
-              Work email
-              <input
-                name="email"
-                type="email"
-                required
-                className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
-              />
-            </label>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <label className="text-sm text-slate-200">
-              Company
-              <input
-                name="company"
-                className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
-              />
-            </label>
-            <label className="text-sm text-slate-200">
-              Role
-              <input
-                name="role"
-                className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
-              />
-            </label>
-          </div>
-          <label className="text-sm text-slate-200">
-            Project summary
-            <textarea
-              name="project"
-              rows="4"
-              className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
+        <div className="space-y-4">
+          <div className="flex items-center justify-center overflow-hidden rounded-2xl border border-raven-border/70 bg-raven-card/80">
+            <img
+              src={contactBanner}
+              alt="Raven Development Operations contact form banner"
+              className="h-32 w-auto max-w-full transform scale-75 object-contain md:h-40"
             />
-          </label>
-          <div className="grid gap-4 md:grid-cols-2">
-            <label className="text-sm text-slate-200">
-              Timeline
-              <input
-                name="timeline"
-                className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
-              />
-            </label>
-            <label className="text-sm text-slate-200">
-              Budget range
-              <input
-                name="budget"
-                className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
-              />
-            </label>
           </div>
-          <button type="submit" className="w-full rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-sm font-semibold text-black shadow-soft-glow">
-            Send message
-          </button>
-        </form>
+
+          <form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            className="space-y-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            <div className="grid gap-4 md:grid-cols-2">
+              <label className="text-sm text-slate-200">
+                Name
+                <input
+                  name="name"
+                  required
+                  className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
+                />
+              </label>
+              <label className="text-sm text-slate-200">
+                Work email
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
+                />
+              </label>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <label className="text-sm text-slate-200">
+                Company
+                <input
+                  name="company"
+                  className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
+                />
+              </label>
+              <label className="text-sm text-slate-200">
+                Role
+                <input
+                  name="role"
+                  className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
+                />
+              </label>
+            </div>
+            <label className="text-sm text-slate-200">
+              Project summary
+              <textarea
+                name="project"
+                rows="4"
+                className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
+              />
+            </label>
+            <div className="grid gap-4 md:grid-cols-2">
+              <label className="text-sm text-slate-200">
+                Timeline
+                <input
+                  name="timeline"
+                  className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
+                />
+              </label>
+              <label className="text-sm text-slate-200">
+                Budget range
+                <input
+                  name="budget"
+                  className="mt-2 w-full rounded-xl border border-raven-border/70 bg-raven-surface/70 px-3 py-2 text-sm text-white focus:border-raven-accent focus:outline-none"
+                />
+              </label>
+            </div>
+            <button type="submit" className="w-full rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-sm font-semibold text-black shadow-soft-glow">
+              Send message
+            </button>
+          </form>
+        </div>
 
         <div className="space-y-6 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
           <div>

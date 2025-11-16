@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import SeoHead from '../components/SeoHead';
 import ravenHomeLogo from '../assets/raven_home_logo.png';
+import trusted1Stirling from '../assets/trusted1_stirling.webp';
+import trusted2GptStudios from '../assets/trusted2_gptstudios.png';
+import trusted3ColonialKc from '../assets/trusted3_colonialkc.png';
+import trusted4Twiinz from '../assets/trusted4_twiinz.webp';
+import trusted5Criders from '../assets/trusted5_criders.webp';
+import trusted6Rowe from '../assets/trusted6_rowe.png';
 
 const benefits = [
   {
@@ -28,23 +34,50 @@ const trust = [
 
 const trustedLogos = [
   {
-    name: 'Art Bay',
-    src: '/logos/art-bay.png',
-    review: '“Raven helped us stabilize deploys and ship features faster with confidence.”',
+    name: 'Stirling',
+    src: trusted1Stirling,
+    review: 'Stabilized deployments and clarified delivery ownership across the team.',
   },
   {
-    name: 'Galactic Phantom Division',
-    src: '/logos/galactic-phantom-division.png',
-    review: '“Reliable automation and clear runbooks turned our game nights into smooth operations.”',
+    name: 'GPT Studios',
+    src: trusted2GptStudios,
+    review: 'Modernized CI/CD and observability while keeping day-to-day work moving.',
   },
   {
-    name: 'Helldivers 2 Discord Bot',
-    src: '/logos/helldivers-bot.png',
-    review: '“Production-minded Discord infrastructure that just works, even under heavy load.”',
+    name: 'Colonial KC',
+    src: trusted3ColonialKc,
+    review: 'Implemented practical automation that reduced outages and late-night firefights.',
+  },
+  {
+    name: 'Twiinz',
+    src: trusted4Twiinz,
+    review: 'Helped ship new features faster with safer release practices.',
+  },
+  {
+    name: 'Criders',
+    src: trusted5Criders,
+    review: 'Improved infrastructure reliability without overcomplicating the stack.',
+  },
+  {
+    name: 'Rowe',
+    src: trusted6Rowe,
+    review: 'Partnered on DevOps process so the team could focus on product.',
   },
 ];
 
-const tech = ['Docker', 'Kubernetes', 'GitHub Actions', 'AWS', 'Azure', 'GCP', 'Django', 'Next.js', 'MongoDB', 'Stripe'];
+const tech = [
+  'Docker',
+  'Kubernetes',
+  'GitHub Actions',
+  'AWS',
+  'Azure',
+  'GCP',
+  'Django',
+  'Next.js',
+  'MongoDB',
+  'Stripe',
+];
+
 const languages = ['Python', 'JavaScript', 'TypeScript'];
 
 function TrustedByCarousel() {
@@ -75,7 +108,7 @@ function TrustedByCarousel() {
           <img
             src={current.src}
             alt={current.name}
-            className="h-12 w-12 rounded-full object-contain sm:h-14 sm:w-14"
+            className="h-12 w-12 rounded-full object-cover sm:h-14 sm:w-14"
           />
         </div>
         <div className="flex flex-col text-center sm:text-left">
@@ -119,6 +152,7 @@ export default function Home() {
         description="Fractional DevOps and premium CI/CD sprints with clearly scoped timelines, milestones, and outcomes across cloud and observability."
         path="/"
       />
+
       <section className="grid gap-10 rounded-3xl border border-raven-border/60 bg-gradient-to-br from-raven-card/80 to-raven-surface/60 p-8 shadow-soft-glow md:grid-cols-2 md:items-center">
         <div className="space-y-6">
           <p className="inline-flex rounded-full border border-raven-border/70 bg-raven-card px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-raven-cyan">
@@ -162,15 +196,18 @@ export default function Home() {
               <div className="mt-1 h-2 w-2 rounded-full bg-raven-accent" />
               <div>
                 <p className="text-sm text-slate-400">Pipeline snapshot</p>
-                <p className="text-lg font-semibold text-white">Main branch -> zero-downtime deploy</p>
+                <p className="text-lg font-semibold text-white">Main branch → zero-downtime deploy</p>
                 <p className="text-sm text-slate-300">
-                  Tests -> Build image -> Push to registry -> Deploy -> Health checks
+                  Tests → Build image → Push to registry → Deploy → Health checks
                 </p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {['PR previews', 'Policy as code', 'Observability', 'Cost guardrails'].map((item) => (
-                <div key={item} className="rounded-xl border border-raven-border/60 bg-raven-card/80 p-4 text-sm text-slate-200">
+                <div
+                  key={item}
+                  className="rounded-xl border border-raven-border/60 bg-raven-card/80 p-4 text-sm text-slate-200"
+                >
                   {item}
                 </div>
               ))}
@@ -197,7 +234,10 @@ export default function Home() {
         <TrustedByCarousel />
         <div className="mt-4 flex flex-wrap justify-center gap-3 text-slate-300">
           {trust.map((item) => (
-            <span key={item} className="rounded-full border border-raven-border/60 bg-raven-surface/60 px-4 py-2 text-sm">
+            <span
+              key={item}
+              className="rounded-full border border-raven-border/60 bg-raven-surface/60 px-4 py-2 text-sm"
+            >
               {item}
             </span>
           ))}
@@ -233,9 +273,7 @@ export default function Home() {
                 </span>
               ))}
             </div>
-            <p className="mt-3 text-xs text-slate-400">
-              Strong bias toward typed, well-tested services.
-            </p>
+            <p className="mt-3 text-xs text-slate-400">Strong bias toward typed, well-tested services.</p>
           </div>
         </div>
       </section>
