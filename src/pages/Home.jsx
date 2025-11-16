@@ -80,35 +80,21 @@ const tech = [
 
 const languages = ['Python', 'JavaScript', 'TypeScript'];
 
-function TrustedByCarousel() {
-  const [index, setIndex] = React.useState(0);
+function TrustedByCarousel({ index }) {
   const total = trustedLogos.length;
-
-  React.useEffect(() => {
-    if (total <= 1) return undefined;
-
-    const id = setInterval(() => {
-      setIndex((prev) => (prev + 1) % total);
-    }, 5000);
-
-    return () => clearInterval(id);
-  }, [total]);
 
   if (!trustedLogos || total === 0) return null;
 
   const current = trustedLogos[index % total];
 
-  const goPrev = () => setIndex((prev) => (prev - 1 + total) % total);
-  const goNext = () => setIndex((prev) => (prev + 1) % total);
-
   return (
-    <div className="mt-4 mb-6 flex scale-[1.5] flex-col items-center gap-4 origin-top">
+    <div className="mt-4 mb-4 flex scale-[1.5] flex-col items-center gap-4 origin-top">
       <div className="flex w-full max-w-xl flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4">
-        <div className="flex h-24 w-24 items-center justify-center rounded-full border border-raven-border/70 bg-raven-surface/70 shadow-soft-glow sm:h-32 sm:w-32">
+        <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-raven-border/70 bg-raven-surface/70 shadow-soft-glow sm:h-32 sm:w-32">
           <img
             src={current.src}
             alt={current.name}
-            className="h-24 w-24 rounded-full object-cover sm:h-32 sm:w-32"
+            className="h-full w-full object-cover"
           />
         </div>
         <div className="flex flex-col text-center sm:text-left">
@@ -116,35 +102,27 @@ function TrustedByCarousel() {
           <p className="text-xs text-slate-300">{current.review}</p>
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={goPrev}
-          className="rounded-full border border-raven-border/70 bg-raven-card px-3 py-1 text-xs text-slate-100 hover:border-raven-accent/70"
-        >
-          {'<'}
-        </button>
-        <div className="flex items-center gap-1">
-          {trustedLogos.map((logo, i) => (
-            <span
-              key={logo.name}
-              className={`h-1.5 w-1.5 rounded-full ${i === index ? 'bg-raven-accent' : 'bg-slate-500'}`}
-            />
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={goNext}
-          className="rounded-full border border-raven-border/70 bg-raven-card px-3 py-1 text-xs text-slate-100 hover:border-raven-accent/70"
-        >
-          {'>'}
-        </button>
-      </div>
     </div>
   );
 }
 
 export default function Home() {
+  const [trustedIndex, setTrustedIndex] = React.useState(0);
+  const totalTrusted = trustedLogos.length;
+
+  React.useEffect(() => {
+    if (totalTrusted <= 1) return undefined;
+
+    const id = setInterval(() => {
+      setTrustedIndex((prev) => (prev + 1) % totalTrusted);
+    }, 5000);
+
+    return () => clearInterval(id);
+  }, [totalTrusted]);
+
+  const goPrevTrusted = () => setTrustedIndex((prev) => (prev - 1 + totalTrusted) % totalTrusted);
+  const goNextTrusted = () => setTrustedIndex((prev) => (prev + 1) % totalTrusted);
+
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-16 px-4 py-10 lg:px-6 lg:py-16">
       <SeoHead
@@ -231,8 +209,8 @@ export default function Home() {
 
       <section className="rounded-2xl border border-raven-border/60 bg-raven-card/60 p-6">
         <h2 className="text-2xl font-bold text-white">Trusted by</h2>
-        <TrustedByCarousel />
-        <div className="mt-8 flex flex-wrap justify-center gap-3 text-slate-300">
+        <TrustedByCarousel index={trustedIndex} />
+        <div className="mt-4 flex flex-wrap justify-center gap-3 text-slate-300">
           {trust.map((item) => (
             <span
               key={item}
@@ -241,6 +219,30 @@ export default function Home() {
               {item}
             </span>
           ))}
+        </div>
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={goPrevTrusted}
+            className="rounded-full border border-raven-border/70 bg-raven-card px-3 py-1 text-xs text-slate-100 hover:border-raven-accent/70"
+          >
+            {'<'}
+          </button>
+          <div className="flex items-center gap-1">
+            {trustedLogos.map((logo, i) => (
+              <span
+                key={logo.name}
+                className={`h-1.5 w-1.5 rounded-full ${i === trustedIndex ? 'bg-raven-accent' : 'bg-slate-500'}`}
+              />
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={goNextTrusted}
+            className="rounded-full border border-raven-border/70 bg-raven-card px-3 py-1 text-xs text-slate-100 hover:border-raven-accent/70"
+          >
+            {'>'}
+          </button>
         </div>
       </section>
 
