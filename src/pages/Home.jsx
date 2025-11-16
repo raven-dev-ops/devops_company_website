@@ -102,13 +102,13 @@ function TrustedByCarousel() {
   const goNext = () => setIndex((prev) => (prev + 1) % total);
 
   return (
-    <div className="mt-4 flex flex-col items-center gap-3">
+    <div className="mt-4 flex scale-[1.5] flex-col items-center gap-3 origin-top">
       <div className="flex w-full max-w-xl flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full border border-raven-border/70 bg-raven-surface/70 shadow-soft-glow sm:h-20 sm:w-20">
+        <div className="flex h-24 w-24 items-center justify-center rounded-full border border-raven-border/70 bg-raven-surface/70 shadow-soft-glow sm:h-32 sm:w-32">
           <img
             src={current.src}
             alt={current.name}
-            className="h-12 w-12 rounded-full object-cover sm:h-14 sm:w-14"
+            className="h-16 w-16 rounded-full object-cover sm:h-20 sm:w-20"
           />
         </div>
         <div className="flex flex-col text-center sm:text-left">

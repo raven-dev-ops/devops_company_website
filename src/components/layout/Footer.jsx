@@ -11,7 +11,7 @@ export default function Footer() {
             Based in Kansas City, MO · Working remotely with clients in US/EU time zones.
           </p>
           <p className="text-sm text-slate-400">
-            DevOps consulting to help teams ship faster, safer, and more cost-effectively.
+            DevOps consulting to help teams ship faster, safer, and reliable.
           </p>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-slate-300">
