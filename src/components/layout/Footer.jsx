@@ -20,7 +20,7 @@ export default function Footer() {
             Terms of Service
           </Link>
           <a
-            href="https://calendly.com/ravdevops/consult"
+            href="https://calendly.com/damonheath/discovery-phone-call"
             target="_blank"
             rel="noreferrer"
             className="rounded-full border border-raven-accent/30 bg-raven-accent/20 px-3 py-2 font-semibold text-raven-accent hover:bg-raven-accent/30"

@@ -12,7 +12,7 @@ const DEFAULT_SERVICES = [
 ];
 
 const ChatBot = ({
-  calendlyUrl = 'https://calendly.com/YOUR-CALENDLY-SLUG/consultation',
+  calendlyUrl = 'https://calendly.com/damonheath/discovery-phone-call',
   onOpenContact,
   servicesList,
   defaultOpen = false,

@@ -49,7 +49,7 @@ export default function Services() {
             </ul>
             <div className="mt-auto">
               <a
-                href="https://calendly.com/ravdevops/consult"
+                href="https://calendly.com/damonheath/discovery-phone-call"
                 className="inline-flex items-center rounded-full border border-raven-border/70 bg-raven-card px-4 py-2 text-sm font-semibold text-slate-100 hover:border-raven-accent/80"
               >
                 Book a call
@@ -71,7 +71,7 @@ export default function Services() {
         </div>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <a
-            href="https://calendly.com/ravdevops/consult"
+            href="https://calendly.com/damonheath/discovery-phone-call"
             className="rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow"
           >
             Book a discovery call

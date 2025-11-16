@@ -44,7 +44,7 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="https://calendly.com/ravdevops/consult"
+              href="https://calendly.com/damonheath/discovery-phone-call"
               target="_blank"
               rel="noreferrer"
               className="rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow hover:from-raven-accent/90 hover:to-raven-cyan/90"

@@ -51,7 +51,7 @@ export default function Header({ theme, toggleTheme }) {
             {theme === 'dark' ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
           </button>
           <a
-            href="https://calendly.com/ravdevops/consult"
+            href="https://calendly.com/damonheath/discovery-phone-call"
             target="_blank"
             rel="noreferrer"
             className="hidden rounded-full border border-raven-accent/30 bg-gradient-to-r from-raven-accent/90 to-raven-cyan/80 px-4 py-2 text-sm font-semibold text-black shadow-soft-glow hover:from-raven-accent hover:to-raven-cyan md:inline-flex"
