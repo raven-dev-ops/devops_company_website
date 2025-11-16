@@ -14,13 +14,16 @@ export default function Portfolio() {
         <p className="text-sm uppercase tracking-[0.3em] text-raven-cyan">Portfolio</p>
         <h1 className="text-4xl font-bold text-white">Case studies from shipped systems</h1>
         <p className="text-lg text-slate-300">
-          Engineering work focused on automation, infrastructure, and reliability—not just the UI.
+          Engineering work focused on automation, infrastructure, and reliability�?"not just the UI.
         </p>
       </header>
 
       <div className="grid gap-6 md:grid-cols-2">
         {portfolioItems.map((item) => (
-          <article key={item.slug} className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
+          <article
+            key={item.slug}
+            className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
+          >
             <div className="flex items-start justify-between gap-4">
               <h2 className="text-2xl font-semibold text-white">{item.title}</h2>
               <span className="rounded-full border border-raven-border/60 bg-raven-surface/60 px-3 py-1 text-xs font-semibold text-raven-cyan">
@@ -46,7 +49,7 @@ export default function Portfolio() {
                 ))}
               </ul>
             </div>
-            <div className="mt-auto flex items-center justify-between gap-4">
+            <div className="mt-auto flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-between">
               <a
                 href={item.github}
                 target="_blank"
@@ -55,7 +58,7 @@ export default function Portfolio() {
               >
                 View code on GitHub
               </a>
-              <span className="text-xs text-slate-400">Problem → Build → Outcome</span>
+              <span className="text-xs text-slate-400 text-center sm:text-right">Problem �+' Build �+' Outcome</span>
             </div>
           </article>
         ))}

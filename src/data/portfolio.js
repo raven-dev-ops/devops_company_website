@@ -39,7 +39,7 @@ export const portfolioItems = [
     github: 'https://github.com/ravdevops/e-commerce-frontend',
   },
   {
-    title: 'Helldivers 2 Discord Bot (OCR + Stats)',
+    title: 'Helldivers 2 Discord Bot',
     slug: 'helldivers-bot',
     description:
       'Python bot with OCR pipelines, scheduled leaderboards, and multi-guild configuration.',

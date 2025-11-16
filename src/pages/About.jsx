@@ -33,7 +33,7 @@ export default function About() {
         description="DevOps-focused engineer delivering CI/CD automation, cloud infrastructure, observability, and full-stack experience."
         path="/about"
       />
-      <header className="space-y-4">
+      <header className="space-y-4 text-center">
         <p className="text-sm uppercase tracking-[0.3em] text-raven-cyan">About</p>
         <h1 className="text-4xl font-bold text-white">DevOps-focused engineer based in Kansas City, MO</h1>
         <p className="text-lg text-slate-300">
@@ -81,7 +81,7 @@ export default function About() {
         </div>
       </section>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap justify-center gap-4">
         <Link
           to="/contact"
           className="rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow"

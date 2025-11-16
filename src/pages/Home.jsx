@@ -26,8 +26,8 @@ export default function Home() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-16 px-4 py-10 lg:px-6 lg:py-16">
       <SeoHead
-        title="DevOps consulting to ship faster, safer, and cheaper | Raven Development Operations"
-        description="CI/CD pipelines, cloud automation, observability, and SRE practices tailored for product teams."
+        title="Premium DevOps delivery with clear timelines | Raven Development Operations"
+        description="Premium DevOps services with clearly scoped timelines, milestones, and outcomes across CI/CD, cloud, and observability."
         path="/"
       />
       <section className="grid gap-10 rounded-3xl border border-raven-border/60 bg-gradient-to-br from-raven-card/80 to-raven-surface/60 p-8 shadow-soft-glow md:grid-cols-2 md:items-center">
@@ -36,7 +36,7 @@ export default function Home() {
             Raven Development Operations
           </p>
           <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
-            DevOps consulting to ship faster, safer, and cheaper.
+            Premium DevOps delivery with clear timelines and milestones.
           </h1>
           <p className="text-lg text-slate-300">
             I help teams move from ad-hoc releases to disciplined delivery: CI/CD pipelines, cloud automation, observability,
