@@ -19,7 +19,12 @@ const benefits = [
   },
 ];
 
-const trust = ['Solo developers', 'Indie studios', 'Small product teams'];
+const trust = [
+  'Founder-led software companies',
+  'Small SaaS and e-commerce teams',
+  'Internal platform & DevOps groups',
+  'Government and public sector pilots',
+];
 
 const trustedLogos = [
   { name: 'Art Bay', src: '/logos/art-bay.png' },
@@ -52,8 +57,8 @@ function TrustedByCarousel() {
   const goNext = () => setIndex((prev) => (prev + 1) % total);
 
   return (
-    <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-      <div className="flex flex-1 items-center justify-start gap-4">
+    <div className="mt-4 flex flex-col items-center gap-4 md:flex-row md:justify-between">
+      <div className="flex flex-1 items-center justify-center gap-4 md:justify-start">
         <div className="flex items-center justify-center rounded-2xl border border-raven-border/60 bg-raven-surface/60 px-6 py-4 shadow-soft-glow">
           <img src={current.src} alt={current.name} className="h-10 w-auto object-contain sm:h-12" />
         </div>
@@ -174,7 +179,7 @@ export default function Home() {
       <section className="rounded-2xl border border-raven-border/60 bg-raven-card/60 p-6">
         <h2 className="text-2xl font-bold text-white">Trusted by</h2>
         <TrustedByCarousel />
-        <div className="mt-4 flex flex-wrap gap-3 text-slate-300">
+        <div className="mt-4 flex flex-wrap justify-center gap-3 text-slate-300">
           {trust.map((item) => (
             <span key={item} className="rounded-full border border-raven-border/60 bg-raven-surface/60 px-4 py-2 text-sm">
               {item}

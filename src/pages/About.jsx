@@ -43,9 +43,9 @@ export default function About() {
         </p>
       </header>
 
-      <section className="grid gap-8 md:grid-cols-2 md:items-start">
-        <div className="flex justify-center md:justify-start">
-          <div className="overflow-hidden rounded-3xl border border-raven-border/70 bg-raven-card/80 p-2 shadow-soft-glow">
+      <section className="grid gap-8 md:grid-cols-2 md:items-stretch">
+        <div className="flex h-full justify-center md:justify-start">
+          <div className="h-full overflow-hidden rounded-3xl border border-raven-border/70 bg-raven-card/80 p-2 shadow-soft-glow">
             <img
               src={damonPortrait}
               alt="Portrait of Damon Heath, Raven Development Operations"
@@ -53,8 +53,8 @@ export default function About() {
             />
           </div>
         </div>
-        <div className="space-y-6">
-          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
+        <div className="h-full space-y-6">
+          <div className="h-full rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
             <h2 className="text-2xl font-semibold text-white">What I bring</h2>
             <ul className="mt-4 space-y-2 text-sm text-slate-300">
               <li>

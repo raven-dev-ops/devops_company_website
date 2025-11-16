@@ -7,21 +7,21 @@ import tier3Image from '../assets/tier3.png';
 const tiers = [
   {
     name: 'CI/CD Kickstart',
-    price: 'Starts at $7,600',
+    price: 'Starts at $3,800',
     description: 'Fixed-scope pipeline setup for one service (Next.js site or Django API).',
     bullets: ['Automated tests + lint', 'Security checks and secrets management', 'Zero-downtime deploy flow'],
     image: tier1Image,
   },
   {
     name: 'DevOps Modernization Sprint',
-    price: 'Starts at $15,200',
+    price: 'Starts at $7,600',
     description: 'Assessment plus a 2-3 week implementation across pipelines, infrastructure, and observability.',
     bullets: ['Roadmap + quick wins', 'IaC + cloud hardening', 'Dashboards + alert tuning'],
     image: tier2Image,
   },
   {
     name: 'Fractional DevOps Partner',
-    price: 'Starts at $2,700 / month',
+    price: 'Starts at $1,350 / month',
     description: 'Ongoing support, incident response, and roadmap execution for growing teams.',
     bullets: ['Weekly delivery cadence', 'Incident response coverage', 'Backlog of automation improvements'],
     image: tier3Image,
@@ -30,20 +30,20 @@ const tiers = [
 
 const faqs = [
   {
-    q: 'Do you do one-off projects?',
-    a: 'Yes - assessments, CI/CD builds, and reliability sprints are scoped to deliver quickly. A common one-off engagement is standing up CI/CD for a single Next.js or Django service, hardening secrets, and delivering a zero-downtime deploy you can own going forward.',
+    q: 'Which engagement is right for my team?',
+    a: 'If you need to stand up or fix a single pipeline, the CI/CD Kickstart is usually the best fit. If you want a broader modernization across infra, observability, and delivery, the DevOps Modernization Sprint is better. For ongoing help, the Fractional DevOps Partner option keeps a veteran operator embedded with your team each month.',
   },
   {
-    q: "What's your typical engagement length?",
-    a: 'Most sprints run 2-4 weeks; fractional partnerships are month-to-month with quarterly checkpoints. For example, a 3-week modernization sprint might cover assessment and CI/CD hardening in week 1, IaC and cloud hardening in week 2, and observability, runbooks, and handover in week 3.',
+    q: 'Can we start small before committing long term?',
+    a: 'Yes. Many teams start with a focused assessment or CI/CD Kickstart, then decide whether to extend into a modernization sprint or fractional engagement once we have real results and trust in place.',
   },
   {
-    q: 'What tools and stacks do you prefer?',
-    a: 'I work with GitHub, GitHub Actions, Docker, Kubernetes, Terraform, and cloud platforms like Netlify, Heroku, AWS, and GCP. On the application side I regularly support TypeScript and JavaScript frontends, Python and Node.js backends, REST/JSON APIs, and frameworks like Next.js and Django.',
+    q: 'Do you work with our existing tools and stack?',
+    a: 'In most cases, yes. I regularly work with GitHub Actions, Docker, Kubernetes, Terraform, Heroku, Netlify, AWS, and Azure across TypeScript, JavaScript, Python, and Node.js services. During the discovery call, we will confirm fit with your stack and constraints.',
   },
   {
-    q: 'How does payment work?',
-    a: 'For fixed-scope projects, 100% of the fee is retained up front and released when you accept the agreed deliverables. For fractional DevOps partnerships, the $2,700/month retainer is billed at the start of each month, with scope and roadmap reviewed together each quarter.',
+    q: 'What about contracts, invoicing, and payment terms?',
+    a: 'Work is scoped with a short proposal or statement of work. Fixed-scope projects are typically billed 50% up front and 50% on delivery. Fractional DevOps partnerships are billed monthly with clear goals and an option to revisit scope each quarter.',
   },
 ];
 
@@ -91,15 +91,18 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="https://calendly.com/ravdevops/discovery-meeting"
-                className="mt-auto inline-flex justify-center rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-4 py-2 text-sm font-semibold text-black shadow-soft-glow"
-              >
-                Book a call
-              </a>
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-center">
+        <a
+          href="https://calendly.com/ravdevops/discovery-meeting"
+          className="inline-flex justify-center rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow"
+        >
+          Book a discovery call
+        </a>
       </div>
 
       <section className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-6">
@@ -116,4 +119,3 @@ export default function Pricing() {
     </div>
   );
 }
-
