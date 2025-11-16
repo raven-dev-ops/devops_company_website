@@ -7,17 +7,19 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
-    document.body.classList.toggle('bg-raven-navy', theme === 'dark');
   }, [theme]);
 
   const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
 
+  const mainClasses =
+    theme === 'dark'
+      ? 'min-h-screen bg-gradient-to-b from-raven-navy/95 via-raven-card/40 to-raven-navy/95'
+      : 'min-h-screen bg-white/80';
+
   return (
     <div className={theme === 'dark' ? 'text-slate-100' : 'bg-white text-slate-900'}>
       <Header theme={theme} toggleTheme={toggleTheme} />
-      <main className="min-h-screen bg-gradient-to-b from-raven-navy/95 via-raven-card/40 to-raven-navy/95">
-        {children}
-      </main>
+      <main className={mainClasses}>{children}</main>
       <Footer />
     </div>
   );
