@@ -63,36 +63,36 @@ export default function Pricing() {
 
       <div className="grid gap-6 md:grid-cols-3">
         {tiers.map((tier) => (
-          <div key={tier.name} className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
+          <div key={tier.name} className="flex h-full flex-col items-center gap-4">
             {tier.image && (
-              <div className="flex justify-center">
-                <img
-                  src={tier.image}
-                  alt={tier.name}
-                  className="mb-3 h-16 w-auto rounded-xl border border-raven-border/70 bg-raven-surface/60 object-contain"
-                />
-              </div>
+              <img
+                src={tier.image}
+                alt={tier.name}
+                className="h-24 w-auto object-contain"
+              />
             )}
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-raven-cyan">Engagement</p>
-              <h2 className="text-2xl font-semibold text-white">{tier.name}</h2>
-              <p className="text-sm text-slate-300">{tier.description}</p>
+            <div className="flex h-full w-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-raven-cyan">Engagement</p>
+                <h2 className="text-2xl font-semibold text-white">{tier.name}</h2>
+                <p className="text-sm text-slate-300">{tier.description}</p>
+              </div>
+              <p className="text-xl font-bold text-raven-accent">{tier.price}</p>
+              <ul className="space-y-2 text-sm text-slate-200">
+                {tier.bullets.map((bullet) => (
+                  <li key={bullet} className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-raven-accent" />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="https://calendly.com/ravendevops/discovery-meeting"
+                className="mt-auto inline-flex justify-center rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-4 py-2 text-sm font-semibold text-black shadow-soft-glow"
+              >
+                Book a call
+              </a>
             </div>
-            <p className="text-xl font-bold text-raven-accent">{tier.price}</p>
-            <ul className="space-y-2 text-sm text-slate-200">
-              {tier.bullets.map((bullet) => (
-                <li key={bullet} className="flex items-start gap-2">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-raven-accent" />
-                  <span>{bullet}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href="https://calendly.com/ravendevops/discovery-meeting"
-              className="mt-auto inline-flex justify-center rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-4 py-2 text-sm font-semibold text-black shadow-soft-glow"
-            >
-              Book a call
-            </a>
           </div>
         ))}
       </div>

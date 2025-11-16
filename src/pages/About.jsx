@@ -44,21 +44,31 @@ export default function About() {
       </header>
 
       <section className="grid gap-8 md:grid-cols-2 md:items-start">
+        <div className="flex justify-center md:justify-start">
+          <div className="overflow-hidden rounded-3xl border border-raven-border/70 bg-raven-card/80 p-2 shadow-soft-glow">
+            <img
+              src={damonPortrait}
+              alt="Portrait of Damon Heath, Raven Development Operations"
+              className="h-full w-full max-w-md rounded-2xl object-cover md:max-w-lg"
+            />
+          </div>
+        </div>
         <div className="space-y-6">
           <div className="rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
             <h2 className="text-2xl font-semibold text-white">What I bring</h2>
             <ul className="mt-4 space-y-2 text-sm text-slate-300">
+              <li>Veteran-owned, America-first DevOps support focused on real-world outcomes for U.S. teams.</li>
               <li>Cloud deployments across Heroku, Netlify, and container platforms.</li>
               <li>Containerization with Docker and pragmatic GitHub Actions automation.</li>
-              <li>Full-stack experience across Next.js, Django, and Discord bots.</li>
-              <li>Documentation-first mindset with observability and security baked in.</li>
+              <li>Full-stack experience across Next.js, Django, and Discord bots with observability and security baked in.</li>
             </ul>
           </div>
           <div className="rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6">
             <h2 className="text-2xl font-semibold text-white">How I work</h2>
             <p className="mt-3 text-sm text-slate-300">
-              Every engagement starts with context: what uptime, cost, and velocity goals matter to you. From there I build
-              transparent plans, instrument systems for visibility, and leave teams with documentation they can trust.
+              Every engagement starts with context: what uptime, cost, and velocity goals matter to you and the people you serve.
+              As a veteran-owned, America-first small business, I build transparent plans, instrument systems for visibility, and
+              leave teams with documentation they can trust long after the engagement ends.
             </p>
             <div className="mt-4 flex flex-wrap gap-3 text-sm text-raven-cyan">
               <a href="https://github.com/raven-dev-ops" target="_blank" rel="noreferrer" className="hover:text-white">
@@ -68,15 +78,6 @@ export default function About() {
                 LinkedIn
               </a>
             </div>
-          </div>
-        </div>
-        <div className="flex justify-center md:justify-end">
-          <div className="overflow-hidden rounded-3xl border border-raven-border/70 bg-raven-card/80 p-2 shadow-soft-glow">
-            <img
-              src={damonPortrait}
-              alt="Portrait of Damon Heath, Raven Development Operations"
-              className="h-full w-full max-w-sm rounded-2xl object-cover"
-            />
           </div>
         </div>
       </section>

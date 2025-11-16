@@ -11,9 +11,10 @@ export const portfolioItems = [
       'Discord webhook automation with rate-limit aware queues',
     ],
     github: 'https://github.com/ravdevops/helldivers2_clan_website',
+    screenshots: [],
   },
   {
-    title: 'E-commerce Backend (Django)',
+    title: 'Art Bay Backend (Django)',
     slug: 'ecommerce-backend',
     description:
       'Modular Django backbone for storefronts with payments, orders, and CI-ready Docker images.',
@@ -24,6 +25,7 @@ export const portfolioItems = [
       'Pre-commit hooks and CI to keep migrations, tests, and linting green',
     ],
     github: 'https://github.com/ravdevops/e-commerce-backend',
+    screenshots: [],
   },
   {
     title: 'Art Bay Frontend (Next.js Storefront)',
@@ -37,6 +39,7 @@ export const portfolioItems = [
       'Secure payment flow with resilience around API and webhook retries',
     ],
     github: 'https://github.com/ravdevops/e-commerce-frontend',
+    screenshots: [],
   },
   {
     title: 'Helldivers 2 Discord Bot',
@@ -50,5 +53,6 @@ export const portfolioItems = [
       'Config and secrets managed per guild with environment isolation',
     ],
     github: 'https://github.com/ravdevops/helldivers2_discord_ocr_lfg_clan_bot',
+    screenshots: [],
   },
 ];
