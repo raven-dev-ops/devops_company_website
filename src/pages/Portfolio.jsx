@@ -23,14 +23,20 @@ function PortfolioCarousel({ images, title }) {
         <>
           <button
             type="button"
-            onClick={goPrev}
+            onClick={(e) => {
+              e.stopPropagation();
+              goPrev();
+            }}
             className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 px-2 py-1 text-xs text-white hover:bg-black/70"
           >
             {'<'}
           </button>
           <button
             type="button"
-            onClick={goNext}
+            onClick={(e) => {
+              e.stopPropagation();
+              goNext();
+            }}
             className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/50 px-2 py-1 text-xs text-white hover:bg-black/70"
           >
             {'>'}
@@ -52,6 +58,17 @@ function PortfolioCarousel({ images, title }) {
 }
 
 export default function Portfolio() {
+  const handleCardClick = (github) => {
+    if (!github) return;
+    if (typeof window === 'undefined') return;
+    const proceed = window.confirm(
+      'You are about to open the project repository on GitHub in a new tab. Continue?',
+    );
+    if (proceed) {
+      window.open(github, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 lg:px-6">
       <SeoHead
@@ -72,7 +89,16 @@ export default function Portfolio() {
           <article
             key={item.slug}
             id={item.slug}
-            className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
+            role="button"
+            tabIndex={0}
+            onClick={() => handleCardClick(item.github)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleCardClick(item.github);
+              }
+            }}
+            className="flex h-full cursor-pointer flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition hover:border-raven-accent/80 hover:bg-raven-card hover:shadow-soft-glow"
           >
             <PortfolioCarousel images={item.screenshots} title={item.title} />
             <h2 className="text-2xl font-semibold text-white">{item.title}</h2>
@@ -94,17 +120,6 @@ export default function Portfolio() {
                   </li>
                 ))}
               </ul>
-            </div>
-            <div className="mt-auto flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <a
-                href={item.github}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm font-semibold text-raven-cyan hover:text-white"
-              >
-                View code on GitHub
-              </a>
-              <span className="text-xs font-semibold text-raven-cyan sm:ml-4">Case study</span>
             </div>
           </article>
         ))}
