@@ -97,7 +97,7 @@ export default function Blog() {
       </div>
 
       <section className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 md:flex-row md:items-center md:justify-center md:gap-8">
           <div className="flex items-start gap-4">
             <div className="hidden sm:block">
               <img
@@ -106,14 +106,14 @@ export default function Blog() {
                 className="h-20 w-20 object-cover"
               />
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <h3 className="text-xl font-semibold text-white">Join my newsletter</h3>
               <p className="mt-2 text-sm text-slate-300">
                 Get updates on CI/CD, cloud automation, and DevOps maturity guides.
               </p>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <input
               type="email"
               placeholder="Email address (coming soon)"

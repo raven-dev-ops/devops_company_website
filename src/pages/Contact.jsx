@@ -61,6 +61,16 @@ export default function Contact() {
 
       <div className="grid gap-8 md:grid-cols-2 md:items-stretch">
         <div className="h-full">
+          <div className="flex h-full flex-col rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition transform hover:-translate-y-0.5 hover:border-raven-accent/70 hover:shadow-soft-glow">
+            <iframe
+              title="Calendly discovery video call"
+              src="https://calendly.com/charityolivas/discovery-call"
+              className="h-full w-full rounded-lg border-0"
+            />
+          </div>
+        </div>
+
+        <div className="h-full">
           <form
             name="contact"
             method="POST"
@@ -189,16 +199,6 @@ export default function Contact() {
               Send message
             </button>
           </form>
-        </div>
-
-        <div className="h-full">
-          <div className="flex h-full flex-col rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition transform hover:-translate-y-0.5 hover:border-raven-accent/70 hover:shadow-soft-glow">
-            <iframe
-              title="Calendly discovery video call"
-              src="https://calendly.com/charityolivas/discovery-call"
-              className="h-full w-full rounded-lg border-0"
-            />
-          </div>
         </div>
       </div>
 
