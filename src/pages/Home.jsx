@@ -298,11 +298,20 @@ export default function Home() {
                   }`}
                 >
                   <span>{item}</span>
-                  {activePill === item && (
-                    <span className="mt-1 block text-xs text-slate-100">
-                      {pillDescriptions[item] || 'Ex: Commonly used in DevOps client projects.'}
-                    </span>
-                  )}
+                  <AnimatePresence initial={false}>
+                    {activePill === item && (
+                      <motion.span
+                        key={`tooling-${item}`}
+                        className="mt-1 block text-xs text-slate-100"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 4 }}
+                        transition={{ duration: 0.18 }}
+                      >
+                        {pillDescriptions[item] || 'Ex: Commonly used in DevOps client projects.'}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </button>
               ))}
             </div>
@@ -326,11 +335,20 @@ export default function Home() {
                   }`}
                 >
                   <span>{item}</span>
-                  {activePill === item && (
-                    <span className="mt-1 block text-xs text-slate-100">
-                      {pillDescriptions[item] || 'Ex: Platforms we regularly deploy to.'}
-                    </span>
-                  )}
+                  <AnimatePresence initial={false}>
+                    {activePill === item && (
+                      <motion.span
+                        key={`platform-${item}`}
+                        className="mt-1 block text-xs text-slate-100"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 4 }}
+                        transition={{ duration: 0.18 }}
+                      >
+                        {pillDescriptions[item] || 'Ex: Platforms we regularly deploy to.'}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </button>
               ))}
             </div>
@@ -352,11 +370,20 @@ export default function Home() {
                   }`}
                 >
                   <span>{lang}</span>
-                  {activePill === lang && (
-                    <span className="mt-1 block text-xs text-slate-100">
-                      {pillDescriptions[lang] || 'Ex: Languages we use to ship production systems.'}
-                    </span>
-                  )}
+                  <AnimatePresence initial={false}>
+                    {activePill === lang && (
+                      <motion.span
+                        key={`language-${lang}`}
+                        className="mt-1 block text-xs text-slate-100"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 4 }}
+                        transition={{ duration: 0.18 }}
+                      >
+                        {pillDescriptions[lang] || 'Ex: Languages we use to ship production systems.'}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </button>
               ))}
             </div>
