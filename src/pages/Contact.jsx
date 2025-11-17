@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import SeoHead from '../components/SeoHead';
+import { ThemeContext } from '../hooks/ThemeContext';
 
 export default function Contact() {
   const location = useLocation();
@@ -11,10 +12,8 @@ export default function Contact() {
   const [showConfirm, setShowConfirm] = React.useState(false);
   const API_BASE =
     process.env.REACT_APP_OPENAUXILIUM_URL || 'http://localhost:5050';
-
-  const isDarkMode =
-    typeof document !== 'undefined' &&
-    document.documentElement.classList.contains('dark');
+  const { theme } = React.useContext(ThemeContext);
+  const isDarkMode = theme === 'dark';
   const calendlyBase = 'https://calendly.com/charityolivas/discovery-call';
   const calendlySrc = isDarkMode
     ? `${calendlyBase}?background_color=020617&text_color=f9fafb&primary_color=22C55E`

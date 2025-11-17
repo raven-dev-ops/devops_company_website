@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import ChatBot from '../ChatBot';
+import { ThemeContext } from '../../hooks/ThemeContext';
 
 export default function Layout({ children }) {
   const [theme, setTheme] = useState('dark');
@@ -23,11 +24,13 @@ export default function Layout({ children }) {
       : 'bg-gradient-to-b from-slate-50 via-white to-slate-100';
 
   return (
-    <div className={wrapperClasses}>
-      <Header theme={theme} toggleTheme={toggleTheme} />
-      <main className={mainClasses}>{children}</main>
-      <Footer />
-      <ChatBot />
-    </div>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <div className={wrapperClasses}>
+        <Header theme={theme} toggleTheme={toggleTheme} />
+        <main className={mainClasses}>{children}</main>
+        <Footer />
+        <ChatBot />
+      </div>
+    </ThemeContext.Provider>
   );
 }
