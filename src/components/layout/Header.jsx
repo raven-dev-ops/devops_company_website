@@ -111,10 +111,10 @@ export default function Header({ theme, toggleTheme }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.4 }}
-            className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-center py-2 text-sm text-slate-100"
+            className="pointer-events-none absolute inset-x-0 top-full z-40 flex justify-center pt-1 pb-2 text-sm text-slate-100"
             aria-live="polite"
           >
-            <div className="inline-flex rounded-full bg-emerald-500/20 px-4 py-1.5 text-sm font-medium text-emerald-50 shadow">
+            <div className="inline-flex px-4 py-1.5 text-sm font-medium text-slate-100">
               {alertMessages[alertIndex]}
             </div>
           </motion.div>
