@@ -144,6 +144,15 @@ a {
   color: #312e81; /* indigo/violet-900-ish for contrast */
 }
 
+/* Platforms pills specifically use text-violet-200; darken it in light mode */
+:root:not(.dark) .text-violet-200 {
+  color: #312e81;
+}
+
+:root:not(.dark) .text-pink-200 {
+  color: #831843; /* deeper pink for stronger contrast in light mode */
+}
+
 :root:not(.dark) .border-raven-border\/70,
 :root:not(.dark) .border-raven-border\/60,
 :root:not(.dark) .border-raven-border\/40 {
