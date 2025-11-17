@@ -105,6 +105,7 @@ function TrustedByCarousel({ index }) {
 
   const current = trustedLogos[index % total];
   const isColonial = current.name === 'Colonial KC';
+  const logoSizeClass = isColonial ? 'h-24 sm:h-28' : 'h-32 sm:h-36';
 
   return (
     <div className="mt-7 mb-7 flex flex-col items-center gap-5">
@@ -125,7 +126,7 @@ function TrustedByCarousel({ index }) {
             <img
               src={current.src}
               alt={current.name}
-              className="h-24 w-auto object-contain sm:h-28"
+              className={`${logoSizeClass} w-auto object-contain`}
             />
           </div>
           <div className="flex flex-col gap-2 text-center sm:text-left">
