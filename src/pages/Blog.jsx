@@ -10,6 +10,7 @@ const tags = ['All', 'CI/CD', 'Cloud', 'SRE', 'Tooling'];
 export default function Blog() {
   const [activeTag, setActiveTag] = useState('All');
   const { query } = useContext(SearchContext);
+  const [imageHoverSlug, setImageHoverSlug] = useState(null);
 
   const filtered = useMemo(() => {
     let posts = blogPosts;
@@ -83,20 +84,30 @@ export default function Blog() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {filtered.map((post) => (
-          <Link
-            key={post.slug}
-            to={`/blog/${post.slug}`}
-            className="group block"
-          >
-            <article
-              className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition transform hover:scale-105 hover:border-raven-accent/80 hover:bg-raven-card hover:shadow-soft-glow"
+        {filtered.map((post) => {
+          const isImageHovered = imageHoverSlug === post.slug;
+          const baseCardClass =
+            'flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition';
+          const hoverCardClass = !isImageHovered
+            ? ' transform hover:scale-105 hover:border-raven-accent/80 hover:bg-raven-card hover:shadow-soft-glow'
+            : '';
+
+          return (
+            <Link
+              key={post.slug}
+              to={`/blog/${post.slug}`}
+              className="group block"
             >
-              {post.image && (
-                <div className="overflow-hidden rounded-xl border border-raven-border/60 bg-raven-card/80">
-                  <img src={post.image} alt={post.title} className="h-40 w-full object-cover" />
-                </div>
-              )}
+              <article className={baseCardClass + hoverCardClass}>
+                {post.image && (
+                  <div
+                    className="overflow-hidden rounded-xl border border-raven-border/60 bg-raven-card/80"
+                    onMouseEnter={() => setImageHoverSlug(post.slug)}
+                    onMouseLeave={() => setImageHoverSlug(null)}
+                  >
+                    <img src={post.image} alt={post.title} className="h-40 w-full object-cover" />
+                  </div>
+                )}
               <div className="flex items-center justify-between">
                 <span className="text-xs uppercase tracking-[0.2em] text-raven-cyan">{post.date}</span>
                 <div className="flex flex-wrap gap-2 text-xs">
@@ -124,11 +135,12 @@ export default function Blog() {
                   })}
                 </div>
               </div>
-              <h2 className="text-2xl font-semibold text-white group-hover:text-raven-accent">{post.title}</h2>
-              <p className="text-sm text-slate-300">{post.excerpt}</p>
-            </article>
-          </Link>
-        ))}
+                <h2 className="text-2xl font-semibold text-white group-hover:text-raven-accent">{post.title}</h2>
+                <p className="text-sm text-slate-300">{post.excerpt}</p>
+              </article>
+            </Link>
+          );
+        })}
       </div>
 
       <section className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-6">

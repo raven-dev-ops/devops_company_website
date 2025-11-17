@@ -5,7 +5,19 @@ import SeoHead from '../components/SeoHead';
 
 export default function BlogPost() {
   const { slug } = useParams();
-  const post = blogPosts.find((entry) => entry.slug === slug);
+  const currentIndex = blogPosts.findIndex((entry) => entry.slug === slug);
+  const post = currentIndex >= 0 ? blogPosts[currentIndex] : null;
+  const [relatedOffset, setRelatedOffset] = React.useState(0);
+
+  const orderedOthers = React.useMemo(() => {
+    if (blogPosts.length <= 1 || currentIndex < 0) return [];
+    const result = [];
+    for (let i = 1; i < blogPosts.length; i += 1) {
+      const index = (currentIndex + i) % blogPosts.length;
+      result.push(blogPosts[index]);
+    }
+    return result;
+  }, [currentIndex]);
 
   if (!post) {
     return (
@@ -16,6 +28,19 @@ export default function BlogPost() {
         </Link>
       </div>
     );
+  }
+
+  const hasRelated = orderedOthers.length > 0;
+  const visibleCount = Math.min(3, orderedOthers.length);
+  let visibleRelated = [];
+
+  if (hasRelated) {
+    const total = orderedOthers.length;
+    const safeOffset = ((relatedOffset % total) + total) % total;
+    visibleRelated = [];
+    for (let i = 0; i < visibleCount; i += 1) {
+      visibleRelated.push(orderedOthers[(safeOffset + i) % total]);
+    }
   }
 
   return (
@@ -59,6 +84,85 @@ export default function BlogPost() {
         </div>
       )}
       <p className="text-lg leading-relaxed text-slate-200">{post.content}</p>
+      {hasRelated && (
+        <section className="mt-10 space-y-3 border-t border-raven-border/70 pt-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-raven-cyan">
+              More posts
+            </h2>
+            {orderedOthers.length > visibleCount && (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setRelatedOffset((prev) => prev - 1)}
+                  className="rounded-full border border-raven-border/70 bg-raven-card px-2 py-1 text-xs text-slate-100 hover:border-raven-accent/80 hover:bg-raven-card/90"
+                  aria-label="Previous posts"
+                >
+                  {'<'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRelatedOffset((prev) => prev + 1)}
+                  className="rounded-full border border-raven-border/70 bg-raven-card px-2 py-1 text-xs text-slate-100 hover:border-raven-accent/80 hover:bg-raven-card/90"
+                  aria-label="Next posts"
+                >
+                  {'>'}
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="flex gap-4 overflow-x-auto pb-1">
+            {visibleRelated.map((related) => (
+              <Link
+                key={related.slug}
+                to={`/blog/${related.slug}`}
+                className="group block w-56 shrink-0"
+              >
+                <article className="flex h-full flex-col gap-2 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-3 text-sm transition transform hover:scale-105 hover:border-raven-accent/80 hover:bg-raven-card hover:shadow-soft-glow">
+                  {related.image && (
+                    <div className="overflow-hidden rounded-xl border border-raven-border/60 bg-raven-card/80">
+                      <img
+                        src={related.image}
+                        alt={related.title}
+                        className="h-24 w-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-raven-cyan">
+                    {related.date}
+                  </p>
+                  <h3 className="text-sm font-semibold text-white group-hover:text-raven-accent line-clamp-2">
+                    {related.title}
+                  </h3>
+                  <div className="mt-1 flex flex-wrap gap-1 text-[10px]">
+                    {(related.tags || []).map((tag) => {
+                      let tagClasses = 'rounded-full border px-2 py-0.5';
+
+                      if (tag === 'CI/CD') {
+                        tagClasses += ' border-emerald-400/70 bg-emerald-500/10 text-emerald-300';
+                      } else if (tag === 'Cloud') {
+                        tagClasses += ' border-sky-400/70 bg-sky-500/10 text-sky-300';
+                      } else if (tag === 'SRE') {
+                        tagClasses += ' border-amber-400/70 bg-amber-500/10 text-amber-200';
+                      } else if (tag === 'Tooling') {
+                        tagClasses += ' border-violet-400/70 bg-violet-500/10 text-violet-300';
+                      } else {
+                        tagClasses += ' border-raven-border/60 bg-raven-surface/60 text-slate-200';
+                      }
+
+                      return (
+                        <span key={tag} className={tagClasses}>
+                          {tag}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </article>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
       <Link to="/blog" className="inline-flex items-center text-sm font-semibold text-raven-cyan hover:text-white">
         Back to blog
       </Link>

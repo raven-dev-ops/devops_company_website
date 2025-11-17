@@ -82,6 +82,22 @@ const platforms = ['AWS', 'Azure', 'GCP', 'Django', 'Next.js', 'MongoDB', 'Strip
 const tooling = ['Docker', 'Kubernetes', 'GitHub Actions'];
 const languages = ['Python', 'JavaScript', 'TypeScript'];
 
+const pillDescriptions = {
+  Docker: 'Ex: Package services into portable containers for consistent local and production behavior.',
+  Kubernetes: 'Ex: Orchestrate containers for scaling, rollout strategies, and self-healing workloads.',
+  'GitHub Actions': 'Ex: Run CI workflows for tests, linting, and deploys on every push or PR.',
+  AWS: 'Ex: Host workloads on EC2, ECS, Lambda, and managed databases with infrastructure as code.',
+  Azure: 'Ex: Deploy apps to Azure Web Apps, Functions, and managed data services with pipelines.',
+  GCP: 'Ex: Run services on GKE, Cloud Run, and managed storage with observability built in.',
+  Django: 'Ex: Build API- and admin-heavy backends quickly with batteries-included Django.',
+  'Next.js': 'Ex: Ship React frontends with SSR, routing, and API routes in a single framework.',
+  MongoDB: 'Ex: Store JSON-like documents for fast iteration on product schemas.',
+  Stripe: 'Ex: Handle payments, subscriptions, and invoicing with battle-tested payment rails.',
+  Python: 'Ex: Write backends, scripts, and automation that are easy to read and maintain.',
+  JavaScript: 'Ex: Build interactive web experiences and glue code across the stack.',
+  TypeScript: 'Ex: Add type safety to JavaScript so large codebases stay manageable.',
+};
+
 function TrustedByCarousel({ index }) {
   const total = trustedLogos.length;
 
@@ -117,6 +133,8 @@ function TrustedByCarousel({ index }) {
 
 export default function Home() {
   const [trustedIndex, setTrustedIndex] = React.useState(0);
+  const [activePill, setActivePill] = React.useState(null);
+  const pillTimeoutRef = React.useRef(null);
   const totalTrusted = trustedLogos.length;
 
   React.useEffect(() => {
@@ -128,6 +146,33 @@ export default function Home() {
 
     return () => clearInterval(id);
   }, [totalTrusted]);
+
+  React.useEffect(() => {
+    return () => {
+      if (pillTimeoutRef.current) {
+        clearTimeout(pillTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handlePillEnter = (label) => {
+    setActivePill(label);
+    if (pillTimeoutRef.current) {
+      clearTimeout(pillTimeoutRef.current);
+    }
+    pillTimeoutRef.current = setTimeout(() => {
+      setActivePill(null);
+      pillTimeoutRef.current = null;
+    }, 10000);
+  };
+
+  const handlePillLeave = (label) => {
+    if (pillTimeoutRef.current) {
+      clearTimeout(pillTimeoutRef.current);
+      pillTimeoutRef.current = null;
+    }
+    setActivePill((current) => (current === label ? null : current));
+  };
 
   const goPrevTrusted = () => setTrustedIndex((prev) => (prev - 1 + totalTrusted) % totalTrusted);
   const goNextTrusted = () => setTrustedIndex((prev) => (prev + 1) % totalTrusted);
@@ -218,6 +263,91 @@ export default function Home() {
         ))}
       </section>
 
+      <section className="space-y-4">
+        <div className="grid gap-4 md:grid-cols-3">
+          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-raven-cyan">
+              Tooling
+            </p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {tooling.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onMouseEnter={() => handlePillEnter(item)}
+                  onMouseLeave={() => handlePillLeave(item)}
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
+                    activePill === item
+                      ? 'scale-105 border-raven-accent bg-raven-accent/20 text-raven-accent shadow-soft-glow'
+                      : 'border-raven-accent/60 bg-raven-accent/10 text-raven-accent hover:border-raven-accent/80 hover:bg-raven-accent/15'
+                  }`}
+                >
+                  <span>{item}</span>
+                  {activePill === item && (
+                    <span className="mt-1 block text-xs text-slate-100">
+                      {pillDescriptions[item] || 'Ex: Commonly used in DevOps client projects.'}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-raven-cyan">
+              Platforms
+            </p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {platforms.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onMouseEnter={() => handlePillEnter(item)}
+                  onMouseLeave={() => handlePillLeave(item)}
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
+                    activePill === item
+                      ? 'scale-105 border-raven-cyan bg-raven-cyan/20 text-raven-cyan shadow-soft-glow'
+                      : 'border-raven-cyan/60 bg-raven-cyan/10 text-raven-cyan hover:border-raven-cyan/80 hover:bg-raven-cyan/15'
+                  }`}
+                >
+                  <span>{item}</span>
+                  {activePill === item && (
+                    <span className="mt-1 block text-xs text-slate-100">
+                      {pillDescriptions[item] || 'Ex: Platforms we regularly deploy to.'}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-raven-cyan">Languages</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {languages.map((lang) => (
+                <button
+                  key={lang}
+                  type="button"
+                  onMouseEnter={() => handlePillEnter(lang)}
+                  onMouseLeave={() => handlePillLeave(lang)}
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
+                    activePill === lang
+                      ? 'scale-105 border-raven-amber bg-raven-amber/20 text-raven-amber shadow-soft-glow'
+                      : 'border-raven-amber/60 bg-raven-amber/10 text-raven-amber hover:border-raven-amber/80 hover:bg-raven-amber/15'
+                  }`}
+                >
+                  <span>{lang}</span>
+                  {activePill === lang && (
+                    <span className="mt-1 block text-xs text-slate-100">
+                      {pillDescriptions[lang] || 'Ex: Languages we use to ship production systems.'}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-slate-400">Strong bias toward typed, well-tested services.</p>
+          </div>
+        </div>
+      </section>
+
       <section className="rounded-2xl border border-raven-border/60 bg-raven-card/60 p-6">
         <h2 className="text-2xl font-bold text-white">Trusted by</h2>
         <TrustedByCarousel index={trustedIndex} />
@@ -257,55 +387,6 @@ export default function Home() {
           >
             {'>'}
           </button>
-        </div>
-      </section>
-
-      <section className="space-y-4">
-        <div className="grid gap-4 md:grid-cols-3">
-          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-raven-cyan">
-              Tooling
-            </p>
-            <div className="mt-3 flex flex-wrap gap-3">
-              {tooling.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-raven-accent/60 bg-raven-accent/10 px-4 py-2 text-sm font-medium text-raven-accent"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-raven-cyan">
-              Platforms
-            </p>
-            <div className="mt-3 flex flex-wrap gap-3">
-              {platforms.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-raven-cyan/60 bg-raven-cyan/10 px-4 py-2 text-sm font-medium text-raven-cyan"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-raven-amber">Languages</p>
-            <div className="mt-3 flex flex-wrap gap-3">
-              {languages.map((lang) => (
-                <span
-                  key={lang}
-                  className="rounded-full border border-raven-amber/60 bg-raven-amber/10 px-4 py-2 text-sm font-medium text-raven-amber"
-                >
-                  {lang}
-                </span>
-              ))}
-            </div>
-            <p className="mt-3 text-xs text-slate-400">Strong bias toward typed, well-tested services.</p>
-          </div>
         </div>
       </section>
     </div>

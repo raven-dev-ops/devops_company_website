@@ -6,6 +6,7 @@ import { SearchContext } from '../hooks/SearchContext';
 export default function Portfolio() {
   const [lightbox, setLightbox] = React.useState(null);
   const [activeTag, setActiveTag] = React.useState('All');
+  const [imageHoverSlug, setImageHoverSlug] = React.useState(null);
   const { query } = React.useContext(SearchContext);
 
   const handleCardClick = (github) => {
@@ -127,6 +128,13 @@ export default function Portfolio() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {visibleItems.map((item) => {
+          const cardHoverEnabled = imageHoverSlug !== item.slug;
+          const baseCardClass =
+            'flex h-full cursor-pointer flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition';
+          const hoverCardClass = cardHoverEnabled
+            ? ' transform hover:scale-105 hover:border-raven-accent/80 hover:bg-raven-card hover:shadow-soft-glow'
+            : '';
+
           return (
             <article
               key={item.slug}
@@ -140,10 +148,14 @@ export default function Portfolio() {
                   handleCardClick(item.github);
                 }
               }}
-              className="flex h-full cursor-pointer flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition transform hover:scale-105 hover:border-raven-accent/80 hover:bg-raven-card hover:shadow-soft-glow"
+              className={baseCardClass + hoverCardClass}
             >
               {item.screenshots && item.screenshots.length > 0 && (
-                <div className="mb-3">
+                <div
+                  className="mb-3"
+                  onMouseEnter={() => setImageHoverSlug(item.slug)}
+                  onMouseLeave={() => setImageHoverSlug(null)}
+                >
                   <div className="relative overflow-hidden rounded-2xl border border-raven-border/70 bg-raven-card/80">
                     <img
                       src={item.screenshots[0]}

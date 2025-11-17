@@ -1,9 +1,15 @@
+import blogCiShipping from '../assets/blog_ci_shipping.png';
+import blogHd2Website from '../assets/blog_hd2_website.png';
+import blogCommerceFrontend from '../assets/blog_commerce_frontend.png';
+import blogCommerceBackend from '../assets/blog_commerce_backend.png';
+import blogDiscordBot from '../assets/blog_discord_bot.png';
+
 export const blogPosts = [
   {
     title: 'Shipping the Raven DevOps demo website with CI/CD',
     slug: 'ravdevops-demo-website-ci-cd',
     date: '2025-04-10',
-    image: '/blog/ravdevops-demo-website.png',
+    image: blogCiShipping,
     tags: ['CI/CD', 'Tooling'],
     excerpt:
       'How I built the ravdevops_demo_website repo as a React/Tailwind marketing site with a simple CI/CD pipeline and deploy previews.',
@@ -14,7 +20,7 @@ export const blogPosts = [
     title: 'Launching the Helldivers 2 clan website for a live community',
     slug: 'helldivers2-clan-website',
     date: '2025-04-20',
-    image: '/blog/helldivers2-clan-website.png',
+    image: blogHd2Website,
     tags: ['Cloud', 'Tooling'],
     excerpt:
       'A look at the helldivers2_clan_website repo and how I ship a lightweight, maintainable site for an active game community.',
@@ -25,7 +31,7 @@ export const blogPosts = [
     title: 'Designing an e-commerce frontend for DX and performance',
     slug: 'ecommerce-frontend-architecture',
     date: '2025-05-02',
-    image: '/blog/ecommerce-frontend.png',
+    image: blogCommerceFrontend,
     tags: ['CI/CD', 'Tooling'],
     excerpt:
       'What I focused on in the e-commerce-frontend repo: component structure, API integration, and a CI pipeline that keeps UX fast.',
@@ -36,7 +42,7 @@ export const blogPosts = [
     title: 'Running the e-commerce backend with containers and CI',
     slug: 'ecommerce-backend-containers-ci',
     date: '2025-05-25',
-    image: '/blog/ecommerce-backend.png',
+    image: blogCommerceBackend,
     tags: ['Cloud', 'CI/CD'],
     excerpt:
       'How the e-commerce-backend repo uses containers, health checks, and CI jobs to stay boring and reliable.',
@@ -47,7 +53,7 @@ export const blogPosts = [
     title: 'Helldivers 2 Discord OCR LFG bot: operations notes',
     slug: 'helldivers2-discord-ocr-bot',
     date: '2025-11-16',
-    image: '/blog/helldivers-bot.png',
+    image: blogDiscordBot,
     tags: ['SRE', 'Tooling'],
     excerpt:
       'Lessons from the helldivers2_discord_ocr_lfg_clan_bot repo on keeping OCR, queues, and game-night automation stable.',
