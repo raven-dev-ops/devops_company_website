@@ -104,6 +104,7 @@ function TrustedByCarousel({ index }) {
   if (!trustedLogos || total === 0) return null;
 
   const current = trustedLogos[index % total];
+  const isColonial = current.name === 'Colonial KC';
 
   return (
     <div className="mt-7 mb-7 flex flex-col items-center gap-5">
@@ -116,11 +117,15 @@ function TrustedByCarousel({ index }) {
           transition={{ duration: 0.4 }}
           className="flex w-full max-w-2xl flex-col items-center gap-5 sm:flex-row sm:items-center sm:gap-7"
         >
-          <div className="flex items-center justify-center rounded-md bg-slate-900/80 p-2 dark:bg-black/40">
+          <div
+            className={`flex items-center justify-center rounded-md p-2 ${
+              isColonial ? 'bg-slate-900/80' : 'bg-transparent'
+            } dark:bg-black/40`}
+          >
             <img
               src={current.src}
               alt={current.name}
-              className="h-20 w-auto object-contain sm:h-24"
+              className="h-24 w-auto object-contain sm:h-28"
             />
           </div>
           <div className="flex flex-col gap-2 text-center sm:text-left">
