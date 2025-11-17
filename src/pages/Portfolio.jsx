@@ -152,9 +152,9 @@ export default function Portfolio() {
                         e.stopPropagation();
                         openLightbox(item, 0);
                       }}
-                      className="absolute inset-0 z-30 flex items-center justify-center bg-black/40 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 transition transform hover:scale-105 hover:bg-black/60 hover:text-raven-accent dark:bg-black/50"
+                      className="absolute inset-0 z-30 flex items-center justify-center bg-transparent text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 transition transform hover:scale-105 dark:bg-black/50 dark:hover:bg-black/60 dark:hover:text-raven-accent"
                     >
-                      Click to view gallery
+                      <span className="hidden dark:inline">Click to view gallery</span>
                     </button>
                   </div>
                   <div className="mt-2 flex items-center justify-between">

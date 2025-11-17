@@ -12,6 +12,14 @@ export default function Contact() {
   const API_BASE =
     process.env.REACT_APP_OPENAUXILIUM_URL || 'http://localhost:5050';
 
+  const isDarkMode =
+    typeof document !== 'undefined' &&
+    document.documentElement.classList.contains('dark');
+  const calendlyBase = 'https://calendly.com/charityolivas/discovery-call';
+  const calendlySrc = isDarkMode
+    ? `${calendlyBase}?background_color=020617&text_color=f9fafb&primary_color=22C55E`
+    : calendlyBase;
+
   const projectDefault = interest
     ? `I'm interested in the "${interest}" engagement and would like to discuss whether it fits my needs.`
     : '';
@@ -103,7 +111,7 @@ export default function Contact() {
           <div className="flex h-full flex-col rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition transform hover:-translate-y-0.5 hover:border-raven-accent/70 hover:shadow-soft-glow">
             <iframe
               title="Calendly discovery video call"
-              src="https://calendly.com/charityolivas/discovery-call?background_color=020617&text_color=f9fafb&primary_color=22C55E"
+              src={calendlySrc}
               className="h-full w-full rounded-lg border-0"
             />
           </div>
