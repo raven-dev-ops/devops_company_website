@@ -65,7 +65,7 @@ const trustedLogos = [
       'Delivered a complete brand discovery and logo package, with assets prepared for web, print, and social media.',
   },
   {
-    name: 'GPT Studio',
+    name: 'Galactic Phantom Taskforce',
     src: trusted2GptStudios,
     review:
       'Built a MongoDB-backed Discord bot that automated admin workflows for a gaming community of more than 90,000 concurrent players.',
@@ -105,6 +105,9 @@ function TrustedByCarousel({ index }) {
 
   const current = trustedLogos[index % total];
   const isColonial = current.name === 'Colonial KC';
+  const isRowe = current.name === 'Rowe & Oak Coffee Co.';
+  const isGalactic = current.name === 'Galactic Phantom Taskforce';
+  const hasCircleFrame = isRowe || isGalactic;
   const logoSizeClass = isColonial ? 'h-24 sm:h-28' : 'h-32 sm:h-36';
 
   return (
@@ -119,9 +122,9 @@ function TrustedByCarousel({ index }) {
           className="flex w-full max-w-2xl flex-col items-center gap-5 sm:flex-row sm:items-center sm:gap-7"
         >
           <div
-            className={`flex items-center justify-center rounded-md p-2 ${
-              isColonial ? 'bg-slate-900/80' : 'bg-transparent'
-            } dark:bg-black/40`}
+            className={`flex items-center justify-center p-2 ${
+              hasCircleFrame ? 'rounded-full border border-raven-border/70' : 'rounded-md'
+            } ${isColonial ? 'bg-slate-900/80' : 'bg-transparent'} dark:bg-black/40`}
           >
             <img
               src={current.src}
@@ -142,6 +145,7 @@ function TrustedByCarousel({ index }) {
 export default function Home() {
   const [trustedIndex, setTrustedIndex] = React.useState(0);
   const [activePill, setActivePill] = React.useState(null);
+  const openPillTimeoutRef = React.useRef(null);
   const closePillTimeoutRef = React.useRef(null);
   const totalTrusted = trustedLogos.length;
 
@@ -157,20 +161,32 @@ export default function Home() {
 
   React.useEffect(() => {
     return () => {
+      if (openPillTimeoutRef.current) clearTimeout(openPillTimeoutRef.current);
       if (closePillTimeoutRef.current) clearTimeout(closePillTimeoutRef.current);
     };
   }, []);
 
   const handlePillEnter = (label) => {
+    if (openPillTimeoutRef.current) {
+      clearTimeout(openPillTimeoutRef.current);
+      openPillTimeoutRef.current = null;
+    }
     if (closePillTimeoutRef.current) {
       clearTimeout(closePillTimeoutRef.current);
       closePillTimeoutRef.current = null;
     }
 
-    setActivePill(label);
+    openPillTimeoutRef.current = setTimeout(() => {
+      setActivePill(label);
+      openPillTimeoutRef.current = null;
+    }, 2000);
   };
 
   const handlePillClick = (label) => {
+    if (openPillTimeoutRef.current) {
+      clearTimeout(openPillTimeoutRef.current);
+      openPillTimeoutRef.current = null;
+    }
     if (closePillTimeoutRef.current) {
       clearTimeout(closePillTimeoutRef.current);
       closePillTimeoutRef.current = null;
@@ -185,6 +201,10 @@ export default function Home() {
   };
 
   const handlePillLeave = (label) => {
+    if (openPillTimeoutRef.current) {
+      clearTimeout(openPillTimeoutRef.current);
+      openPillTimeoutRef.current = null;
+    }
     if (closePillTimeoutRef.current) {
       clearTimeout(closePillTimeoutRef.current);
       closePillTimeoutRef.current = null;
