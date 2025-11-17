@@ -141,8 +141,8 @@ export default function Portfolio() {
                       alt={`${item.title} screenshot 1`}
                       className="relative z-10 h-full w-full object-cover"
                     />
-                    <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-start p-3">
-                      <span className="inline-flex rounded-full bg-black/70 px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.2em] text-white z-20">
+                    <div className="pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-start p-3">
+                      <span className="inline-flex rounded-full bg-black/70 px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.2em] text-white">
                         {item.title}
                       </span>
                     </div>

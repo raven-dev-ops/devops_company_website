@@ -89,50 +89,6 @@ const milestones = [
 
 export default function About() {
   const [openTimelineYear, setOpenTimelineYear] = React.useState(null);
-  const [activeStaffIndex, setActiveStaffIndex] = React.useState(0);
-  const [nextRotationDelay, setNextRotationDelay] = React.useState(5000);
-  const [profileVisible, setProfileVisible] = React.useState(true);
-
-  const totalStaff = staffProfiles.length;
-  const activeStaff = staffProfiles[activeStaffIndex];
-  const isEven = activeStaffIndex % 2 === 0;
-
-  const goPrevStaff = () => {
-    setActiveStaffIndex((prev) => (prev - 1 + totalStaff) % totalStaff);
-    setNextRotationDelay(15000);
-  };
-
-  const goNextStaff = () => {
-    setActiveStaffIndex((prev) => (prev + 1) % totalStaff);
-    setNextRotationDelay(15000);
-  };
-
-  // Auto-rotate staff profiles with a configurable delay.
-  // Clicking prev/next extends the delay before the next auto-advance.
-  React.useEffect(() => {
-    if (totalStaff <= 1) return undefined;
-
-    const id = setTimeout(() => {
-      setActiveStaffIndex((prev) => (prev + 1) % totalStaff);
-      setNextRotationDelay(5000);
-    }, nextRotationDelay);
-
-    return () => {
-      clearTimeout(id);
-    };
-  }, [activeStaffIndex, nextRotationDelay, totalStaff]);
-
-  // Handle fade-in / fade-out when the active staff profile changes
-  React.useEffect(() => {
-    setProfileVisible(false);
-    const fadeId = setTimeout(() => {
-      setProfileVisible(true);
-    }, 20);
-
-    return () => {
-      clearTimeout(fadeId);
-    };
-  }, [activeStaffIndex]);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-12 px-4 py-12 lg:px-6">
@@ -150,72 +106,51 @@ export default function About() {
         </p>
       </header>
 
-      <section className="grid min-h-[300px] gap-4 md:grid-cols-2 md:items-center">
-        <div
-          className={`flex h-full items-center justify-center ${
-            isEven ? 'md:order-1' : 'md:order-2'
-          } transition-all duration-500 ease-out ${
-            profileVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
-          }`}
-        >
-          <div className="flex h-56 w-56 items-center justify-center overflow-hidden rounded-full border border-raven-border/70 bg-raven-card/80 p-2 shadow-soft-glow sm:h-64 sm:w-64">
-            <img
-              src={activeStaff.image}
-              alt={`Portrait of ${activeStaff.name}, ${activeStaff.title}`}
-              className="h-full w-full rounded-full object-cover"
-            />
-          </div>
-        </div>
-        <div
-          className={`flex h-full items-center ${
-            isEven ? 'md:order-2' : 'md:order-1'
-          } transition-all duration-500 ease-out ${
-            profileVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
-          }`}
-        >
-          <div className="flex w-full flex-col rounded-2xl border border-raven-border/70 bg-raven-card/70 p-5 sm:p-6">
-            <h2 className="text-2xl font-semibold text-white">{activeStaff.name}</h2>
-            <p className="mt-1 text-sm font-semibold uppercase tracking-[0.2em] text-raven-cyan">
-              {activeStaff.title}
-            </p>
-            <ul className="mt-4 space-y-2 text-sm text-slate-300">
-              {activeStaff.bullets.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            {activeStaff.funFact && (
-              <p className="mt-3 text-xs italic text-slate-400">{activeStaff.funFact}</p>
-            )}
-          </div>
-        </div>
+      <section className="space-y-8">
+        {staffProfiles.map((staff, index) => {
+          const isEven = index % 2 === 0;
+          return (
+            <div
+              key={staff.name}
+              className="grid min-h-[260px] gap-4 md:grid-cols-2 md:items-center"
+            >
+              <div
+                className={`flex h-full items-center justify-center ${
+                  isEven ? 'md:order-1' : 'md:order-2'
+                }`}
+              >
+                <div className="flex h-56 w-56 items-center justify-center overflow-hidden rounded-full border border-raven-border/70 bg-raven-card/80 p-2 shadow-soft-glow sm:h-64 sm:w-64">
+                  <img
+                    src={staff.image}
+                    alt={`Portrait of ${staff.name}, ${staff.title}`}
+                    className="h-full w-full rounded-full object-cover"
+                  />
+                </div>
+              </div>
+              <div
+                className={`flex h-full items-center ${
+                  isEven ? 'md:order-2' : 'md:order-1'
+                }`}
+              >
+                <div className="flex w-full flex-col rounded-2xl border border-raven-border/70 bg-raven-card/70 p-5 sm:p-6">
+                  <h2 className="text-2xl font-semibold text-white">{staff.name}</h2>
+                  <p className="mt-1 text-sm font-semibold uppercase tracking-[0.2em] text-raven-cyan">
+                    {staff.title}
+                  </p>
+                  <ul className="mt-4 space-y-2 text-sm text-slate-300">
+                    {staff.bullets.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  {staff.funFact && (
+                    <p className="mt-3 text-xs italic text-slate-400">{staff.funFact}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </section>
-
-      <div className="flex items-center justify-center gap-3">
-        <button
-          type="button"
-          onClick={goPrevStaff}
-          className="rounded-full border border-raven-border/70 bg-raven-card px-3 py-1 text-xs text-slate-100 hover:border-raven-accent/70"
-        >
-          {'<'}
-        </button>
-        <div className="flex items-center gap-1">
-          {staffProfiles.map((profile, index) => (
-            <span
-              key={profile.name}
-              className={`h-1.5 w-1.5 rounded-full ${
-                index === activeStaffIndex ? 'bg-raven-accent' : 'bg-slate-600'
-              }`}
-            />
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={goNextStaff}
-          className="rounded-full border border-raven-border/70 bg-raven-card px-3 py-1 text-xs text-slate-100 hover:border-raven-accent/70"
-        >
-          {'>'}
-        </button>
-      </div>
 
       <section className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-6">
         <h2 className="text-2xl font-semibold text-white">Timeline</h2>
