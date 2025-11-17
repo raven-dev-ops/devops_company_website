@@ -46,6 +46,7 @@ const ChatBot = ({ defaultOpen = false }) => {
   const nevermoreCountRef = useRef(0);
   const runDirectionRef = useRef(-1);
   const jumpTimeoutRef = useRef(null);
+  const afkReadyRef = useRef(false);
   const iconRef = useRef(null);
 
   // Timed behavior:
@@ -108,6 +109,7 @@ const ChatBot = ({ defaultOpen = false }) => {
   useEffect(() => {
     if (!bubbleVisible || open || status === 'muted' || status === 'standby') return undefined;
     const interval = setInterval(() => {
+      if (!afkReadyRef.current) return;
       setNevermoreVisible(true);
       setWobble(true);
       setTimeout(() => {
@@ -138,8 +140,12 @@ const ChatBot = ({ defaultOpen = false }) => {
   useEffect(() => {
     if (!bubbleVisible || status === 'muted') return undefined;
     const interval = setInterval(() => {
-      if (!open && Date.now() - lastInteraction >= 90000) {
+      const idle = Date.now() - lastInteraction;
+      if (!open && idle >= 90000) {
         setStatus('standby');
+      }
+      if (idle >= 180000) {
+        afkReadyRef.current = true;
       }
     }, 5000);
     return () => clearInterval(interval);
@@ -177,7 +183,7 @@ const ChatBot = ({ defaultOpen = false }) => {
   };
 
   const startRunningAway = () => {
-    if (isRunningAway || !bubbleVisible || open) return;
+    if (isRunningAway || !bubbleVisible || open || !afkReadyRef.current) return;
     setIsRunningAway(true);
     runDirectionRef.current = -1;
     setLastInteraction(Date.now());
@@ -244,6 +250,7 @@ const ChatBot = ({ defaultOpen = false }) => {
       const dy = event.clientY - centerY;
       const distance = Math.sqrt(dx * dx + dy * dy);
       if (distance < 120) {
+        if (!afkReadyRef.current) return;
         startRunningAway();
         if (jumpTimeoutRef.current) {
           clearTimeout(jumpTimeoutRef.current);
@@ -394,15 +401,25 @@ const ChatBot = ({ defaultOpen = false }) => {
   const iconAnimate = wobble
     ? {
         x: iconX,
-        y: isJumping ? [0, -32, 0] : isRunningAway ? 0 : [0, -4, 0],
+        y: isJumping
+          ? [0, -32, 0]
+          : isRunningAway
+          ? 0
+          : afkReadyRef.current
+          ? [0, -4, 0]
+          : 0,
         rotate: [0, -8, 8, -8, 0],
-        scaleX: facingLeft ? -1 : 1,
       }
     : {
         x: iconX,
-        y: isJumping ? [0, -32, 0] : isRunningAway ? 0 : [0, -4, 0],
+        y: isJumping
+          ? [0, -32, 0]
+          : isRunningAway
+          ? 0
+          : afkReadyRef.current
+          ? [0, -4, 0]
+          : 0,
         rotate: 0,
-        scaleX: facingLeft ? -1 : 1,
       };
 
   const iconTransition = {
@@ -470,13 +487,13 @@ const ChatBot = ({ defaultOpen = false }) => {
 
                   return (
                     <div key={m.id} className="flex justify-start">
-                      <div className="flex max-w-[85%] items-start gap-2">
+                      <div className="flex max-w-[85%] items-start gap-1.5">
                         {isBot && (
                           <>
                             <img
                               src={ravenAssistantIcon}
                               alt="Raven AI Assistant"
-                              className="mt-0.5 h-8 w-8 object-cover"
+                              className="mt-0.5 h-9 w-9 object-cover"
                             />
                             <div className="flex flex-col rounded-lg bg-raven-blue/10 px-3 py-2 text-xs text-slate-800 dark:bg-raven-blue/20 dark:text-slate-100">
                               <span>{m.text}</span>
@@ -513,8 +530,8 @@ const ChatBot = ({ defaultOpen = false }) => {
 
               {isResponding && (
                 <div className="mt-1 flex justify-start">
-                  <div className="flex max-w-[70%] items-start gap-2">
-                    <div className="mt-0.5 flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-black/40">
+                  <div className="flex max-w-[70%] items-start gap-1.5">
+                    <div className="mt-0.5 flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-black/40">
                       <img
                         src={ravenAssistantIcon}
                         alt="Raven AI Assistant"
@@ -618,17 +635,19 @@ const ChatBot = ({ defaultOpen = false }) => {
           <button
             type="button"
             onClick={handleIconClick}
-            aria-expanded={open}
-            aria-label="Open chat bot"
-            className="group flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
-          >
-            <img
-              src={ravenAssistantIcon}
-              alt="Raven AI Assistant"
-              className="h-14 w-14 rounded-full object-cover transition-transform group-hover:scale-110"
-            />
-          </button>
-        </motion.div>
+          aria-expanded={open}
+          aria-label="Open chat bot"
+          className="group flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
+        >
+          <img
+            src={ravenAssistantIcon}
+            alt="Raven AI Assistant"
+            className={`h-14 w-14 rounded-full object-cover transition-transform group-hover:scale-110 ${
+              facingLeft ? '-scale-x-100' : ''
+            }`}
+          />
+        </button>
+      </motion.div>
       )}
     </div>
   );
