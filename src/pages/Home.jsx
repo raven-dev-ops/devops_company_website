@@ -156,8 +156,14 @@ export default function Home() {
   }, []);
 
   const handlePillEnter = (label) => {
-    if (openPillTimeoutRef.current) clearTimeout(openPillTimeoutRef.current);
-    if (closePillTimeoutRef.current) clearTimeout(closePillTimeoutRef.current);
+    if (openPillTimeoutRef.current) {
+      clearTimeout(openPillTimeoutRef.current);
+      openPillTimeoutRef.current = null;
+    }
+    if (closePillTimeoutRef.current) {
+      clearTimeout(closePillTimeoutRef.current);
+      closePillTimeoutRef.current = null;
+    }
 
     openPillTimeoutRef.current = setTimeout(() => {
       setActivePill(label);
@@ -166,6 +172,24 @@ export default function Home() {
         closePillTimeoutRef.current = null;
       }, 10000);
     }, 3000);
+  };
+
+  const handlePillClick = (label) => {
+    if (openPillTimeoutRef.current) {
+      clearTimeout(openPillTimeoutRef.current);
+      openPillTimeoutRef.current = null;
+    }
+    if (closePillTimeoutRef.current) {
+      clearTimeout(closePillTimeoutRef.current);
+      closePillTimeoutRef.current = null;
+    }
+
+    setActivePill(label);
+
+    closePillTimeoutRef.current = setTimeout(() => {
+      setActivePill((current) => (current === label ? null : current));
+      closePillTimeoutRef.current = null;
+    }, 4000);
   };
 
   const handlePillLeave = (label) => {
@@ -280,6 +304,7 @@ export default function Home() {
                 <button
                   key={item}
                   type="button"
+                  onClick={() => handlePillClick(item)}
                   onMouseEnter={() => handlePillEnter(item)}
                   onMouseLeave={() => handlePillLeave(item)}
                   className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
@@ -307,6 +332,7 @@ export default function Home() {
                 <button
                   key={item}
                   type="button"
+                  onClick={() => handlePillClick(item)}
                   onMouseEnter={() => handlePillEnter(item)}
                   onMouseLeave={() => handlePillLeave(item)}
                   className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
@@ -332,6 +358,7 @@ export default function Home() {
                 <button
                   key={lang}
                   type="button"
+                  onClick={() => handlePillClick(lang)}
                   onMouseEnter={() => handlePillEnter(lang)}
                   onMouseLeave={() => handlePillLeave(lang)}
                   className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
@@ -349,7 +376,6 @@ export default function Home() {
                 </button>
               ))}
             </div>
-            <p className="mt-3 text-xs text-slate-400">Strong bias toward typed, well-tested services.</p>
           </div>
         </div>
       </section>

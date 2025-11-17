@@ -19,7 +19,6 @@ const ChatBot = ({ defaultOpen = false }) => {
 
   // Timed behavior:
   // - bubble appears after 30s
-  // - auto-open at 60s with greeting
   useEffect(() => {
     if (defaultOpen) {
       setBubbleVisible(true);
@@ -30,14 +29,8 @@ const ChatBot = ({ defaultOpen = false }) => {
       setBubbleVisible(true);
     }, 30000);
 
-    const autoOpenTimer = setTimeout(() => {
-      setBubbleVisible(true);
-      setOpen(true);
-    }, 60000);
-
     return () => {
       clearTimeout(bubbleTimer);
-      clearTimeout(autoOpenTimer);
     };
   }, [defaultOpen]);
 
@@ -65,13 +58,13 @@ const ChatBot = ({ defaultOpen = false }) => {
     }
   }, [messages]);
 
-  // Wobble the bubble every 5s once visible and chat closed
+  // Wobble the bubble every 60s once visible and chat closed
   useEffect(() => {
     if (!bubbleVisible || open || status === 'muted' || status === 'standby') return undefined;
     const interval = setInterval(() => {
       setWobble(true);
       setTimeout(() => setWobble(false), 600);
-    }, 5000);
+    }, 60000);
     return () => clearInterval(interval);
   }, [bubbleVisible, open, status]);
 
