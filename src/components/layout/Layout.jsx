@@ -20,7 +20,7 @@ export default function Layout({ children }) {
   const mainClasses =
     theme === 'dark'
       ? 'bg-gradient-to-b from-raven-navy/95 via-raven-card/40 to-raven-navy/95'
-      : 'bg-gradient-to-b from-raven-navy/70 via-raven-card/25 to-raven-navy/60';
+      : 'bg-gradient-to-b from-slate-50 via-white to-slate-100';
 
   return (
     <div className={wrapperClasses}>
