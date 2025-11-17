@@ -56,7 +56,7 @@ export default function Header({ theme, toggleTheme }) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 backdrop-blur border-b border-raven-border/70 bg-raven-navy/80">
+    <header className="sticky top-0 z-30 border-b border-raven-border/70 bg-raven-navy/80 backdrop-blur relative">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 lg:px-6">
         <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-slate-200">
           {navItems.map((item) => (
@@ -107,18 +107,17 @@ export default function Header({ theme, toggleTheme }) {
         {showAlert && (
           <motion.div
             key="header-alert"
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
+            exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 2 }}
-            className="relative border-t border-raven-border/70 bg-black/70 py-2 text-sm text-slate-100 dark:bg-black/80"
+            className="absolute inset-x-0 top-full border-t border-raven-border/70 bg-black/70 py-2 text-sm text-slate-100 dark:bg-black/80"
             aria-live="polite"
           >
             <div className="flex w-full items-center px-4 lg:px-6 overflow-hidden">
               <div className="relative flex-1 overflow-hidden">
                 <div
-                  className="inline-flex whitespace-nowrap rounded-md bg-emerald-500/25 px-4 py-1.5 text-sm text-emerald-50"
-                  style={{ animation: 'header-marquee 20s linear 1' }}
+                  className="inline-flex rounded-md bg-emerald-500/25 px-4 py-1.5 text-sm text-emerald-50"
                 >
                   {alertMessages[alertIndex]}
                 </div>

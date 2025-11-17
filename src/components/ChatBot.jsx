@@ -48,6 +48,7 @@ const ChatBot = ({ defaultOpen = false }) => {
   const jumpTimeoutRef = useRef(null);
   const afkReadyRef = useRef(false);
   const hasChasedRef = useRef(false);
+  const lastAnimationAtRef = useRef(0);
   const iconRef = useRef(null);
 
   // Timed behavior:
@@ -126,7 +127,7 @@ const ChatBot = ({ defaultOpen = false }) => {
         }
         nevermoreRunTimeoutRef.current = setTimeout(() => {
           if (!open && bubbleVisible && status !== 'muted') {
-            startRunningAway();
+            startRunningAway(false);
           }
         }, 59000);
       }
@@ -141,13 +142,16 @@ const ChatBot = ({ defaultOpen = false }) => {
   useEffect(() => {
     if (!bubbleVisible || status === 'muted') return undefined;
     const interval = setInterval(() => {
-      const idle = Date.now() - lastInteraction;
+      const now = Date.now();
+      const idle = now - lastInteraction;
+      const sinceAnimation =
+        lastAnimationAtRef.current > 0 ? now - lastAnimationAtRef.current : Infinity;
+      const cooldownDone = sinceAnimation >= 300000; // 300s after last animation
+
       if (!open && idle >= 90000) {
         setStatus('standby');
       }
-      if (idle >= 180000) {
-        afkReadyRef.current = true;
-      }
+      afkReadyRef.current = idle >= 180000 && cooldownDone;
     }, 5000);
     return () => clearInterval(interval);
   }, [bubbleVisible, open, lastInteraction, status]);
@@ -183,61 +187,64 @@ const ChatBot = ({ defaultOpen = false }) => {
     }
   };
 
-  const startRunningAway = () => {
-    if (isRunningAway || !bubbleVisible || open || !afkReadyRef.current) return;
-    setIsRunningAway(true);
-    hasChasedRef.current = true;
-    runDirectionRef.current = -1;
-    setLastInteraction(Date.now());
+  const startRunningAway = (withCatchTimer = false) => {
+    if (!bubbleVisible || open || !afkReadyRef.current) return;
 
-    // Show a quick CAWW! while running
-    setBlurbVisible(true);
-    setTimeout(() => {
-      setBlurbVisible(false);
-    }, 1500);
+    if (!isRunningAway) {
+      setIsRunningAway(true);
+      hasChasedRef.current = true;
+      runDirectionRef.current = -1;
+      setLastInteraction(Date.now());
 
-    if (runIntervalRef.current) return;
+      // Show a quick CAWW! while running
+      setBlurbVisible(true);
+      setTimeout(() => {
+        setBlurbVisible(false);
+      }, 1500);
 
-    runIntervalRef.current = setInterval(() => {
-      setIconX((prev) => {
-        if (typeof window === 'undefined') return prev;
-        const viewportWidth = window.innerWidth || 0;
-        const iconWidth = 72;
-        const minX = 16;
-        const maxX = Math.max(minX, viewportWidth - iconWidth);
-        const step = 40;
-        let direction = runDirectionRef.current;
-        let next = prev + direction * step;
-        if (next <= minX) {
-          next = minX;
-          direction = 1;
-        } else if (next >= maxX) {
-          next = maxX;
-          direction = -1;
-        }
-        runDirectionRef.current = direction;
-        setFacingLeft(direction < 0);
-        return next;
-      });
-    }, 160);
-
-    if (runTimeoutRef.current) {
-      clearTimeout(runTimeoutRef.current);
-    }
-    runTimeoutRef.current = setTimeout(() => {
-      resetIconPosition();
-      stopRunningAway();
-      // Auto "catch" after the chase ends
-      const now = Date.now();
-      if (!open) {
-        const index = Math.min(catchCount, CATCH_MESSAGES.length - 1);
-        setOpen(true);
-        appendMessage('bot', CATCH_MESSAGES[index]);
-        setCatchCount((prev) => prev + 1);
-        setStatus('active');
-        setLastInteraction(now);
+      if (!runIntervalRef.current) {
+        runIntervalRef.current = setInterval(() => {
+          setIconX((prev) => {
+            if (typeof window === 'undefined') return prev;
+            const viewportWidth = window.innerWidth || 0;
+            const iconWidth = 72;
+            const minX = 16;
+            const maxX = Math.max(minX, viewportWidth - iconWidth);
+            const step = 40;
+            let direction = runDirectionRef.current;
+            let next = prev + direction * step;
+            if (next <= minX) {
+              next = minX;
+              direction = 1;
+            } else if (next >= maxX) {
+              next = maxX;
+              direction = -1;
+            }
+            runDirectionRef.current = direction;
+            setFacingLeft(direction < 0);
+            return next;
+          });
+        }, 160);
       }
-    }, 10000);
+    }
+
+    if (withCatchTimer && !runTimeoutRef.current) {
+      runTimeoutRef.current = setTimeout(() => {
+        lastAnimationAtRef.current = Date.now();
+        resetIconPosition();
+        stopRunningAway();
+        // Auto "catch" after the chase ends
+        const now = Date.now();
+        if (!open) {
+          const index = Math.min(catchCount, CATCH_MESSAGES.length - 1);
+          setOpen(true);
+          appendMessage('bot', CATCH_MESSAGES[index]);
+          setCatchCount((prev) => prev + 1);
+          setStatus('active');
+          setLastInteraction(now);
+        }
+      }, 10000);
+    }
   };
 
   // Run away when the mouse cursor gets close to the icon
@@ -253,7 +260,7 @@ const ChatBot = ({ defaultOpen = false }) => {
       const distance = Math.sqrt(dx * dx + dy * dy);
       if (distance < 120) {
         if (!afkReadyRef.current) return;
-        startRunningAway();
+        startRunningAway(true);
         if (jumpTimeoutRef.current) {
           clearTimeout(jumpTimeoutRef.current);
         }
@@ -402,29 +409,21 @@ const ChatBot = ({ defaultOpen = false }) => {
     }
   };
 
-  const iconAnimate = wobble
-    ? {
-        x: iconX,
-        y: isJumping
-          ? [0, -32, 0]
-          : isRunningAway
-          ? 0
-          : afkReadyRef.current
-          ? [0, -4, 0]
-          : 0,
-        rotate: [0, -8, 8, -8, 0],
-      }
-    : {
-        x: iconX,
-        y: isJumping
-          ? [0, -32, 0]
-          : isRunningAway
-          ? 0
-          : afkReadyRef.current
-          ? [0, -4, 0]
-          : 0,
-        rotate: 0,
-      };
+  const iconAnimate = {
+    x: iconX,
+    y: isJumping
+      ? [0, -32, 0]
+      : isRunningAway
+      ? 0
+      : afkReadyRef.current
+      ? [0, -4, 0]
+      : 0,
+    rotate: isRunningAway
+      ? [-8, 8, -8, 8]
+      : wobble
+      ? [0, -8, 8, -8, 0]
+      : 0,
+  };
 
   const iconTransition = {
     x: { type: 'spring', stiffness: 260, damping: 20 },
@@ -433,7 +432,11 @@ const ChatBot = ({ defaultOpen = false }) => {
       : isRunningAway
       ? { duration: 0.2 }
       : { duration: 1.2, repeat: Infinity, repeatType: 'reverse' },
-    rotate: { duration: wobble ? 0.6 : 0.2 },
+    rotate: isRunningAway
+      ? { duration: 0.6, repeat: Infinity, repeatType: 'reverse' }
+      : wobble
+      ? { duration: 0.6 }
+      : { duration: 0.2 },
   };
 
   return (
