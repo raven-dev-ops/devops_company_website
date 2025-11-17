@@ -14,8 +14,25 @@ const navItems = [
   { label: 'Partners', comingSoon: true },
 ];
 
+const alertMessages = [
+  'RavDevOps: Fractional DevOps and custom tooling for small teams.',
+  'Tip: You can chat with Raven any time using the assistant in the bottom-right.',
+  'Booking hours: 1–4pm Mon, Tue, Thu, Fri, and most federal holidays.',
+  'Reminder: This site uses a local AI assistant – no external AI API keys.',
+  'Fun fact: The team behind RavDevOps builds Discord bots and gaming tools too.',
+];
+
 export default function Header({ theme, toggleTheme }) {
   const { query, setQuery } = React.useContext(SearchContext);
+  const [alertIndex, setAlertIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    if (alertMessages.length === 0) return undefined;
+    const interval = setInterval(() => {
+      setAlertIndex((prev) => (prev + 1) % alertMessages.length);
+    }, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <header className="sticky top-0 z-30 backdrop-blur border-b border-raven-border/70 bg-raven-navy/80">
@@ -63,6 +80,15 @@ export default function Header({ theme, toggleTheme }) {
           >
             {theme === 'dark' ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
           </button>
+        </div>
+      </div>
+      <div
+        className="border-t border-raven-border/70 bg-black/60 py-1 text-xs text-slate-100 dark:bg-black/70"
+        aria-live="polite"
+      >
+        <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 lg:px-6">
+          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          <span>{alertMessages[alertIndex]}</span>
         </div>
       </div>
     </header>

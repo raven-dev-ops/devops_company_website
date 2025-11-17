@@ -5,6 +5,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import ravenAssistantIcon from '../assets/service1_banner.png';
 
+const CATCH_MESSAGES = [
+  "You caught me! Lesson learned, don't chase AI prompts — make a training tool.",
+  'You got me again. Better to train your tools than chase their quirks.',
+  'Snagged! Smart humans build training data instead of chasing chat bubbles.',
+  'Caught in 4K. Optimize prompts by improving your systems, not your aim.',
+  'Another catch. Real power comes from solid workflows and training, not luck.',
+  'Tag, I’m it. Let’s turn your questions into a repeatable playbook.',
+  'You’re persistent. Channel that into better automation and training, not chasing ravens.',
+  'Cornered again. Maybe it’s time for a knowledge base, not a wild goose chase.',
+  'Nice reflexes. Now let’s apply that to tightening your tooling and docs.',
+  'Final catch of the session. Remember: don’t chase AI—teach it.',
+];
+
 const API_BASE =
   process.env.REACT_APP_OPENAUXILIUM_URL || 'http://localhost:5050';
 
@@ -14,15 +27,25 @@ const ChatBot = ({ defaultOpen = false }) => {
   const [wobble, setWobble] = useState(false);
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
-  const [blurbVisible, setBlurbVisible] = useState(false);
+  const [blurbVisible, setBlurbVisible] = useState(false); // CAWW! while running
+  const [nevermoreVisible, setNevermoreVisible] = useState(false);
+  const [nevermoreCount, setNevermoreCount] = useState(0);
   const [isResponding, setIsResponding] = useState(false);
   const [status, setStatus] = useState('idle'); // idle | active | muted | standby
   const [lastInteraction, setLastInteraction] = useState(() => Date.now());
+  const [catchCount, setCatchCount] = useState(0);
+  const [iconX, setIconX] = useState(0);
+  const [isRunningAway, setIsRunningAway] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
   const listEndRef = useRef(null);
   const sessionIdRef = useRef(null);
+  const runIntervalRef = useRef(null);
+  const runTimeoutRef = useRef(null);
+  const nevermoreRunTimeoutRef = useRef(null);
+  const iconRef = useRef(null);
 
   // Timed behavior:
-  // - bubble appears after 30s
+  // - bubble appears after 30s (icon starts hidden until then)
   useEffect(() => {
     if (defaultOpen) {
       setBubbleVisible(true);
@@ -37,6 +60,20 @@ const ChatBot = ({ defaultOpen = false }) => {
       clearTimeout(bubbleTimer);
     };
   }, [defaultOpen]);
+
+  // Initialize icon starting X so it begins near the bottom-right corner
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const updateInitialX = () => {
+      const viewportWidth = window.innerWidth || 0;
+      const iconWidth = 72; // approx 56px icon + margin
+      const startX = Math.max(16, viewportWidth - iconWidth);
+      setIconX(startX);
+    };
+    updateInitialX();
+    window.addEventListener('resize', updateInitialX);
+    return () => window.removeEventListener('resize', updateInitialX);
+  }, []);
 
   // Seed greeting when the chat first opens and is empty
   useEffect(() => {
@@ -62,24 +99,37 @@ const ChatBot = ({ defaultOpen = false }) => {
     }
   }, [messages]);
 
-  // Wobble the bubble every 60s once visible and chat closed
+  // "NEVERMORE!!!" every 60s while bubble visible and chat is closed.
+  // After the 3rd NEVERMORE, schedule the runaway animation 59s later.
   useEffect(() => {
     if (!bubbleVisible || open || status === 'muted' || status === 'standby') return undefined;
     const interval = setInterval(() => {
+      setNevermoreVisible(true);
       setWobble(true);
-      setTimeout(() => setWobble(false), 600);
-    }, 60000);
-    return () => clearInterval(interval);
-  }, [bubbleVisible, open, status]);
+      setTimeout(() => {
+        setNevermoreVisible(false);
+        setWobble(false);
+      }, 2000);
 
-  // Show "CAWW!" blurb every 30s while bubble visible and chat is closed
-  useEffect(() => {
-    if (!bubbleVisible || open || status === 'muted' || status === 'standby') return undefined;
-    const interval = setInterval(() => {
-      setBlurbVisible(true);
-      setTimeout(() => setBlurbVisible(false), 2000);
-    }, 30000);
-    return () => clearInterval(interval);
+      setNevermoreCount((prev) => {
+        const next = prev + 1;
+        if (next === 3) {
+          if (nevermoreRunTimeoutRef.current) {
+            clearTimeout(nevermoreRunTimeoutRef.current);
+          }
+          nevermoreRunTimeoutRef.current = setTimeout(() => {
+            if (!open && bubbleVisible && status !== 'muted') {
+              startRunningAway();
+            }
+          }, 59000);
+        }
+        return next;
+      });
+    }, 60000);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bubbleVisible, open, status]);
 
   // Standby mode after 90s of no interaction (when chat is closed and not muted)
@@ -92,6 +142,94 @@ const ChatBot = ({ defaultOpen = false }) => {
     }, 5000);
     return () => clearInterval(interval);
   }, [bubbleVisible, open, lastInteraction, status]);
+
+  // Track general activity so we can judge "idle for 3 minutes" for click logic
+  useEffect(() => {
+    const handleActivity = () => {
+      setLastInteraction(Date.now());
+    };
+    if (typeof window === 'undefined') return undefined;
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('click', handleActivity);
+    return () => {
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('click', handleActivity);
+    };
+  }, []);
+
+  const stopRunningAway = () => {
+    setIsRunningAway(false);
+    if (runIntervalRef.current) {
+      clearInterval(runIntervalRef.current);
+      runIntervalRef.current = null;
+    }
+    if (runTimeoutRef.current) {
+      clearTimeout(runTimeoutRef.current);
+      runTimeoutRef.current = null;
+    }
+  };
+
+  const startRunningAway = () => {
+    if (isRunningAway || !bubbleVisible || open) return;
+    setIsRunningAway(true);
+    setLastInteraction(Date.now());
+
+    // Show a quick CAWW! while running
+    setBlurbVisible(true);
+    setTimeout(() => {
+      setBlurbVisible(false);
+    }, 1500);
+
+    if (runIntervalRef.current) return;
+
+    let direction = -1; // start by moving left
+    runIntervalRef.current = setInterval(() => {
+      setIconX((prev) => {
+        if (typeof window === 'undefined') return prev;
+        const viewportWidth = window.innerWidth || 0;
+        const iconWidth = 72;
+        const minX = 16;
+        const maxX = Math.max(minX, viewportWidth - iconWidth);
+        const step = 40;
+        let next = prev + direction * step;
+        if (next <= minX) {
+          next = minX;
+          direction = 1;
+        } else if (next >= maxX) {
+          next = maxX;
+          direction = -1;
+        }
+        return next;
+      });
+    }, 160);
+
+    if (runTimeoutRef.current) {
+      clearTimeout(runTimeoutRef.current);
+    }
+    runTimeoutRef.current = setTimeout(() => {
+      stopRunningAway();
+    }, 4000);
+  };
+
+  // Run away when the mouse cursor gets close to the icon
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const handleMouseMove = (event) => {
+      if (!bubbleVisible || open || !iconRef.current) return;
+      const rect = iconRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = event.clientX - centerX;
+      const dy = event.clientY - centerY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 120) {
+        startRunningAway();
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bubbleVisible, open]);
 
   const appendMessage = (role, text) => {
     const timestamp = new Date();
@@ -150,6 +288,7 @@ const ChatBot = ({ defaultOpen = false }) => {
 
   // When chat is explicitly closed by the user, clear the current backend session
   const endChatSession = () => {
+    stopRunningAway();
     const id = sessionIdRef.current;
     sessionIdRef.current = null;
     setMessages([]);
@@ -162,6 +301,15 @@ const ChatBot = ({ defaultOpen = false }) => {
     }).catch(() => {
       // swallow errors; session will expire on the server
     });
+  };
+
+  const resetIconPosition = () => {
+    if (typeof window === 'undefined') return;
+    const viewportWidth = window.innerWidth || 0;
+    const iconWidth = 72;
+    const startX = Math.max(16, viewportWidth - iconWidth);
+    setIconX(startX);
+    stopRunningAway();
   };
 
   const ensureChatUserId = () => {
@@ -179,6 +327,60 @@ const ChatBot = ({ defaultOpen = false }) => {
     expires.setFullYear(expires.getFullYear() + 1);
     document.cookie = `${name}=${id}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
     return id;
+  };
+
+  const handleIconClick = () => {
+    if (isRunningAway) return;
+
+    const now = Date.now();
+    const withinThreeMinutes = now - lastInteraction <= 3 * 60 * 1000;
+    let nextClickCount = clickCount;
+
+    if (!withinThreeMinutes) {
+      nextClickCount = 0;
+    }
+
+    nextClickCount += 1;
+
+    if (nextClickCount >= 3) {
+      resetIconPosition();
+      nextClickCount = 0;
+    }
+
+    setClickCount(nextClickCount);
+    setLastInteraction(now);
+
+    const nextOpen = !open;
+    setOpen(nextOpen);
+    if (nextOpen) {
+      const index = Math.min(catchCount, CATCH_MESSAGES.length - 1);
+      appendMessage('bot', CATCH_MESSAGES[index]);
+      setCatchCount((prev) => prev + 1);
+      setStatus('active');
+      setLastInteraction(now);
+    } else {
+      setStatus('muted');
+    }
+  };
+
+  const iconAnimate = wobble
+    ? {
+        x: iconX,
+        y: isRunningAway ? 0 : [0, -4, 0],
+        rotate: [0, -8, 8, -8, 0],
+      }
+    : {
+        x: iconX,
+        y: isRunningAway ? 0 : [0, -4, 0],
+        rotate: 0,
+      };
+
+  const iconTransition = {
+    x: { type: 'spring', stiffness: 260, damping: 20 },
+    y: isRunningAway
+      ? { duration: 0.2 }
+      : { duration: 1.2, repeat: Infinity, repeatType: 'reverse' },
+    rotate: { duration: wobble ? 0.6 : 0.2 },
   };
 
   return (
@@ -358,24 +560,36 @@ const ChatBot = ({ defaultOpen = false }) => {
           )}
         </AnimatePresence>
 
+        <AnimatePresence>
+          {bubbleVisible &&
+            !open &&
+            nevermoreVisible &&
+            status !== 'muted' &&
+            status !== 'standby' && (
+              <motion.div
+                key="raven-nevermore"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.25 }}
+                className="mb-1 rounded-full bg-black px-3 py-1 text-xs font-semibold text-yellow-200 shadow-lg dark:bg-slate-900"
+              >
+                NEVERMORE!!!
+              </motion.div>
+            )}
+        </AnimatePresence>
+
         {bubbleVisible && !open && (
           <motion.button
-            className="group flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
-            whileHover={{ scale: 1.12, rotate: 3 }}
-            onClick={() => {
-              const nextOpen = !open;
-              setOpen(nextOpen);
-              if (nextOpen) {
-                setStatus('active');
-                setLastInteraction(Date.now());
-              } else {
-                setStatus('muted');
-              }
-            }}
+            ref={iconRef}
+            className={`group fixed bottom-4 left-0 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70 ${
+              isRunningAway ? 'pointer-events-none' : ''
+            }`}
+            onClick={handleIconClick}
             aria-expanded={open}
             aria-label="Open chat bot"
-            animate={wobble ? { rotate: [0, -6, 6, -6, 0] } : {}}
-            transition={{ duration: 0.6 }}
+            animate={iconAnimate}
+            transition={iconTransition}
           >
             <img
               src={ravenAssistantIcon}

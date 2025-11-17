@@ -94,6 +94,7 @@ export default function Portfolio() {
       <div className="grid gap-6 md:grid-cols-2">
         {visibleItems.map((item) => {
           const cardHoverEnabled = imageHoverSlug !== item.slug;
+          const isImageHovered = imageHoverSlug === item.slug;
           const baseCardClass =
             'flex h-full cursor-pointer flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition';
           const hoverCardClass = cardHoverEnabled
@@ -155,9 +156,13 @@ export default function Portfolio() {
                         e.stopPropagation();
                         openLightbox(item, 0);
                       }}
-                      className="absolute inset-0 z-30 flex items-center justify-center bg-transparent text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 transition transform hover:scale-105 dark:bg-black/50 dark:hover:bg-black/60 dark:hover:text-raven-accent"
+                      className={`absolute inset-0 z-30 flex items-center justify-center text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                        isImageHovered
+                          ? 'bg-black/60 text-raven-accent transform scale-105'
+                          : 'bg-transparent text-transparent pointer-events-none'
+                      }`}
                     >
-                      <span className="hidden dark:inline">Click to view gallery</span>
+                      <span>Click to view gallery</span>
                     </button>
                   </div>
                   <div className="mt-2 flex items-center justify-between">
