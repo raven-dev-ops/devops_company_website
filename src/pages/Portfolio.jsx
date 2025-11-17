@@ -127,6 +127,11 @@ export default function Portfolio() {
                       alt={`${item.title} screenshot 1`}
                       className="h-56 w-full object-cover sm:h-64"
                     />
+                    <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-start p-3">
+                      <span className="inline-flex rounded-full bg-black/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100">
+                        {item.title}
+                      </span>
+                    </div>
                     <button
                       type="button"
                       onClick={(e) => {
@@ -170,7 +175,6 @@ export default function Portfolio() {
                   </div>
                 </div>
               )}
-              <h2 className="text-2xl font-semibold text-white">{item.title}</h2>
               <p className="text-sm text-slate-300">{item.description}</p>
               <div>
                 <h3 className="text-sm font-semibold text-white">DevOps outcomes</h3>

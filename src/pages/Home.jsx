@@ -134,7 +134,6 @@ function TrustedByCarousel({ index }) {
 export default function Home() {
   const [trustedIndex, setTrustedIndex] = React.useState(0);
   const [activePill, setActivePill] = React.useState(null);
-  const openPillTimeoutRef = React.useRef(null);
   const closePillTimeoutRef = React.useRef(null);
   const totalTrusted = trustedLogos.length;
 
@@ -150,35 +149,20 @@ export default function Home() {
 
   React.useEffect(() => {
     return () => {
-      if (openPillTimeoutRef.current) clearTimeout(openPillTimeoutRef.current);
       if (closePillTimeoutRef.current) clearTimeout(closePillTimeoutRef.current);
     };
   }, []);
 
   const handlePillEnter = (label) => {
-    if (openPillTimeoutRef.current) {
-      clearTimeout(openPillTimeoutRef.current);
-      openPillTimeoutRef.current = null;
-    }
     if (closePillTimeoutRef.current) {
       clearTimeout(closePillTimeoutRef.current);
       closePillTimeoutRef.current = null;
     }
 
-    openPillTimeoutRef.current = setTimeout(() => {
-      setActivePill(label);
-      closePillTimeoutRef.current = setTimeout(() => {
-        setActivePill((current) => (current === label ? null : current));
-        closePillTimeoutRef.current = null;
-      }, 10000);
-    }, 3000);
+    setActivePill(label);
   };
 
   const handlePillClick = (label) => {
-    if (openPillTimeoutRef.current) {
-      clearTimeout(openPillTimeoutRef.current);
-      openPillTimeoutRef.current = null;
-    }
     if (closePillTimeoutRef.current) {
       clearTimeout(closePillTimeoutRef.current);
       closePillTimeoutRef.current = null;
@@ -189,19 +173,19 @@ export default function Home() {
     closePillTimeoutRef.current = setTimeout(() => {
       setActivePill((current) => (current === label ? null : current));
       closePillTimeoutRef.current = null;
-    }, 4000);
+    }, 2000);
   };
 
   const handlePillLeave = (label) => {
-    if (openPillTimeoutRef.current) {
-      clearTimeout(openPillTimeoutRef.current);
-      openPillTimeoutRef.current = null;
-    }
     if (closePillTimeoutRef.current) {
       clearTimeout(closePillTimeoutRef.current);
       closePillTimeoutRef.current = null;
     }
-    setActivePill((current) => (current === label ? null : current));
+
+    closePillTimeoutRef.current = setTimeout(() => {
+      setActivePill((current) => (current === label ? null : current));
+      closePillTimeoutRef.current = null;
+    }, 2000);
   };
 
   const goPrevTrusted = () => setTrustedIndex((prev) => (prev - 1 + totalTrusted) % totalTrusted);
@@ -307,9 +291,9 @@ export default function Home() {
                   onClick={() => handlePillClick(item)}
                   onMouseEnter={() => handlePillEnter(item)}
                   onMouseLeave={() => handlePillLeave(item)}
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform hover:outline hover:outline-2 hover:outline-raven-accent ${
                     activePill === item
-                      ? 'scale-105 border-raven-accent bg-raven-accent/20 text-raven-accent shadow-soft-glow'
+                      ? 'scale-105 border-raven-accent bg-raven-accent/20 text-raven-accent shadow-soft-glow outline outline-2 outline-raven-accent'
                       : 'border-raven-accent/60 bg-raven-accent/10 text-raven-accent hover:border-raven-accent/80 hover:bg-raven-accent/15'
                   }`}
                 >
@@ -335,9 +319,9 @@ export default function Home() {
                   onClick={() => handlePillClick(item)}
                   onMouseEnter={() => handlePillEnter(item)}
                   onMouseLeave={() => handlePillLeave(item)}
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform hover:outline hover:outline-2 hover:outline-violet-300 ${
                     activePill === item
-                      ? 'scale-105 border-violet-400 bg-violet-500/20 text-violet-200 shadow-soft-glow'
+                      ? 'scale-105 border-violet-400 bg-violet-500/20 text-violet-200 shadow-soft-glow outline outline-2 outline-violet-300'
                       : 'border-violet-400/60 bg-violet-500/10 text-violet-200 hover:border-violet-400/80 hover:bg-violet-500/15'
                   }`}
                 >
@@ -361,9 +345,9 @@ export default function Home() {
                   onClick={() => handlePillClick(lang)}
                   onMouseEnter={() => handlePillEnter(lang)}
                   onMouseLeave={() => handlePillLeave(lang)}
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform ${
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition transform hover:outline hover:outline-2 hover:outline-amber-300 ${
                     activePill === lang
-                      ? 'scale-105 border-raven-amber bg-raven-amber/20 text-raven-amber shadow-soft-glow'
+                      ? 'scale-105 border-raven-amber bg-raven-amber/20 text-raven-amber shadow-soft-glow outline outline-2 outline-amber-300'
                       : 'border-raven-amber/60 bg-raven-amber/10 text-raven-amber hover:border-raven-amber/80 hover:bg-raven-amber/15'
                   }`}
                 >

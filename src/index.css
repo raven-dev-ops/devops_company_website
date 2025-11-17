@@ -5,10 +5,10 @@
 @tailwind utilities;
 
 body {
-  @apply font-sans antialiased bg-raven-navy;
+  @apply font-sans antialiased;
   scroll-behavior: smooth;
-  /* Light theme: use the dedicated light background texture */
-  background-color: #0f172a;
+  /* Light theme: use the dedicated light background texture without a dark underlay */
+  background-color: #f9fafb;
   background-image: url('./assets/site_background_light.png');
   background-size: cover;
   background-position: center;
