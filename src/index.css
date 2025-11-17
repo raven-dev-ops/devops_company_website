@@ -111,7 +111,7 @@ a {
   background-color: rgba(16, 185, 129, 0.2); /* emerald-500 at ~20% */
 }
 :root:not(.dark) .text-emerald-300 {
-  color: #047857; /* emerald-700-ish */
+  color: #022c22; /* much darker emerald for contrast */
 }
 
 :root:not(.dark) .border-sky-400\/70 {
@@ -121,7 +121,7 @@ a {
   background-color: rgba(14, 165, 233, 0.2);
 }
 :root:not(.dark) .text-sky-300 {
-  color: #0369a1; /* sky-700-ish */
+  color: #0f172a; /* near slate-900 for strong contrast */
 }
 
 :root:not(.dark) .border-amber-400\/70 {
@@ -131,7 +131,7 @@ a {
   background-color: rgba(245, 158, 11, 0.2);
 }
 :root:not(.dark) .text-amber-200 {
-  color: #92400e; /* amber-800-ish */
+  color: #78350f; /* darker amber/brown */
 }
 
 :root:not(.dark) .border-violet-400\/70 {
@@ -141,7 +141,7 @@ a {
   background-color: rgba(139, 92, 246, 0.2);
 }
 :root:not(.dark) .text-violet-300 {
-  color: #5b21b6; /* violet-700-ish */
+  color: #312e81; /* indigo/violet-900-ish for contrast */
 }
 
 :root:not(.dark) .border-raven-border\/70,
