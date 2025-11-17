@@ -3,77 +3,8 @@ import { portfolioItems } from '../data/portfolio';
 import SeoHead from '../components/SeoHead';
 import { SearchContext } from '../hooks/SearchContext';
 
-const toolingTech = new Set(['Docker', 'GitHub Actions', 'NextAuth', 'JWT', 'DRF', 'OCR']);
-const platformTech = new Set([
-  'AWS',
-  'Azure',
-  'GCP',
-  'Django',
-  'Next.js',
-  'MongoDB',
-  'Stripe',
-  'Heroku',
-  'Netlify',
-  'PostgreSQL',
-]);
-const languageTech = new Set(['Python', 'JavaScript', 'TypeScript']);
-
-function getTechPillClasses(tag, { asFilter, isActive } = { asFilter: false, isActive: false }) {
-  if (tag === 'All') {
-    const base =
-      'rounded-full border px-4 py-2 text-sm font-semibold transition-colors';
-    if (isActive) {
-      return `${base} border-raven-accent bg-raven-accent/20 text-raven-accent`;
-    }
-    return `${base} border-raven-border/60 bg-raven-card/70 text-slate-200 hover:border-raven-accent/60`;
-  }
-
-  let color;
-  if (languageTech.has(tag)) {
-    color = 'amber';
-  } else if (toolingTech.has(tag)) {
-    color = 'emerald';
-  } else if (platformTech.has(tag)) {
-    color = 'sky';
-  } else {
-    color = 'neutral';
-  }
-
-  const base = asFilter
-    ? 'rounded-full border px-4 py-2 text-sm font-semibold transition-colors'
-    : 'rounded-full border px-2 py-1 text-xs font-medium';
-
-  if (color === 'amber') {
-    if (isActive && asFilter) {
-      return `${base} border-amber-400 bg-amber-500/20 text-amber-200`;
-    }
-    return `${base} border-amber-400/70 bg-amber-500/10 text-amber-200 hover:border-amber-400/80`;
-  }
-
-  if (color === 'emerald') {
-    if (isActive && asFilter) {
-      return `${base} border-emerald-400 bg-emerald-500/20 text-emerald-200`;
-    }
-    return `${base} border-emerald-400/70 bg-emerald-500/10 text-emerald-200 hover:border-emerald-400/80`;
-  }
-
-  if (color === 'sky') {
-    if (isActive && asFilter) {
-      return `${base} border-sky-400 bg-sky-500/20 text-sky-200`;
-    }
-    return `${base} border-sky-400/70 bg-sky-500/10 text-sky-200 hover:border-sky-400/80`;
-  }
-
-  // neutral fallback
-  if (isActive && asFilter) {
-    return `${base} border-raven-accent bg-raven-accent/20 text-raven-accent`;
-  }
-  return `${base} border-raven-border/60 bg-raven-surface/60 text-slate-200 hover:border-raven-accent/60`;
-}
-
 export default function Portfolio() {
   const [lightbox, setLightbox] = React.useState(null);
-  const [activeTag, setActiveTag] = React.useState('All');
   const [imageHoverSlug, setImageHoverSlug] = React.useState(null);
   const { query } = React.useContext(SearchContext);
 
@@ -127,20 +58,8 @@ export default function Portfolio() {
 
   const normalizedQuery = query.trim().toLowerCase();
 
-  const allTech = React.useMemo(() => {
-    const set = new Set();
-    portfolioItems.forEach((item) => {
-      (item.tech || []).forEach((t) => set.add(t));
-    });
-    return Array.from(set);
-  }, []);
-
   const visibleItems = React.useMemo(() => {
     return portfolioItems.filter((item) => {
-      if (activeTag !== 'All' && !(item.tech || []).includes(activeTag)) {
-        return false;
-      }
-
       if (!normalizedQuery) return true;
 
       const fields = [
@@ -155,7 +74,7 @@ export default function Portfolio() {
           value.toLowerCase().includes(normalizedQuery),
       );
     });
-  }, [activeTag, normalizedQuery]);
+  }, [normalizedQuery]);
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-12 lg:px-6">
@@ -171,21 +90,6 @@ export default function Portfolio() {
           Engineering work focused on automation, infrastructure, and reliability - not just the UI.
         </p>
       </header>
-      <div className="flex flex-wrap justify-center gap-3">
-        {['All', ...allTech].map((tag) => {
-          const isActive = activeTag === tag;
-          return (
-            <button
-              key={tag}
-              type="button"
-              onClick={() => setActiveTag(tag)}
-              className={getTechPillClasses(tag, { asFilter: true, isActive })}
-            >
-              {tag}
-            </button>
-          );
-        })}
-      </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         {visibleItems.map((item) => {

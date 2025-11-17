@@ -7,16 +7,16 @@
 body {
   @apply font-sans antialiased bg-raven-navy;
   scroll-behavior: smooth;
-  /* Light theme base: use the dark texture, but with a brighter base tint */
-  background-color: #1e293b; /* brighter than #0b1120, roughly +50% */
-  background-image: url('./assets/site_background_dark.gif');
+  /* Light theme: use the dedicated light background texture */
+  background-color: #0f172a;
+  background-image: url('./assets/site_background_light.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }
 
 .dark body {
-  /* Dark theme keeps the same texture but with a deeper base tint */
+  /* Dark theme: keep the darker texture */
   background-color: #020617;
   background-image: url('./assets/site_background_dark.gif');
 }
@@ -58,4 +58,26 @@ a {
   height: 100%;
   object-fit: contain;
   background: #000;
+}
+
+/* Light mode text overrides: ensure good contrast when not in .dark */
+:root:not(.dark) .text-white {
+  color: #020617; /* near slate-950 */
+}
+
+:root:not(.dark) .text-slate-100,
+:root:not(.dark) .text-slate-200 {
+  color: #0f172a; /* slate-900-ish */
+}
+
+:root:not(.dark) .text-slate-300 {
+  color: #1f2937; /* slate-800-ish */
+}
+
+:root:not(.dark) .text-slate-400 {
+  color: #374151; /* slate-700-ish */
+}
+
+:root:not(.dark) .text-slate-500 {
+  color: #4b5563; /* slate-600-ish */
 }
