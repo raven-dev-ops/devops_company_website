@@ -10,6 +10,7 @@ const staffProfiles = [
     name: 'Raven',
     title: 'AI Assistant',
     image: service1Banner,
+    funFact: 'Fun fact: All your base are belong to us!',
     bullets: [
       'Supports the team with research, documentation drafts, and structured checklists so projects stay organized.',
       'Helps explore implementation options and edge cases so proposals, roadmaps, and designs are grounded and thorough.',
