@@ -121,14 +121,28 @@ export default function Portfolio() {
                   onMouseEnter={() => setImageHoverSlug(item.slug)}
                   onMouseLeave={() => setImageHoverSlug(null)}
                 >
-                  <div className="relative overflow-hidden rounded-2xl border border-raven-border/70 bg-raven-card/80">
+                  <div className="relative h-56 w-full overflow-hidden rounded-2xl border border-raven-border/70 bg-raven-card/80 transition hover:outline hover:outline-2 hover:outline-raven-accent sm:h-64">
+                    {item.screenshots[2] && (
+                      <img
+                        src={item.screenshots[2]}
+                        alt={`${item.title} screenshot 3`}
+                        className="absolute inset-0 h-full w-full translate-x-4 translate-y-4 scale-95 object-cover opacity-50"
+                      />
+                    )}
+                    {item.screenshots[1] && (
+                      <img
+                        src={item.screenshots[1]}
+                        alt={`${item.title} screenshot 2`}
+                        className="absolute inset-0 h-full w-full translate-x-2 translate-y-2 scale-98 object-cover opacity-70"
+                      />
+                    )}
                     <img
                       src={item.screenshots[0]}
                       alt={`${item.title} screenshot 1`}
-                      className="h-56 w-full object-cover sm:h-64"
+                      className="relative z-10 h-full w-full object-cover"
                     />
                     <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-start p-3">
-                      <span className="inline-flex rounded-full bg-black/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100">
+                      <span className="inline-flex rounded-full bg-black/70 px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.2em] text-white z-20">
                         {item.title}
                       </span>
                     </div>
@@ -138,7 +152,7 @@ export default function Portfolio() {
                         e.stopPropagation();
                         openLightbox(item, 0);
                       }}
-                      className="absolute inset-0 flex items-center justify-center bg-black/50 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 transition transform hover:scale-105 hover:bg-black/60 hover:text-raven-accent"
+                      className="absolute inset-0 z-30 flex items-center justify-center bg-black/50 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 transition transform hover:scale-105 hover:bg-black/60 hover:text-raven-accent"
                     >
                       Click to view gallery
                     </button>

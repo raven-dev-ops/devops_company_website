@@ -223,13 +223,13 @@ export default function Home() {
               href="https://calendly.com/ravendevops/discovery-meeting"
               target="_blank"
               rel="noreferrer"
-              className="rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow hover:from-raven-accent/90 hover:to-raven-cyan/90"
+              className="rounded-full bg-gradient-to-r from-raven-accent to-raven-cyan px-6 py-3 text-base font-semibold text-black shadow-soft-glow transition-transform hover:from-raven-accent/90 hover:to-raven-cyan/90 hover:scale-105"
             >
               Book a discovery call
             </a>
             <Link
               to="/portfolio"
-              className="rounded-full border border-raven-border/70 bg-raven-card px-6 py-3 text-base font-semibold text-slate-100 hover:border-raven-accent/70"
+              className="rounded-full border border-raven-border/70 bg-raven-card px-6 py-3 text-base font-semibold text-slate-100 transition-transform hover:border-raven-accent/70 hover:scale-105"
             >
               View portfolio
             </Link>
