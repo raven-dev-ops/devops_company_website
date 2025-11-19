@@ -1,0 +1,4 @@
+[submodule "chat-assistant-backend"]
+	path = chat-assistant-backend
+	url = https://github.com/raven-dev-ops/chat-assistant-backend.git
+
