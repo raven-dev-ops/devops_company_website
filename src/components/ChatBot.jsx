@@ -25,15 +25,52 @@ const resolveApiBase = () => {
 };
 
 const API_BASE = resolveApiBase();
+export const CHAT_STATE_STORAGE_KEY = 'raven-chatbot-state';
+const normalizeMode = (value) => (value === 'offline' ? 'offline' : 'live');
+
+const loadStoredState = () => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const raw = window.localStorage.getItem(CHAT_STATE_STORAGE_KEY);
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw);
+    const messages = Array.isArray(parsed.messages)
+      ? parsed.messages
+          .map((m, idx) => {
+            const ts = m.timestamp ? new Date(m.timestamp) : null;
+            const timestamp = ts && !Number.isNaN(ts.getTime()) ? ts : null;
+
+            return {
+              ...m,
+              id: m.id || `restored-${idx}-${Date.now()}`,
+              timestamp,
+            };
+          })
+          .filter((m) => m.role === 'bot' || m.role === 'user')
+      : [];
+
+    return {
+      messages,
+      sessionId: parsed.sessionId || null,
+      mode: normalizeMode(parsed.mode),
+    };
+  } catch {
+    return null;
+  }
+};
 
 const ChatBot = ({ defaultOpen = false }) => {
+  const initialStateRef = useRef(loadStoredState());
+  const storedState = initialStateRef.current;
   const [open, setOpen] = useState(defaultOpen);
   const [bubbleVisible, setBubbleVisible] = useState(true);
-  const [messages, setMessages] = useState([]);
-  const [sessionId, setSessionId] = useState(null);
+  const [messages, setMessages] = useState(storedState?.messages || []);
+  const [sessionId, setSessionId] = useState(storedState?.sessionId || null);
   const [userInput, setUserInput] = useState('');
   const [isResponding, setIsResponding] = useState(false);
-  const [mode, setMode] = useState('offline');
+  const [mode, setMode] = useState(storedState?.mode || 'offline');
   const listEndRef = useRef(null);
   const quickReplies = [
     {
@@ -114,7 +151,20 @@ const ChatBot = ({ defaultOpen = false }) => {
     return id;
   };
 
-  const normalizeMode = (value) => (value === 'offline' ? 'offline' : 'live');
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const payload = {
+      messages: messages.map((m) => ({
+        ...m,
+        timestamp: m.timestamp instanceof Date ? m.timestamp.toISOString() : m.timestamp,
+      })),
+      sessionId,
+      mode,
+    };
+
+    window.localStorage.setItem(CHAT_STATE_STORAGE_KEY, JSON.stringify(payload));
+  }, [messages, sessionId, mode]);
 
   const handleSend = async (overrideText) => {
     const candidate =
@@ -185,9 +235,8 @@ const ChatBot = ({ defaultOpen = false }) => {
 
   const handleClose = () => {
     setOpen(false);
-    setMessages([]);
-    setSessionId(null);
     setIsResponding(false);
+    setUserInput('');
   };
 
   const handleQuickReply = (qr) => {

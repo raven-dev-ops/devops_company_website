@@ -1,7 +1,7 @@
 import React, { act } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ChatBot from '../components/ChatBot.jsx';
+import ChatBot, { CHAT_STATE_STORAGE_KEY } from '../components/ChatBot.jsx';
 import { getOfflineReply } from '../utils/offlineResponder';
 
 jest.mock('../utils/offlineResponder', () => ({
@@ -21,6 +21,8 @@ describe('ChatBot', () => {
     jest.resetAllMocks();
     // JSDOM provides a window/document, but we ensure fetch is defined.
     global.fetch = jest.fn();
+    window.localStorage.clear();
+    document.cookie = '';
     getOfflineReply.mockReturnValue(null);
   });
 
@@ -204,5 +206,48 @@ describe('ChatBot', () => {
 
     expect(await screen.findByText('OFFLINE')).toBeInTheDocument();
     expect(await screen.findByText(fallbackText)).toBeInTheDocument();
+  });
+
+  test('restores a stored sessionId and transcript on remount', async () => {
+    const savedState = {
+      messages: [
+        {
+          id: 'saved-1',
+          role: 'bot',
+          text: 'Earlier reply from Raven.',
+          timestamp: new Date().toISOString(),
+        },
+      ],
+      sessionId: 'session-stored',
+      mode: 'live',
+    };
+
+    window.localStorage.setItem(CHAT_STATE_STORAGE_KEY, JSON.stringify(savedState));
+
+    global.fetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ reply: 'Follow up from live API', mode: 'live' }),
+    });
+
+    await act(async () => {
+      render(<ChatBot defaultOpen />);
+    });
+
+    const input = screen.getByPlaceholderText(/type your message/i);
+
+    await act(async () => {
+      await userEvent.type(input, 'Can you pick up the thread?');
+      await userEvent.click(screen.getByRole('button', { name: /send/i }));
+    });
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    const [, options] = global.fetch.mock.calls[0];
+    const body = JSON.parse(options.body);
+
+    expect(body).toHaveProperty('sessionId', 'session-stored');
+    expect(screen.getByText(/earlier reply from raven/i)).toBeInTheDocument();
   });
 });
