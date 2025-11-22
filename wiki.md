@@ -30,7 +30,7 @@ Frontend routes live under `src/pages/` (Home, Services, Portfolio, Blog, Pricin
   - `GET /health` and `/metadata/version` - health/version
 - CORS is restricted to `https://ravdevops.com` and `https://www.ravdevops.com`; deploy the frontend on those origins.
 - Set `VITE_CHAT_API_BASE` in your environment for local dev or Netlify builds. `netlify.toml` already defines the gateway value for production deploys.
-- The chat header shows `LIVE` (OpenAI connected) vs `OFFLINE` (using cached knowledge base responses).
+- The chat header no longer shows a live/offline badge; chat still handles live vs offline modes internally.
 
 ## Running Locally (frontend only)
 ```bash

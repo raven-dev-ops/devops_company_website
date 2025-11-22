@@ -63,7 +63,6 @@ VITE_CHAT_API_BASE
 - Chat endpoint: `POST ${VITE_CHAT_API_BASE}/api/chat` with body `{ "message": "<text>", "context": { ... } }`. Response returns `{ reply: string, mode: "live" | "offline" }`, and the UI shows a Live/Offline badge based on `mode`.
 - Optional health check: `GET ${VITE_CHAT_API_BASE}/health`.
 - CORS is restricted to `https://ravdevops.com` and `https://www.ravdevops.com`; host the frontend on those origins.
-  - The chat header shows `LIVE` when connected to OpenAI via the gateway, and `OFFLINE` when serving cached knowledge base responses.
 
 Example `.env` (or `.env.local`):
 ```ini

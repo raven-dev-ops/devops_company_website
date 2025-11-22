@@ -7,6 +7,7 @@ This file summarizes notable release baselines for the demo website. It compleme
 - Chatbot wired to the assistant backend via `VITE_CHAT_API_BASE` (or legacy `VITE_ASSISTANT_API_URL`) to the Cloud Run gateway (`/api/chat` returns `reply` + `mode`).
 - Optional legacy Node `OpenAuxilium` backend kept for local experimentation.
 - Internal docs refreshed: `README.md`, `wiki.md`, `roadmap.md`, `timeline.md`, `SECURITY.md`.
+- UI tweaks: chatbot quick replies trimmed, badges removed from header, “How engagements work” videos marked “Coming soon,” chat bubble animations smoothed.
 
 ### Tagging example
 ```bash
