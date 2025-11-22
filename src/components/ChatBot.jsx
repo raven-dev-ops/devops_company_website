@@ -64,6 +64,7 @@ const ChatBot = ({ defaultOpen = false }) => {
   const [userInput, setUserInput] = useState('');
   const [isResponding, setIsResponding] = useState(false);
   const [mode, setMode] = useState('offline');
+  const [showTelemetry, setShowTelemetry] = useState(false);
   const listEndRef = useRef(null);
   const quickReplies = [
     {
@@ -267,6 +268,17 @@ const ChatBot = ({ defaultOpen = false }) => {
     }
   };
 
+  const telemetryData = () => {
+    if (typeof window === 'undefined') return [];
+    return Array.isArray(window.__RAVEN_TELEMETRY__) ? window.__RAVEN_TELEMETRY__ : [];
+  };
+
+  const clearTelemetry = () => {
+    if (typeof window === 'undefined') return;
+    window.__RAVEN_TELEMETRY__ = [];
+    setShowTelemetry(false);
+  };
+
   return (
     <div className="fixed bottom-4 right-4 z-[9999]">
       <AnimatePresence>
@@ -424,13 +436,22 @@ const ChatBot = ({ defaultOpen = false }) => {
 
               <div className="flex items-center gap-2 pt-1">
                 {telemetryDebug() && (
-                  <button
-                    type="button"
-                    onClick={exportTelemetry}
-                    className="text-[10px] text-slate-500 underline decoration-dotted underline-offset-4 hover:text-slate-700"
-                  >
-                    Export telemetry
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setShowTelemetry(true)}
+                      className="text-[10px] text-slate-500 underline decoration-dotted underline-offset-4 hover:text-slate-700"
+                    >
+                      View telemetry
+                    </button>
+                    <button
+                      type="button"
+                      onClick={exportTelemetry}
+                      className="text-[10px] text-slate-500 underline decoration-dotted underline-offset-4 hover:text-slate-700"
+                    >
+                      Export telemetry
+                    </button>
+                  </>
                 )}
                 <input
                   type="text"
@@ -476,6 +497,37 @@ const ChatBot = ({ defaultOpen = false }) => {
             className="h-14 w-14 rounded-full object-cover transition-transform group-hover:scale-110"
           />
         </button>
+      )}
+
+      {telemetryDebug() && showTelemetry && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 p-4">
+          <div className="max-h-[80vh] w-full max-w-3xl overflow-hidden rounded-lg bg-white p-4 text-xs text-slate-900 shadow-xl">
+            <div className="mb-2 flex items-center justify-between">
+              <span className="text-sm font-semibold">Telemetry (dev only)</span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  className="rounded bg-slate-200 px-2 py-1 text-[11px] font-semibold text-slate-800 hover:bg-slate-300"
+                  onClick={clearTelemetry}
+                >
+                  Clear
+                </button>
+                <button
+                  type="button"
+                  className="rounded bg-slate-200 px-2 py-1 text-[11px] font-semibold text-slate-800 hover:bg-slate-300"
+                  onClick={() => setShowTelemetry(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+            <div className="h-[70vh] overflow-auto rounded border border-slate-200 bg-slate-50 p-2">
+              <pre className="whitespace-pre-wrap break-words">
+                {JSON.stringify(telemetryData(), null, 2)}
+              </pre>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
