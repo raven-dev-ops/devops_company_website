@@ -65,7 +65,6 @@ const ChatBot = ({ defaultOpen = false }) => {
   const [isResponding, setIsResponding] = useState(false);
   const [mode, setMode] = useState('offline');
   const [showTelemetry, setShowTelemetry] = useState(false);
-  const [iconHovered, setIconHovered] = useState(false);
   const listEndRef = useRef(null);
 const quickReplies = [
     {
@@ -495,17 +494,15 @@ const quickReplies = [
           onClick={() => setOpen(true)}
           aria-expanded={open}
           aria-label="Open chat bot"
-          onMouseEnter={() => setIconHovered(true)}
-          onMouseLeave={() => setIconHovered(false)}
-          className="group flex items-center justify-center rounded-full p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
-          style={{ width: '4.75rem', height: '4.75rem' }}
+          className="group flex items-center justify-center rounded-lg p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
+          style={{ width: '4.5rem', height: '4.5rem' }}
         >
           <img
             src={ravenAssistantIcon}
             alt="Raven AI Assistant"
-            className="h-16 w-16 rounded-full object-cover transition-transform duration-500"
+            className="h-16 w-16 rounded-md object-cover"
             style={{
-              transform: iconHovered ? 'rotateY(180deg)' : 'rotateY(0deg)',
+              transform: 'rotateY(180deg)',
               transformStyle: 'preserve-3d',
             }}
           />
