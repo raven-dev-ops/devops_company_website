@@ -64,7 +64,9 @@ export default function Blog() {
                   </div>
                 )}
               <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
-                <span className="text-xs uppercase tracking-[0.2em] text-raven-cyan">{post.date}</span>
+                <span className="text-xs uppercase tracking-[0.2em] text-raven-cyan">
+                  {post.date}{post.readMinutes ? ` · ${post.readMinutes} min read` : ''}
+                </span>
                 <div className="flex flex-wrap gap-2 text-xs">
                   {post.tags.map((tag) => {
                     let tagClasses =

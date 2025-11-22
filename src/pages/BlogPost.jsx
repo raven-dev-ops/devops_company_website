@@ -54,6 +54,13 @@ export default function BlogPost() {
       <div className="space-y-2">
         <p className="text-xs uppercase tracking-[0.3em] text-raven-cyan">{post.date}</p>
         <h1 className="text-4xl font-bold text-white">{post.title}</h1>
+        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-200">
+          {post.readMinutes && (
+            <span className="rounded-full border border-raven-border/60 bg-raven-card/60 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-slate-100">
+              {post.readMinutes} min read
+            </span>
+          )}
+        </div>
         <div className="flex flex-wrap gap-2 text-xs">
           {post.tags.map((tag) => {
             let tagClasses = 'rounded-full border px-3 py-1';
@@ -90,7 +97,65 @@ export default function BlogPost() {
           </div>
         </div>
       )}
-      <p className="text-lg leading-relaxed text-slate-200">{post.content}</p>
+      <div className="space-y-4 text-lg leading-relaxed text-slate-200">
+        {(post.content || '').split('\n\n').map((para, idx) => (
+          <p key={`${idx}-${para.slice(0, 20)}`}>{para}</p>
+        ))}
+      </div>
+
+      {Array.isArray(post.lessons) && post.lessons.length > 0 && (
+        <section className="space-y-3 rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-raven-cyan">
+            Lessons learned
+          </h2>
+          <ul className="space-y-2 text-sm text-slate-200">
+            {post.lessons.map((item) => (
+              <li key={item} className="flex gap-2">
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-raven-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {Array.isArray(post.challenges) && post.challenges.length > 0 && (
+        <section className="space-y-3 rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-raven-cyan">
+            Challenges faced
+          </h2>
+          <ul className="space-y-2 text-sm text-slate-200">
+            {post.challenges.map((item) => (
+              <li key={item} className="flex gap-2">
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-raven-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {Array.isArray(post.sources) && post.sources.length > 0 && (
+        <section className="space-y-3 rounded-2xl border border-raven-border/70 bg-raven-card/60 p-4">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-raven-cyan">
+            Further reading
+          </h2>
+          <ul className="space-y-2 text-sm text-slate-200">
+            {post.sources.map((source) => (
+              <li key={source.title + source.url}>
+                <a
+                  href={source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-raven-cyan hover:text-white"
+                >
+                  {source.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       {hasRelated && (
         <section className="mt-10 space-y-3 border-t border-raven-border/70 pt-6">
           <div className="flex items-center justify-between">
