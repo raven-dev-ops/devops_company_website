@@ -11,6 +11,8 @@ const normalize = (text) =>
     .split(/\s+/)
     .filter(Boolean);
 
+const randomChoice = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
 const buildEcho = (words, max = 4) => {
   if (!words.length) return '';
   return words.slice(0, max).join(' ');
@@ -21,34 +23,25 @@ const isGreeting = (words) =>
     words.includes(g)
   );
 const isHowAreYou = (words) =>
-  words.join(' ').includes('how are you') ||
-  words.includes('hru') ||
-  words.includes('howdy') ||
-  words.includes('howdy?');
+  words.join(' ').includes('how are you') || words.includes('hru') || words.includes('howdy');
 const isQuoteIntent = (words) =>
-  ['quote', 'pricing', 'estimate', 'cost', 'budget'].some((w) => words.includes(w));
-const isPricingIntent = (words) =>
-  ['pricing', 'price', 'cost', 'estimate', 'quote', 'rates'].some((w) => words.includes(w));
-const isCostIntent = (words) => isQuoteIntent(words) || isPricingIntent(words);
+  ['quote', 'pricing', 'estimate', 'cost', 'budget', 'rates', 'price'].some((w) => words.includes(w));
 const projectKeywords = ['project', 'product', 'build', 'plan', 'launch', 'saas', 'app'];
 const isProjectIntent = (words) => words.some((w) => projectKeywords.includes(w));
 const isOutlineIntent = (words) =>
   ['outline', 'plan', 'steps', 'roadmap'].some((w) => words.includes(w));
 const isTimelineIntent = (words) =>
-  ['timeline', 'deadline', 'when', 'soon', 'fast', 'rush'].some((w) => words.includes(w));
+  ['timeline', 'deadline', 'when', 'soon', 'fast', 'rush', 'week', 'month'].some((w) =>
+    words.includes(w)
+  );
 const isDomainIntent = (words) =>
-  ['health', 'healthcare', 'medical', 'finance', 'fintech', 'insurance', 'gov', 'government'].some(
+  ['health', 'healthcare', 'medical', 'finance', 'fintech', 'insurance', 'gov', 'government', 'pci'].some(
     (w) => words.includes(w)
   );
 const isScheduleIntent = (words) =>
   ['schedule', 'meet', 'meeting', 'call', 'calendly', 'book'].some((w) => words.includes(w));
 const hasTimeframe = (text) => /\b(day|week|month|deadline|today|tomorrow|next)\b/i.test(text);
 const hasVolume = (text) => /\b\d+k?\b/i.test(text) || /\b(users?|seats?|daily|monthly)\b/i.test(text);
-const hasFinanceTerms = (words) =>
-  ['finance', 'fintech', 'bank', 'pci', 'card', 'payments'].some((w) => words.includes(w));
-const hasInsuranceTerms = (words) =>
-  ['insurance', 'policy', 'claims', 'carrier', 'adjuster'].some((w) => words.includes(w));
-const randomChoice = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const truncate = (text, max = 140) => {
   if (!text) return '';
@@ -67,29 +60,25 @@ const quickPlan = () =>
 
 const buildProjectAck = (raw, echo) => {
   const timeframeMention = hasTimeframe(raw) ? ' this week' : '';
-  const focus = echo ? `${echo}` : 'your project';
+  const focus = echo || 'your project';
   return `Got it on ${focus}${timeframeMention}. ${quickPlan()}`;
 };
 
 const promptForDetails =
-  'Tell me your focus—services, pricing, or your project—and I will suggest the next step.';
-const nextStep = () =>
-  Math.random() < 0.5
-    ? 'Want a quick outline or a Calendly link to talk live?'
-    : 'Should I send a short plan or drop the Calendly link to chat this week?';
+  'Tell me your focus—services, pricing, or your project—and I will suggest the next step. One line on users + timeline helps.';
 const pricingFollowups = [
   'I can outline a starter vs. pro tier. How many users and calls per day?',
   'Rough ranges depend on usage and integrations. How many users and what external APIs?',
+  'Give me users per month and key integrations so I can outline pricing.',
 ];
-const volumeFollowup = (message) => {
-  const hint = hasTimeframe(message) ? ' and a near-term timeline' : '';
-  return `Sounds like higher usage${hint}. Want me to share ranges or drop a Calendly link?`;
-};
+const volumeFollowups = [
+  'Sounds like higher usage. Want ranges or the Calendly link?',
+  'High volume noted. Should I share ranges or drop the Calendly link?',
+];
 const domainFollowups = [
   'If this touches PII/PCI, I will tailor auth and storage. What data fields do you store?',
   'For regulated data, we can isolate storage and tighten auth. Which users need access?',
 ];
-const MIN_MATCH_SCORE = 2;
 const greetingReplies = [
   'All good here. Want to talk services, pricing, or your project?',
   'Howdy! What are you working on—services, pricing, or your project?',
@@ -99,6 +88,7 @@ const followupReplies = [
   'Want a quick outline or a Calendly link to talk live?',
   'Should I share a short plan or send the Calendly link?',
   'Prefer a written outline, or jump on Calendly to chat this week?',
+  'I can outline next steps, or send the Calendly link—your pick.',
 ];
 
 const scoreEntry = (words, entry) => {
@@ -134,20 +124,17 @@ export const getOfflineReply = (message) => {
     record('outline');
     return quickPlan();
   }
-  if (isCostIntent(words)) {
+  if (isQuoteIntent(words)) {
     record('quote');
-    return `${pricingFollowups[Math.floor(Math.random() * pricingFollowups.length)]}`;
+    if (hasVolume(message)) {
+      record('quote_volume');
+      return randomChoice(volumeFollowups);
+    }
+    return randomChoice(pricingFollowups);
   }
-  if (hasVolume(message) and isCostIntent(words)) {
-    record('quote_volume');
-    return volumeFollowup(message);
-  }
-  if (hasVolume(message) && isPricingIntent(words) is False):
-    record('quote_volume');
-    return `${pricingFollowups[Math.floor(Math.random() * pricingFollowups.length)]}`;
-  if (hasVolume(message) and isCostIntent(words)) {
-    record('quote_volume');
-    return volumeFollowup(message);
+  if (hasVolume(message) && isProjectIntent(words)) {
+    record('volume_project');
+    return randomChoice(volumeFollowups);
   }
   if (isTimelineIntent(words)) {
     record('timeline');
@@ -177,7 +164,7 @@ export const getOfflineReply = (message) => {
     }
   }
 
-  if (!best || bestScore < MIN_MATCH_SCORE) {
+  if (!best || bestScore < 2) {
     record('low_confidence');
     return promptForDetails;
   }
