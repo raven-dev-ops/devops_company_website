@@ -175,8 +175,8 @@ export default function Portfolio() {
                   <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
                 </div>
               )}
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2 text-xs sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
                   {item.date && (
                     <span className="uppercase tracking-[0.2em] text-raven-cyan">{item.date}</span>
                   )}

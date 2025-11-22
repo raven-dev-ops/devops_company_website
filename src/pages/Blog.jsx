@@ -63,7 +63,7 @@ export default function Blog() {
                     </div>
                   </div>
                 )}
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
                 <span className="text-xs uppercase tracking-[0.2em] text-raven-cyan">{post.date}</span>
                 <div className="flex flex-wrap gap-2 text-xs">
                   {post.tags.map((tag) => {
