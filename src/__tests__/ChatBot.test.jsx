@@ -129,7 +129,7 @@ describe('ChatBot', () => {
   test('quick reply drops a Calendly link without calling the API', async () => {
     await actAsync(() => render(<ChatBot defaultOpen />));
 
-    const calendlyButton = await screen.findByRole('button', { name: /calendly link/i });
+    const calendlyButton = await screen.findByRole('button', { name: /book a call/i });
 
     await actAsync(() => userEvent.click(calendlyButton));
 
@@ -141,7 +141,7 @@ describe('ChatBot', () => {
     await actAsync(() => render(<ChatBot defaultOpen />));
 
     expect(await screen.findByRole('button', { name: /email us/i })).toBeInTheDocument();
-    expect(await screen.findByRole('button', { name: /pricing page/i })).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: /pricing/i })).toBeInTheDocument();
 
     const emailButton = await screen.findByRole('button', { name: /email us/i });
 

@@ -66,33 +66,29 @@ const ChatBot = ({ defaultOpen = false }) => {
   const [mode, setMode] = useState('offline');
   const [showTelemetry, setShowTelemetry] = useState(false);
   const listEndRef = useRef(null);
-const quickReplies = [
+  const quickReplies = [
     {
       id: 'calendly-link',
-      label: 'Calendly link',
+      label: 'Book a call',
       text: 'Can you send the Calendly link?',
       inlineReply:
         'Sure thing. Here is my Calendly link: https://calendly.com/ravdevops/discovery-meeting',
     },
-    { id: 'book-call', label: 'Book a call', text: 'Can you send a Calendly link?' },
-    { id: 'pricing', label: 'Pricing', text: 'What are your pricing options?' },
-    { id: 'services', label: 'Services', text: 'Which services do you offer?' },
+    {
+      id: 'pricing-outline',
+      label: 'Pricing',
+      text: 'Can you outline pricing?',
+    },
+    {
+      id: 'services',
+      label: 'Services',
+      text: 'Which services do you offer?',
+    },
     {
       id: 'email',
       label: 'Email us',
       text: 'What is your email address?',
       inlineReply: 'You can email business@ravdevops.com and we will reply within one business day.',
-    },
-    {
-      id: 'pricing-page',
-      label: 'Pricing page',
-      text: 'Where is your pricing page?',
-      inlineReply: 'You can review detailed packages here: https://ravdevops.com/pricing',
-    },
-    {
-      id: 'pricing-outline',
-      label: 'Pricing outline',
-      text: 'Can you outline pricing?',
     },
   ];
 
