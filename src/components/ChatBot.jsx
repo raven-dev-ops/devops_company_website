@@ -59,6 +59,7 @@ const telemetryDebug = () => {
 const ChatBot = ({ defaultOpen = false }) => {
   const [open, setOpen] = useState(defaultOpen);
   const [bubbleVisible, setBubbleVisible] = useState(true);
+  const [bubbleHover, setBubbleHover] = useState(false);
   const [messages, setMessages] = useState([]);
   const [sessionId, setSessionId] = useState(null);
   const [userInput, setUserInput] = useState('');
@@ -473,26 +474,48 @@ const ChatBot = ({ defaultOpen = false }) => {
         )}
       </AnimatePresence>
 
-      {bubbleVisible && !open && (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-expanded={open}
-          aria-label="Open chat bot"
-          className="group flex items-center justify-center rounded-lg p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
-          style={{ width: '4.5rem', height: '4.5rem' }}
-        >
-          <img
-            src={ravenAssistantIcon}
-            alt="Raven AI Assistant"
-            className="h-16 w-16 rounded-md object-cover"
-            style={{
-              transform: 'rotateY(180deg)',
-              transformStyle: 'preserve-3d',
+      <AnimatePresence>
+        {bubbleVisible && !open && (
+          <motion.button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-expanded={open}
+            aria-label="Open chat bot"
+            className="group flex items-center justify-center rounded-lg p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
+            style={{ width: '4.5rem', height: '4.5rem' }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              rotate: bubbleHover ? [0, -3, 3, -2, 2, 0] : 0,
             }}
-          />
-        </button>
-      )}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{
+              duration: 0.35,
+              ease: 'easeOut',
+              rotate: {
+                duration: 2.2,
+                repeat: bubbleHover ? Infinity : 0,
+                repeatDelay: 1.1,
+                ease: 'easeInOut',
+              },
+            }}
+            whileHover={{ scale: 1.06 }}
+            onHoverStart={() => setBubbleHover(true)}
+            onHoverEnd={() => setBubbleHover(false)}
+          >
+            <img
+              src={ravenAssistantIcon}
+              alt="Raven AI Assistant"
+              className="h-16 w-16 rounded-md object-cover"
+              style={{
+                transform: 'rotateY(180deg)',
+                transformStyle: 'preserve-3d',
+              }}
+            />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {telemetryDebug() && showTelemetry && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 p-4">
