@@ -122,29 +122,30 @@ function TrustedByCarousel({ index }) {
 
   return (
     <div className="mt-7 mb-7 flex flex-col items-center gap-5">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={current.name}
-          layout
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="flex w-full max-w-2xl flex-col items-center gap-5 sm:flex-row sm:items-center sm:gap-7 min-h-[140px] sm:min-h-[160px]"
+      <div className="relative w-full max-w-2xl min-h-[160px] sm:min-h-[180px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.name}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className="absolute inset-0 flex flex-col items-center gap-5 sm:flex-row sm:items-center sm:gap-7"
           >
-            <div className="flex items-center justify-center">
+            <div className="flex flex-shrink-0 items-center justify-center">
               <img
                 src={current.src}
                 alt={current.name}
                 className={`${logoSizeClass} w-auto object-contain`}
               />
-          </div>
-          <div className="flex flex-col gap-2 text-center sm:text-left">
-            <p className="text-lg font-semibold text-white">{current.name}</p>
-            <p className="text-base text-slate-300">{current.review}</p>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+            </div>
+            <div className="flex flex-col gap-2 text-center sm:text-left">
+              <p className="text-lg font-semibold text-white">{current.name}</p>
+              <p className="text-base text-slate-300">{current.review}</p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
