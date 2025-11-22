@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import SeoHead from '../components/SeoHead';
 import { ThemeContext } from '../hooks/ThemeContext';
+import { getViteEnv } from '../utils/env';
 
 export default function Contact() {
   const location = useLocation();
@@ -10,11 +11,16 @@ export default function Contact() {
   const formRef = React.useRef(null);
   const emergencyRef = React.useRef(null);
   const [showConfirm, setShowConfirm] = React.useState(false);
+  const env = getViteEnv();
   const API_BASE =
     (typeof window !== 'undefined' &&
       window.__APP_CONFIG__ &&
-      (window.__APP_CONFIG__.ASSISTANT_API_URL ||
+      (window.__APP_CONFIG__.CHAT_API_BASE ||
+        window.__APP_CONFIG__.ASSISTANT_API_URL ||
         window.__APP_CONFIG__.OPENAUXILIUM_URL)) ||
+    env.VITE_CHAT_API_BASE ||
+    env.VITE_ASSISTANT_API_URL ||
+    env.VITE_OPENAUXILIUM_URL ||
     'https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev';
   const { theme } = React.useContext(ThemeContext);
   const isDarkMode = theme === 'dark';

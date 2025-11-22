@@ -23,7 +23,7 @@ describe('ChatBot', () => {
 
     global.fetch.mockResolvedValue({
       ok: true,
-      json: async () => ({ reply: replyText }),
+      json: async () => ({ reply: replyText, mode: 'live' }),
     });
 
     await act(async () => {
@@ -52,7 +52,31 @@ describe('ChatBot', () => {
     expect(body).toHaveProperty('context');
     expect(body.context).toHaveProperty('source', 'raven-demo-website');
 
+    expect(screen.getByText('LIVE')).toBeInTheDocument();
     // The assistant reply should eventually appear in the chat transcript.
+    expect(await screen.findByText(replyText)).toBeInTheDocument();
+  });
+
+  test('shows an Offline badge when the assistant reports offline mode', async () => {
+    const replyText = 'Cached knowledge base reply';
+
+    global.fetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ reply: replyText, mode: 'offline' }),
+    });
+
+    await act(async () => {
+      render(<ChatBot defaultOpen />);
+    });
+
+    const input = screen.getByPlaceholderText(/type your message/i);
+
+    await act(async () => {
+      await userEvent.type(input, 'Are you online?');
+      await userEvent.click(screen.getByRole('button', { name: /send/i }));
+    });
+
+    expect(await screen.findByText('OFFLINE')).toBeInTheDocument();
     expect(await screen.findByText(replyText)).toBeInTheDocument();
   });
 
@@ -73,6 +97,7 @@ describe('ChatBot', () => {
     const fallbackText =
       "I'm having trouble reaching my assistant server right now, but I can still share general information from the site.";
 
+    expect(await screen.findByText('OFFLINE')).toBeInTheDocument();
     expect(await screen.findByText(fallbackText)).toBeInTheDocument();
   });
 });

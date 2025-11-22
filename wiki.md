@@ -19,22 +19,25 @@ Frontend routes live under `src/pages/` (Home, Services, Portfolio, Blog, Pricin
 
 ## Chatbot & Backend Wiring
 - **Frontend config order:**
-  1. `VITE_ASSISTANT_API_URL` (recommended)
-  2. `VITE_OPENAUXILIUM_URL` (legacy fallback)
-  3. Default: `https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev` (gateway injects auth)
-- **Backend (Cloud Run):**
-  - `POST /api/chat` - chat endpoint (no admin token needed)
+  1. `VITE_CHAT_API_BASE` (Netlify/frontend base URL)
+  2. `VITE_ASSISTANT_API_URL` (legacy alias)
+  3. `VITE_OPENAUXILIUM_URL` (legacy fallback)
+  4. Default: `https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev` (gateway injects auth)
+- **Backend (Cloud Run / Gateway):**
+  - `POST /api/chat` - chat endpoint (no admin token needed). Response includes `reply` and `mode` (`live` | `offline`) to drive the badge in the UI.
   - `POST /api/{collection}` - CRUD for collections (requires admin token)
   - `GET /admin/summary` and `GET /admin/ping-db` - guarded by admin token
   - `GET /health` and `/metadata/version` - health/version
-- Set `VITE_ASSISTANT_API_URL` in your environment for local dev or Netlify builds.
+- CORS is restricted to `https://ravdevops.com` and `https://www.ravdevops.com`; deploy the frontend on those origins.
+- Set `VITE_CHAT_API_BASE` in your environment for local dev or Netlify builds. `netlify.toml` already defines the gateway value for production deploys.
+- The chat header shows `LIVE` (OpenAI connected) vs `OFFLINE` (using cached knowledge base responses).
 
 ## Running Locally (frontend only)
 ```bash
 npm install
 npm run dev   # http://localhost:5173
 ```
-Add a `.env.local` with `VITE_ASSISTANT_API_URL` if you want to point to a different backend URL.
+Add a `.env.local` with `VITE_CHAT_API_BASE` if you want to point to a different backend URL.
 
 ## Versioning & Tags
 - Frontend version is in `package.json`.

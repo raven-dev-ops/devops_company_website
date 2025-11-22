@@ -49,19 +49,24 @@ The optimized bundle is written to `build/` (Netlify uses this).
 - Direct Cloud Run URL (requires ID token): `https://chat-assistant-backend-276715928612.us-central1.run.app`
 - The chatbot (`src/components/ChatBot.jsx`) and contact enrichment share the same base URL.
 - Configure via env vars:
-  - `VITE_ASSISTANT_API_URL` - override the backend base URL (recommended)
-  - `VITE_OPENAUXILIUM_URL` - optional fallback for the legacy Node backend
-
-Resolution order in the client:
+  - `VITE_CHAT_API_BASE` - required frontend base URL (Netlify/environment)
+  - `VITE_ASSISTANT_API_URL` - legacy alias still honored as a fallback
+  - `VITE_OPENAUXILIUM_URL` - optional legacy Node backend fallback
+- API resolution order in the client:
 ```
-VITE_ASSISTANT_API_URL
+VITE_CHAT_API_BASE
+  -> VITE_ASSISTANT_API_URL (legacy alias)
   -> VITE_OPENAUXILIUM_URL
   -> https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev (default)
 ```
+- Chat endpoint: `POST ${VITE_CHAT_API_BASE}/api/chat` with body `{ "message": "<text>", "context": { ... } }`. Response returns `{ reply: string, mode: "live" | "offline" }`, and the UI shows a Live/Offline badge based on `mode`.
+- Optional health check: `GET ${VITE_CHAT_API_BASE}/health`.
+- CORS is restricted to `https://ravdevops.com` and `https://www.ravdevops.com`; host the frontend on those origins.
+  - The chat header shows `LIVE` when connected to OpenAI via the gateway, and `OFFLINE` when serving cached knowledge base responses.
 
 Example `.env` (or `.env.local`):
 ```ini
-VITE_ASSISTANT_API_URL=https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev
+VITE_CHAT_API_BASE=https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev
 # Optional local/legacy backend
 VITE_OPENAUXILIUM_URL=
 ```
@@ -81,7 +86,8 @@ If no token is provided, the function returns the configured default URL.
 - `publish = "build"` and `functions = "netlify/functions"` (see `netlify.toml`)
 - SPA routing redirects to `/index.html`
 - Build command: `npm run build`
-- Required env var: `VITE_ASSISTANT_API_URL` (Cloud Run URL)
+- Required env var: `VITE_CHAT_API_BASE` (gateway URL). `netlify.toml` sets this to `https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev`; update there or in the Netlify UI if the endpoint changes.
+- Deploy on the allowed origins for CORS: `https://ravdevops.com` or `https://www.ravdevops.com`
 - Optional: Calendly variables listed above
 
 ## Testing

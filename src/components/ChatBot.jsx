@@ -4,12 +4,26 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import ravenAssistantIcon from '../assets/service1_banner.png';
+import { getViteEnv } from '../utils/env';
 
-const API_BASE =
-  (typeof window !== 'undefined' &&
-    window.__APP_CONFIG__ &&
-    (window.__APP_CONFIG__.ASSISTANT_API_URL || window.__APP_CONFIG__.OPENAUXILIUM_URL)) ||
-  'https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev';
+const resolveApiBase = () => {
+  const appConfig =
+    typeof window !== 'undefined' && window.__APP_CONFIG__ ? window.__APP_CONFIG__ : null;
+  const env = getViteEnv();
+
+  return (
+    (appConfig &&
+      (appConfig.CHAT_API_BASE ||
+        appConfig.ASSISTANT_API_URL ||
+        appConfig.OPENAUXILIUM_URL)) ||
+    env.VITE_CHAT_API_BASE ||
+    env.VITE_ASSISTANT_API_URL ||
+    env.VITE_OPENAUXILIUM_URL ||
+    'https://chat-assistant-backend-gw-3j4dip0k.uc.gateway.dev'
+  );
+};
+
+const API_BASE = resolveApiBase();
 
 const ChatBot = ({ defaultOpen = false }) => {
   const [open, setOpen] = useState(defaultOpen);
@@ -17,6 +31,7 @@ const ChatBot = ({ defaultOpen = false }) => {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [isResponding, setIsResponding] = useState(false);
+  const [mode, setMode] = useState('offline');
   const listEndRef = useRef(null);
 
   // Ensure the bubble is visible whenever the chat opens
@@ -73,6 +88,8 @@ const ChatBot = ({ defaultOpen = false }) => {
     return id;
   };
 
+  const normalizeMode = (value) => (value === 'offline' ? 'offline' : 'live');
+
   const handleSend = async () => {
     const text = (userInput || '').trim();
     if (!text) return;
@@ -99,14 +116,17 @@ const ChatBot = ({ defaultOpen = false }) => {
       });
 
       if (!res.ok) {
+        setMode('offline');
         throw new Error(`Chat error: ${res.status}`);
       }
 
       const json = await res.json();
+      setMode(normalizeMode(json.mode));
       if (json.reply) {
         appendMessage('bot', json.reply);
       }
     } catch (error) {
+      setMode('offline');
       appendMessage(
         'bot',
         "I'm having trouble reaching my assistant server right now, but I can still share general information from the site.",
@@ -137,8 +157,19 @@ const ChatBot = ({ defaultOpen = false }) => {
             <div className="flex items-center justify-between bg-raven-blue px-4 py-3 text-white">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold">Raven AI Assistant</span>
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-red-200">
-                  Live
+                <span
+                  className={`text-[10px] font-semibold uppercase tracking-wide ${
+                    mode === 'offline'
+                      ? 'rounded-md bg-red-500/90 px-2 py-0.5 text-white'
+                      : 'rounded-md bg-emerald-500/90 px-2 py-0.5 text-white'
+                  }`}
+                  title={
+                    mode === 'offline'
+                      ? 'Offline: using cached knowledge base responses'
+                      : 'Live: connected to OpenAI via assistant API'
+                  }
+                >
+                  {mode === 'offline' ? 'OFFLINE' : 'LIVE'}
                 </span>
               </div>
               <button
