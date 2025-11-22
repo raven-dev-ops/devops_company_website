@@ -1,17 +1,17 @@
-# Raven Development Operations – Security Policy
+# Raven Development Operations - Security Policy
 
-This repository contains the marketing site and optional assistant backends for Raven Development Operations. It is not a multi-tenant SaaS product, but it may be deployed to public infrastructure (for example, Netlify + Functions and Heroku or a Node server).
+This repository contains the marketing site and assistant backends for Raven Development Operations. It is not a multi-tenant SaaS product, but it may be deployed to public infrastructure (for example, Netlify + Functions, Cloud Run, or Heroku).
 
 ## Supported Versions
 
-Security updates are provided on a best-effort basis for the most recent major versions of the frontend site and the optional assistant backends.
+Security updates are provided on a best-effort basis for the most recent major versions of the frontend site and the assistant backends.
 
-| Component                                       | Version range | Supported          |
-| ----------------------------------------------- | ------------- | ------------------ |
-| Website (`package.json`)                        | 1.0.x         | :white_check_mark: |
-| Chat assistant backend (`chat-assistant-backend`) | 0.2.x       | :white_check_mark: |
-| OpenAuxilium backend (`OpenAuxilium/package.json`) | 0.1.x       | :white_check_mark: |
-| Earlier versions                                | < listed      | :x:                |
+| Component                                         | Version range | Supported          |
+| ------------------------------------------------- | ------------- | ------------------ |
+| Website (`package.json`)                          | 1.0.x         | :white_check_mark: |
+| Chat assistant backend (`chat-assistant-backend`) | 0.2.x         | :white_check_mark: |
+| OpenAuxilium backend (`OpenAuxilium/package.json`) | 0.1.x        | :white_check_mark: |
+| Earlier versions                                  | < listed      | :x:                |
 
 When cutting a new release, update this table to reflect which ranges are still receiving security fixes.
 
@@ -50,16 +50,16 @@ If you have questions about secure deployment or configuration for Raven Develop
 
 ## Current Security Posture
 
-The following notes describe the current security state of this repository’s `main` branch:
+The following notes describe the current security state of this repository's `main` branch:
 
 - **Chat assistant backend (`chat-assistant-backend`):**
-  - Protects `/admin/*` and collection write endpoints with a bearer token taken from the `ADMIN_API_TOKEN` environment variable.
-  - Applies conservative, in-memory per-IP rate limiting to `POST /api/chat` and write endpoints to reduce abuse risk.
-  - Python dependencies are periodically checked with tools like `pip-audit`; as of the latest release there are no known vulnerabilities in the locked backend dependency set.
+  - Deploys to Cloud Run behind API Gateway; `/admin/*` and collection write endpoints require the `ADMIN_API_TOKEN` bearer token and fail closed if the token is unset.
+  - Applies in-memory per-IP rate limiting to `POST /api/chat` and write endpoints to reduce abuse risk.
+  - A valid Postgres `DATABASE_URL` is required for live mode; if it is missing or disabled, the service degrades gracefully to offline responses without exposing admin endpoints.
+  - Python dependencies are periodically checked with tools like `pip-audit` and CodeQL; the supported line is 0.2.x.
 - **Website / frontend:**
-  - `npm audit` is used to monitor the Node dependency tree. The `glob` advisory in the build toolchain has been addressed via a non-breaking update.
-  - Remaining `npm audit` alerts are limited to transitive development tooling inside `react-scripts` (for example `svgo`, `postcss`, `webpack-dev-server`). There is no supported non-breaking upgrade path while using `react-scripts@5`, so fully eliminating these requires migrating the build system (for example to Vite or another modern bundler).
-  - These remaining advisories affect the build/dev toolchain only and are not shipped with the static production assets, but they are still tracked in Dependabot for visibility.
+  - Built with Vite + React 18; `npm audit` is monitored via Dependabot.
+  - Required production env var is `VITE_CHAT_API_BASE` (assistant gateway). Netlify Functions rely on platform-scoped secrets (for example Calendly tokens) and do not bundle secrets into the static site.
+  - No server-rendered secrets are present; keep `.env` files and tokens out of Git.
 
-As new hardening work lands (for example, moving the frontend away from `react-scripts` or adding stronger authentication), this document should be updated to reflect the current posture.
-
+As new hardening work lands (for example, adding stronger authentication or tightening CORS), this document should be updated to reflect the current posture.

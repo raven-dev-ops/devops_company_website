@@ -1,11 +1,11 @@
-# Raven Development Operations — Internal Wiki (Hub)
+# Raven Development Operations - Internal Wiki (Hub)
 
 Lightweight hub for the demo website and assistant backend wiring.
 
 ## Overview
-- **Repository:** Marketing/demo site plus optional legacy assistant backend.
+- **Repository:** Marketing/demo site plus the production assistant backend (`chat-assistant-backend/`) and an optional legacy Node backend.
 - **Frontend:** React 18 + Vite + React Router + Tailwind + Netlify Functions.
-- **Assistant backend (production):** Cloud Run FastAPI service backed by Cloud SQL (Postgres) + OpenAI; rate-limited per IP.
+- **Assistant backend (production):** `chat-assistant-backend/` FastAPI service backed by Cloud SQL (Postgres) + OpenAI; rate-limited per IP.
 - **Assistant backend (legacy/local):** `OpenAuxilium/` Node + Express (kept for experimentation only).
 
 ## Key Areas
@@ -39,6 +39,10 @@ npm run dev   # http://localhost:5173
 ```
 Add a `.env.local` with `VITE_CHAT_API_BASE` if you want to point to a different backend URL.
 
+## Testing
+- Frontend: `npm test -- --runInBand`
+- Backend: `cd chat-assistant-backend && py -3.12 -m pip install -r backend/requirements.txt && py -3.12 -m pytest`
+
 ## Versioning & Tags
 - Frontend version is in `package.json`.
 - Legacy OpenAuxilium version is in `OpenAuxilium/package.json`.
@@ -47,4 +51,4 @@ Add a `.env.local` with `VITE_CHAT_API_BASE` if you want to point to a different
 ## Operations Notes
 - Keep secrets (API tokens, DB creds, admin tokens) out of Git; use platform secrets.
 - Monitoring: rely on hosting/platform logs; expand as needed.
-- Legacy Python/MongoDB backend docs remain in `chat-assistant-backend/` for historical reference only. The production backend is the Cloud Run Postgres service.
+- The production backend lives in `chat-assistant-backend/` (FastAPI + Postgres). `OpenAuxilium/` is legacy/local-only.

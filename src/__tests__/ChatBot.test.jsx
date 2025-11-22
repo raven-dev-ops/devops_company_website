@@ -1,12 +1,22 @@
-import React, { act } from 'react';
+import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act as reactAct } from 'react';
 import ChatBot, { CHAT_STATE_STORAGE_KEY } from '../components/ChatBot.jsx';
 import { getOfflineReply } from '../utils/offlineResponder';
 
 jest.mock('../utils/offlineResponder', () => ({
   getOfflineReply: jest.fn(() => null),
 }));
+
+// Silence ReactDOMTestUtils.act deprecation by delegating to React.act.
+jest.mock('react-dom/test-utils', () => {
+  const actual = jest.requireActual('react-dom/test-utils');
+  const react = jest.requireActual('react');
+  return { ...actual, act: react.act };
+});
+
+const actAsync = async (cb) => reactAct(async () => cb());
 
 describe('ChatBot', () => {
   beforeAll(() => {
@@ -34,16 +44,12 @@ describe('ChatBot', () => {
       json: async () => ({ reply: replyText, mode: 'live' }),
     });
 
-    await act(async () => {
-      render(<ChatBot defaultOpen />);
-    });
+    await actAsync(() => render(<ChatBot defaultOpen />));
 
     const input = screen.getByPlaceholderText(/type your message/i);
 
-    await act(async () => {
-      await userEvent.type(input, 'Hello there');
-      await userEvent.click(screen.getByRole('button', { name: /send/i }));
-    });
+    await actAsync(() => userEvent.type(input, 'Hello there'));
+    await actAsync(() => userEvent.click(screen.getByRole('button', { name: /send/i })));
 
     // Verify fetch was called with the expected URL and payload
     await waitFor(() => {
@@ -63,7 +69,7 @@ describe('ChatBot', () => {
     expect(body).toHaveProperty('chatUserId', body.context.chatUserId);
     expect(body).not.toHaveProperty('sessionId');
 
-    expect(screen.getByText('LIVE')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('LIVE')).toBeInTheDocument());
     // The assistant reply should eventually appear in the chat transcript.
     expect(await screen.findByText(replyText)).toBeInTheDocument();
   });
@@ -79,21 +85,18 @@ describe('ChatBot', () => {
         json: async () => ({ reply: 'Follow up', mode: 'live' }),
       });
 
-    await act(async () => {
-      render(<ChatBot defaultOpen />);
-    });
+    await actAsync(() => render(<ChatBot defaultOpen />));
 
     const input = screen.getByPlaceholderText(/type your message/i);
 
-    await act(async () => {
-      await userEvent.type(input, 'Hello there');
-      await userEvent.click(screen.getByRole('button', { name: /send/i }));
-    });
+    await actAsync(() => userEvent.type(input, 'Hello there'));
+    await actAsync(() => userEvent.click(screen.getByRole('button', { name: /send/i })));
 
-    await act(async () => {
-      await userEvent.type(input, 'How about now?');
-      await userEvent.click(screen.getByRole('button', { name: /send/i }));
-    });
+    // Wait for the first reply so the sessionId is stored before the next turn.
+    await screen.findByText('First reply');
+
+    await actAsync(() => userEvent.type(input, 'How about now?'));
+    await actAsync(() => userEvent.click(screen.getByRole('button', { name: /send/i })));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledTimes(2);
@@ -112,49 +115,37 @@ describe('ChatBot', () => {
       json: async () => ({ reply: replyText, mode: 'offline' }),
     });
 
-    await act(async () => {
-      render(<ChatBot defaultOpen />);
-    });
+    await actAsync(() => render(<ChatBot defaultOpen />));
 
     const input = screen.getByPlaceholderText(/type your message/i);
 
-    await act(async () => {
-      await userEvent.type(input, 'Are you online?');
-      await userEvent.click(screen.getByRole('button', { name: /send/i }));
-    });
+    await actAsync(() => userEvent.type(input, 'Are you online?'));
+    await actAsync(() => userEvent.click(screen.getByRole('button', { name: /send/i })));
 
     expect(await screen.findByText('OFFLINE')).toBeInTheDocument();
     expect(await screen.findByText(replyText)).toBeInTheDocument();
   });
 
   test('quick reply drops a Calendly link without calling the API', async () => {
-    await act(async () => {
-      render(<ChatBot defaultOpen />);
-    });
+    await actAsync(() => render(<ChatBot defaultOpen />));
 
     const calendlyButton = await screen.findByRole('button', { name: /calendly link/i });
 
-    await act(async () => {
-      await userEvent.click(calendlyButton);
-    });
+    await actAsync(() => userEvent.click(calendlyButton));
 
     expect(global.fetch).not.toHaveBeenCalled();
     expect(await screen.findByText(/calendly\.com\/ravdevops\/discovery-meeting/i)).toBeInTheDocument();
   });
 
   test('inline quick replies render and respond without hitting the API', async () => {
-    await act(async () => {
-      render(<ChatBot defaultOpen />);
-    });
+    await actAsync(() => render(<ChatBot defaultOpen />));
 
     expect(await screen.findByRole('button', { name: /email us/i })).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: /pricing page/i })).toBeInTheDocument();
 
     const emailButton = await screen.findByRole('button', { name: /email us/i });
 
-    await act(async () => {
-      await userEvent.click(emailButton);
-    });
+    await actAsync(() => userEvent.click(emailButton));
 
     expect(global.fetch).not.toHaveBeenCalled();
     expect(await screen.findByText(/business@ravdevops\.com/i)).toBeInTheDocument();
@@ -171,16 +162,12 @@ describe('ChatBot', () => {
       }),
     });
 
-    await act(async () => {
-      render(<ChatBot defaultOpen />);
-    });
+    await actAsync(() => render(<ChatBot defaultOpen />));
 
     const input = screen.getByPlaceholderText(/type your message/i);
 
-    await act(async () => {
-      await userEvent.type(input, 'What services do you offer?');
-      await userEvent.click(screen.getByRole('button', { name: /send/i }));
-    });
+    await actAsync(() => userEvent.type(input, 'What services do you offer?'));
+    await actAsync(() => userEvent.click(screen.getByRole('button', { name: /send/i })));
 
     expect(await screen.findByText('OFFLINE')).toBeInTheDocument();
     expect(await screen.findByText(/short offline answer/i)).toBeInTheDocument();
@@ -190,16 +177,12 @@ describe('ChatBot', () => {
   test('shows a fallback message when the assistant API is unreachable', async () => {
     global.fetch.mockRejectedValue(new Error('Network error'));
 
-    await act(async () => {
-      render(<ChatBot defaultOpen />);
-    });
+    await actAsync(() => render(<ChatBot defaultOpen />));
 
     const input = screen.getByPlaceholderText(/type your message/i);
 
-    await act(async () => {
-      await userEvent.type(input, 'Test connectivity');
-      await userEvent.click(screen.getByRole('button', { name: /send/i }));
-    });
+    await actAsync(() => userEvent.type(input, 'Test connectivity'));
+    await actAsync(() => userEvent.click(screen.getByRole('button', { name: /send/i })));
 
     const fallbackText =
       "I'm having trouble reaching my assistant server right now, but I can still share general information from the site.";
@@ -229,16 +212,12 @@ describe('ChatBot', () => {
       json: async () => ({ reply: 'Follow up from live API', mode: 'live' }),
     });
 
-    await act(async () => {
-      render(<ChatBot defaultOpen />);
-    });
+    await actAsync(() => render(<ChatBot defaultOpen />));
 
     const input = screen.getByPlaceholderText(/type your message/i);
 
-    await act(async () => {
-      await userEvent.type(input, 'Can you pick up the thread?');
-      await userEvent.click(screen.getByRole('button', { name: /send/i }));
-    });
+    await actAsync(() => userEvent.type(input, 'Can you pick up the thread?'));
+    await actAsync(() => userEvent.click(screen.getByRole('button', { name: /send/i })));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledTimes(1);

@@ -26,4 +26,4 @@ git push origin openauxilium-v0.1.0
 ```
 
 ## Backend note
-The production assistant backend is now the Cloud Run FastAPI service backed by Cloud SQL (Postgres). Legacy Python/MongoDB assets remain in `chat-assistant-backend/` for historical reference only.
+The production assistant backend lives in `chat-assistant-backend/` (FastAPI + Cloud SQL/Postgres behind API Gateway). `OpenAuxilium/` is the only legacy/local-only backend.
