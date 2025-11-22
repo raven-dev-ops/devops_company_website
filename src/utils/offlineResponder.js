@@ -1,4 +1,5 @@
 import knowledgeBase from '../../OpenAuxilium/src/data/knowledgeBase.json';
+import { logTelemetry } from './telemetry';
 
 const entries = Array.isArray(knowledgeBase?.entries) ? knowledgeBase.entries : [];
 
@@ -83,29 +84,38 @@ export const getOfflineReply = (message) => {
   const words = normalize(message);
   if (!words.length) return null;
   const echo = words.slice(0, 6).join(' ');
+  const record = (intent, extra = {}) => logTelemetry('offline_intent', { intent, ...extra });
 
   if (isHowAreYou(words)) {
+    record('how_are_you');
     return 'Doing well and here to help. Want to talk services, pricing, or your project?';
   }
   if (isGreeting(words)) {
+    record('greeting');
     return 'Howdy! What are you working on—services, pricing, or your project?';
   }
   if (isOutlineIntent(words)) {
+    record('outline');
     return quickPlan();
   }
   if (isQuoteIntent(words)) {
+    record('quote');
     return `I can scope a quote for ${echo || 'this idea'}. Who are the users and what's the timeline?`;
   }
   if (isTimelineIntent(words)) {
+    record('timeline');
     return 'Noted on timeline. What is the deadline and the must-have for launch?';
   }
   if (isDomainIntent(words)) {
+    record('domain');
     return 'If this touches sensitive data (HIPAA/PII), I will tailor infra. What is the core user flow and data you store?';
   }
   if (isScheduleIntent(words)) {
+    record('schedule');
     return 'I can set up a call. Want the Calendly link, or should I share a quick outline first?';
   }
   if (isProjectIntent(words)) {
+    record('project');
     return buildProjectAck(message, echo);
   }
 
@@ -121,14 +131,17 @@ export const getOfflineReply = (message) => {
   }
 
   if (!best || bestScore < MIN_MATCH_SCORE) {
+    record('low_confidence');
     return promptForDetails;
   }
 
   if (best.answer) {
     const topic = best.title || best.question || 'this topic';
     const trimmed = truncate(firstSentence(best.answer));
+    record('kb_match', { topic, score: bestScore });
     return `For ${topic}: ${trimmed} ${nextStep()}`;
   }
 
+  record('fallback');
   return promptForDetails;
 };
