@@ -13,7 +13,7 @@ const normalize = (text) =>
 const isGreeting = (words) => words.some((w) => ['hi', 'hey', 'hello'].includes(w));
 const isHowAreYou = (words) => words.join(' ').includes('how are you') || words.includes('hru');
 
-const truncate = (text, max = 360) => {
+const truncate = (text, max = 180) => {
   if (!text) return '';
   if (text.length <= max) return text;
   return `${text.slice(0, max).trim()}…`;
@@ -39,10 +39,10 @@ export const getOfflineReply = (message) => {
   if (!words.length) return null;
 
   if (isHowAreYou(words)) {
-    return "I'm doing well and ready to help. Want to chat services, pricing, or a project you're planning?";
+    return "Doing well and ready to help. What should we focus on—services, pricing, or your project?";
   }
   if (isGreeting(words)) {
-    return 'Hey there! Looking for services, pricing, or help planning a project? Tell me and I’ll tailor it for you.';
+    return 'Hey! What are you working on—services, pricing, or a project plan?';
   }
 
   let best = null;
@@ -57,7 +57,7 @@ export const getOfflineReply = (message) => {
   }
 
   const promptForDetails =
-    "Happy to help. What should we dive into—services, pricing, or a project you're planning? Tell me and I'll tailor the answer.";
+    "Tell me what you're after—services, pricing, or your project—and I'll point you to details.";
 
   if (!best || bestScore === 0) {
     return promptForDetails;
@@ -66,11 +66,9 @@ export const getOfflineReply = (message) => {
   if (best.answer) {
     const topic = best.title || best.question || 'this topic';
     const trimmed = truncate(best.answer);
-    return [
-      `I can help with ${topic}:`,
-      trimmed,
-      'Want to go deeper on services, pricing, or the project you have in mind?',
-    ].join('\n\n');
+    return [`For ${topic}: ${trimmed}`, 'What should we focus on—services, pricing, or your project?'].join(
+      '\n'
+    );
   }
 
   return promptForDetails;

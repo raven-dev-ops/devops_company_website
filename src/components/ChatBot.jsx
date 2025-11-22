@@ -189,7 +189,7 @@ const ChatBot = ({ defaultOpen = false }) => {
       appendMessage(
         'bot',
         offlineAnswer ||
-          "Happy to help. What should we dive into—services, pricing, or a project you're planning? Tell me and I'll tailor the answer.",
+          "Tell me what you're after—services, pricing, or your project—and I'll point you to details.",
       );
     } finally {
       setIsResponding(false);
