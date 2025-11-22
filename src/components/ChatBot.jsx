@@ -6,6 +6,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 import ravenAssistantIcon from '../assets/service1_banner.png';
 import { getViteEnv } from '../utils/env';
 import { getOfflineReply } from '../utils/offlineResponder';
+import { logTelemetry } from '../utils/telemetry';
 
 const resolveApiBase = () => {
   const appConfig =
@@ -28,12 +29,23 @@ const API_BASE = resolveApiBase();
 export const CHAT_STATE_STORAGE_KEY = 'raven-chatbot-state';
 const normalizeMode = (value) => (value === 'offline' ? 'offline' : 'live');
 const delay = (ms = 250) => new Promise((resolve) => setTimeout(resolve, ms));
-const typingDelayFor = (text, isOffline) => {
-  if (!isOffline) return 0;
+const typingDelayFor = (text, mode) => {
   const len = (text || '').length;
-  const base = 200;
-  const scaled = base + len * 6;
-  return Math.min(600, Math.max(200, scaled));
+  if (mode === 'offline') {
+    const base = 200;
+    const scaled = base + len * 6;
+    return Math.min(600, Math.max(200, scaled));
+  }
+  // Live: lighter delay for short replies only.
+  if (len < 60) return 180 + len * 3;
+  return 0;
+};
+const trimReply = (text) => {
+  if (!text) return text;
+  const sentences = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const clipped = sentences.slice(0, 3).join(' ');
+  const maxLen = 260;
+  return clipped.length > maxLen ? `${clipped.slice(0, maxLen).trim()}...` : clipped;
 };
 
 const ChatBot = ({ defaultOpen = false }) => {
@@ -138,6 +150,7 @@ const ChatBot = ({ defaultOpen = false }) => {
     if (!text) return;
 
     appendMessage('user', text);
+    logTelemetry('chat_user_message', { mode, length: text.length });
     setUserInput('');
     setIsResponding(true);
 
@@ -172,14 +185,20 @@ const ChatBot = ({ defaultOpen = false }) => {
 
       const resolvedMode = normalizeMode(json.mode);
       setMode(resolvedMode);
+       logTelemetry('chat_mode', { mode: resolvedMode });
 
-      let replyText = json.reply;
+      let replyText = trimReply(json.reply);
 
       if (resolvedMode === 'offline') {
-        await delay(typingDelayFor(text, true));
+        await delay(typingDelayFor(replyText, 'offline'));
         const offlineAnswer = getOfflineReply(text);
         if (offlineAnswer) {
-          replyText = offlineAnswer;
+          replyText = trimReply(offlineAnswer);
+        }
+      } else {
+        const liveDelay = typingDelayFor(replyText, 'live');
+        if (liveDelay > 0) {
+          await delay(liveDelay);
         }
       }
 
@@ -187,13 +206,16 @@ const ChatBot = ({ defaultOpen = false }) => {
         appendMessage('bot', replyText);
       }
     } catch (error) {
+      logTelemetry('chat_error', { message: String(error) });
       setMode('offline');
-      await delay(typingDelayFor(text, true));
+      await delay(typingDelayFor(text, 'offline'));
       const offlineAnswer = getOfflineReply(text);
       appendMessage(
         'bot',
-        offlineAnswer ||
-          'What should we focus on—services, pricing, or your project? I will keep it short.',
+        trimReply(
+          offlineAnswer ||
+            'What should we focus on—services, pricing, or your project? I will keep it short.'
+        ),
       );
     } finally {
       setIsResponding(false);
@@ -212,9 +234,29 @@ const ChatBot = ({ defaultOpen = false }) => {
       const promptText = qr.text || 'Share the Calendly link.';
       appendMessage('user', promptText);
       appendMessage('bot', qr.inlineReply);
+      logTelemetry('quick_reply', { id: qr.id, type: 'inline' });
       return;
     }
+    logTelemetry('quick_reply', { id: qr.id, type: 'text' });
     handleSend(qr.text);
+  };
+
+  const exportTelemetry = () => {
+    try {
+      if (typeof window === 'undefined') return;
+      const data = window.__RAVEN_TELEMETRY__ || [];
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `raven-telemetry-${Date.now()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      /* no-op */
+    }
   };
 
   return (
@@ -373,6 +415,13 @@ const ChatBot = ({ defaultOpen = false }) => {
               </div>
 
               <div className="flex items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={exportTelemetry}
+                  className="text-[10px] text-slate-500 underline decoration-dotted underline-offset-4 hover:text-slate-700"
+                >
+                  Export telemetry
+                </button>
                 <input
                   type="text"
                   value={userInput}
