@@ -11,6 +11,11 @@ const normalize = (text) =>
     .split(/\s+/)
     .filter(Boolean);
 
+const buildEcho = (words, max = 4) => {
+  if (!words.length) return '';
+  return words.slice(0, max).join(' ');
+};
+
 const isGreeting = (words) =>
   ['hi', 'hey', 'hello', 'yo', 'sup', 'whats', "what's", 'whatsup', 'howdy', 'hiya'].some((g) =>
     words.includes(g)
@@ -37,6 +42,7 @@ const isDomainIntent = (words) =>
 const isScheduleIntent = (words) =>
   ['schedule', 'meet', 'meeting', 'call', 'calendly', 'book'].some((w) => words.includes(w));
 const hasTimeframe = (text) => /\b(day|week|month|deadline|today|tomorrow|next)\b/i.test(text);
+const hasVolume = (text) => /\b\d+k?\b/i.test(text) || /\b(users?|seats?|daily|monthly)\b/i.test(text);
 const randomChoice = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const truncate = (text, max = 140) => {
@@ -66,6 +72,14 @@ const nextStep = () =>
   Math.random() < 0.5
     ? 'Want a quick outline or a Calendly link to talk live?'
     : 'Should I send a short plan or drop the Calendly link to chat this week?';
+const pricingFollowups = [
+  'I can outline a starter vs. pro tier. How many users and calls per day?',
+  'Rough ranges depend on usage and integrations. How many users and what external APIs?',
+];
+const volumeFollowup = (message) => {
+  const hint = hasTimeframe(message) ? ' and a near-term timeline' : '';
+  return `Sounds like higher usage${hint}. Want me to share ranges or drop a Calendly link?`;
+};
 const MIN_MATCH_SCORE = 2;
 const greetingReplies = [
   'All good here. Want to talk services, pricing, or your project?',
@@ -96,7 +110,7 @@ const scoreEntry = (words, entry) => {
 export const getOfflineReply = (message) => {
   const words = normalize(message);
   if (!words.length) return null;
-  const echo = words.slice(0, 6).join(' ');
+  const echo = buildEcho(words, 4);
   const record = (intent, extra = {}) => logTelemetry('offline_intent', { intent, ...extra });
 
   if (isHowAreYou(words)) {
@@ -113,8 +127,15 @@ export const getOfflineReply = (message) => {
   }
   if (isQuoteIntent(words) || isPricingIntent(words)) {
     record('quote');
-    return `I can outline pricing for ${echo || 'this idea'}. Who will use it and how heavy is the usage?`;
+    return `${pricingFollowups[Math.floor(Math.random() * pricingFollowups.length)]}`;
   }
+  if (hasVolume(message)) {
+    record('quote_volume');
+    return volumeFollowup(message);
+  }
+  if (hasVolume(message) && isPricingIntent(words) is False):
+    record('quote_volume');
+    return `${pricingFollowups[Math.floor(Math.random() * pricingFollowups.length)]}`;
   if (isTimelineIntent(words)) {
     record('timeline');
     return 'Noted on timeline. What is the deadline and the must-have for launch?';
