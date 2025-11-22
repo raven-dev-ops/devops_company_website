@@ -117,8 +117,7 @@ function TrustedByCarousel({ index }) {
   if (!trustedLogos || total === 0) return null;
 
   const current = trustedLogos[index % total];
-  const isColonial = current.name === 'Colonial KC';
-  const logoSizeClass = isColonial ? 'h-24 sm:h-28' : 'h-32 sm:h-36';
+  const logoWrapperClass = 'flex items-center justify-center w-44 h-28 sm:w-52 sm:h-32';
 
   return (
     <div className="mt-7 mb-7 flex flex-col items-center gap-5">
@@ -132,11 +131,11 @@ function TrustedByCarousel({ index }) {
             transition={{ duration: 0.35, ease: 'easeInOut' }}
             className="absolute inset-0 flex flex-col items-center gap-5 sm:flex-row sm:items-center sm:gap-7"
           >
-            <div className="flex flex-shrink-0 items-center justify-center">
+            <div className={logoWrapperClass}>
               <img
                 src={current.src}
                 alt={current.name}
-                className={`${logoSizeClass} w-auto object-contain`}
+                className="h-full w-full object-contain"
               />
             </div>
             <div className="flex flex-col gap-2 text-center sm:text-left">
