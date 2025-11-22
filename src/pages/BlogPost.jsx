@@ -78,9 +78,16 @@ export default function BlogPost() {
           })}
         </div>
       </div>
-      {post.image && (
+      {post.image ? (
         <div className="overflow-hidden rounded-3xl border border-raven-border/70 bg-raven-card/80">
           <img src={post.image} alt={post.title} className="h-64 w-full object-cover sm:h-80" />
+        </div>
+      ) : (
+        <div className="flex h-64 items-center justify-center rounded-3xl border border-dashed border-raven-border/70 bg-gradient-to-br from-raven-card/80 via-raven-card to-black/40 text-center sm:h-80">
+          <div>
+            <p className="text-xs uppercase tracking-[0.25em] text-raven-cyan">Preview coming soon</p>
+            <p className="mt-2 text-lg font-semibold text-white">{post.title}</p>
+          </div>
         </div>
       )}
       <p className="text-lg leading-relaxed text-slate-200">{post.content}</p>
@@ -119,13 +126,17 @@ export default function BlogPost() {
                 className="group block w-56 shrink-0"
               >
                 <article className="flex h-full flex-col gap-2 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-3 text-sm transition transform hover:scale-105 hover:border-raven-accent/80 hover:bg-raven-card hover:shadow-soft-glow">
-                  {related.image && (
+                  {related.image ? (
                     <div className="overflow-hidden rounded-xl border border-raven-border/60 bg-raven-card/80">
                       <img
                         src={related.image}
                         alt={related.title}
                         className="h-24 w-full object-cover"
                       />
+                    </div>
+                  ) : (
+                    <div className="flex h-24 items-center justify-center rounded-xl border border-dashed border-raven-border/60 bg-gradient-to-br from-raven-card/80 via-raven-card to-black/40 text-center">
+                      <p className="text-[10px] font-semibold text-white">Preview coming soon</p>
                     </div>
                   )}
                   <p className="text-[10px] uppercase tracking-[0.2em] text-raven-cyan">

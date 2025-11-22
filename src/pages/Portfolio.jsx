@@ -95,6 +95,7 @@ export default function Portfolio() {
         {visibleItems.map((item) => {
           const cardHoverEnabled = imageHoverSlug !== item.slug;
           const isImageHovered = imageHoverSlug === item.slug;
+          const hasImages = item.screenshots && item.screenshots.length > 0;
           const baseCardClass =
             'flex h-full cursor-pointer flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6 transition';
           const hoverCardClass = cardHoverEnabled
@@ -116,7 +117,7 @@ export default function Portfolio() {
               }}
               className={baseCardClass + hoverCardClass}
             >
-              {item.screenshots && item.screenshots.length > 0 && (
+              {hasImages ? (
                 <div
                   className="mb-3"
                   onMouseEnter={() => setImageHoverSlug(item.slug)}
@@ -195,6 +196,18 @@ export default function Portfolio() {
                       })}
                     </div>
                   </div>
+                </div>
+              ) : (
+                <div className="mb-3 rounded-2xl border border-dashed border-raven-border/70 bg-gradient-to-br from-raven-card/80 via-raven-card to-black/40 px-4 py-10 text-center">
+                  <p className="text-xs uppercase tracking-[0.25em] text-raven-cyan">
+                    Preview coming soon
+                  </p>
+                  <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
+                  {item.date && (
+                    <p className="mt-1 text-xs uppercase tracking-[0.2em] text-slate-300">
+                      {item.date}
+                    </p>
+                  )}
                 </div>
               )}
               <p className="text-sm text-slate-300">{item.description}</p>

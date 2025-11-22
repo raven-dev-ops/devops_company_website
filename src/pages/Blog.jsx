@@ -51,9 +51,16 @@ export default function Blog() {
               className="group block"
             >
               <article className={baseCardClass}>
-                {post.image && (
+                {post.image ? (
                   <div className="overflow-hidden rounded-xl border border-raven-border/60 bg-raven-card/80">
                     <img src={post.image} alt={post.title} className="h-40 w-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-raven-border/60 bg-gradient-to-br from-raven-card/80 via-raven-card to-black/40 text-center">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.25em] text-raven-cyan">Preview coming soon</p>
+                      <p className="mt-2 text-sm font-semibold text-white">{post.title}</p>
+                    </div>
                   </div>
                 )}
               <div className="flex items-center justify-between">
