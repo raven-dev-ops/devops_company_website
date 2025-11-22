@@ -177,7 +177,7 @@ export default function Services() {
             {(!hasVideo || !isPlaying) && (
               <button
                 type="button"
-                onClick={handlePlayClick}
+                onClick={hasVideo ? handlePlayClick : undefined}
                 className="absolute inset-0 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-raven-accent/70"
                 style={{
                   backgroundImage: `url(${overlayBackground})`,
@@ -196,6 +196,11 @@ export default function Services() {
                     <p className="mt-1 text-xs uppercase tracking-[0.2em] text-slate-200 text-center transition transform hover:scale-105 hover:text-raven-accent hover:shadow-soft-glow">
                       {hasVideo ? `Click to play Step ${previewStep.number} video` : 'Preview coming soon'}
                     </p>
+                    {!hasVideo && (
+                      <span className="mt-1 rounded-full border border-raven-border/60 bg-black/50 px-3 py-1 text-[10px] font-semibold uppercase text-slate-200">
+                        Coming soon
+                      </span>
+                    )}
                   </div>
                 </div>
                 {hasVideo && (
