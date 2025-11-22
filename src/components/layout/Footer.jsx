@@ -19,6 +19,24 @@ export default function Footer() {
           <Link to="/terms" className="hover:text-white">
             Terms of Service
           </Link>
+          <span className="text-slate-500">/</span>
+          <a
+            href="https://github.com/raven-dev-ops/devops_company_website/blob/main/RELEASES.md"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-white"
+          >
+            Releases
+          </a>
+          <span className="text-slate-500">/</span>
+          <a
+            href="https://github.com/raven-dev-ops/devops_company_website/blob/main/README.md#versioning-tags-and-docs"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-white"
+          >
+            Versions
+          </a>
         </div>
       </div>
     </footer>
