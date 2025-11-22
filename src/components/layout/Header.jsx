@@ -18,7 +18,7 @@ const navItems = [
 const alertMessages = [
   'RavDevOps: Fractional DevOps and custom tooling for small teams.',
   'Tip: You can chat with Raven any time using the assistant in the bottom-right.',
-  'Booking hours: 1–4pm Mon, Tue, Thu, Fri, and most federal holidays.',
+  'Booking hours: 1-4pm Mon, Tue, Thu, and Fri.',
   'Reminder: This site uses a local AI assistant – no external AI API keys.',
   'Fun fact: The team behind RavDevOps builds Discord bots and gaming tools too.',
 ];
