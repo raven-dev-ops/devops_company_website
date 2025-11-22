@@ -166,36 +166,6 @@ export default function Portfolio() {
                       <span>Click to view gallery</span>
                     </button>
                   </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    {item.date && (
-                      <span className="text-xs uppercase tracking-[0.2em] text-raven-cyan">
-                        {item.date}
-                      </span>
-                    )}
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      {(item.tags || []).map((tag) => {
-                        let tagClasses = 'rounded-full border px-2 py-1';
-
-                        if (tag === 'CI/CD') {
-                          tagClasses += ' border-emerald-400/70 bg-emerald-500/10 text-emerald-300';
-                        } else if (tag === 'Cloud') {
-                          tagClasses += ' border-sky-400/70 bg-sky-500/10 text-sky-300';
-                        } else if (tag === 'SRE') {
-                          tagClasses += ' border-amber-400/70 bg-amber-500/10 text-amber-200';
-                        } else if (tag === 'Tooling') {
-                          tagClasses += ' border-violet-400/70 bg-violet-500/10 text-violet-300';
-                        } else {
-                          tagClasses += ' border-raven-border/60 bg-raven-surface/60 text-slate-200';
-                        }
-
-                        return (
-                          <span key={tag} className={tagClasses}>
-                            {tag}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
                 </div>
               ) : (
                 <div className="mb-3 rounded-2xl border border-dashed border-raven-border/70 bg-gradient-to-br from-raven-card/80 via-raven-card to-black/40 px-4 py-10 text-center">
@@ -203,13 +173,38 @@ export default function Portfolio() {
                     Preview coming soon
                   </p>
                   <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
-                  {item.date && (
-                    <p className="mt-1 text-xs uppercase tracking-[0.2em] text-slate-300">
-                      {item.date}
-                    </p>
-                  )}
                 </div>
               )}
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex flex-col gap-1">
+                  {item.date && (
+                    <span className="uppercase tracking-[0.2em] text-raven-cyan">{item.date}</span>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {(item.tags || []).map((tag) => {
+                    let tagClasses = 'rounded-full border px-2 py-1';
+
+                    if (tag === 'CI/CD') {
+                      tagClasses += ' border-emerald-400/70 bg-emerald-500/10 text-emerald-300';
+                    } else if (tag === 'Cloud') {
+                      tagClasses += ' border-sky-400/70 bg-sky-500/10 text-sky-300';
+                    } else if (tag === 'SRE') {
+                      tagClasses += ' border-amber-400/70 bg-amber-500/10 text-amber-200';
+                    } else if (tag === 'Tooling') {
+                      tagClasses += ' border-violet-400/70 bg-violet-500/10 text-violet-300';
+                    } else {
+                      tagClasses += ' border-raven-border/60 bg-raven-surface/60 text-slate-200';
+                    }
+
+                    return (
+                      <span key={tag} className={tagClasses}>
+                        {tag}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
               <p className="text-sm text-slate-300">{item.description}</p>
               <div>
                 <h3 className="text-sm font-semibold text-white">DevOps outcomes</h3>
