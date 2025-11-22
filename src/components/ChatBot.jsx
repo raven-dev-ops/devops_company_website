@@ -226,7 +226,7 @@ const ChatBot = ({ defaultOpen = false }) => {
       appendMessage(
         'bot',
         offlineAnswer ||
-          "I'm having trouble reaching my assistant server right now, but I can still share general information from the site.",
+          "I can still help out—tell me what you're looking for (services, pricing, or how to reach us) and I'll share details.",
       );
     } finally {
       setIsResponding(false);
