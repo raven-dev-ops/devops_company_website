@@ -12,11 +12,19 @@ const normalize = (text) =>
 
 const isGreeting = (words) => words.some((w) => ['hi', 'hey', 'hello'].includes(w));
 const isHowAreYou = (words) => words.join(' ').includes('how are you') || words.includes('hru');
+const isQuoteIntent = (words) =>
+  ['quote', 'pricing', 'estimate', 'cost', 'budget'].some((w) => words.includes(w));
 
-const truncate = (text, max = 180) => {
+const truncate = (text, max = 160) => {
   if (!text) return '';
   if (text.length <= max) return text;
   return `${text.slice(0, max).trim()}…`;
+};
+
+const firstSentence = (text) => {
+  if (!text) return '';
+  const parts = text.split(/(?<=[.!?])\s+/);
+  return parts[0] || text;
 };
 
 const scoreEntry = (words, entry) => {
@@ -44,6 +52,9 @@ export const getOfflineReply = (message) => {
   if (isGreeting(words)) {
     return 'Hey! What are you working on—services, pricing, or a project plan?';
   }
+  if (isQuoteIntent(words)) {
+    return 'I can help scope a quote. Share your SaaS idea (key features, users, timeline) and I’ll suggest next steps.';
+  }
 
   let best = null;
   let bestScore = 0;
@@ -65,10 +76,8 @@ export const getOfflineReply = (message) => {
 
   if (best.answer) {
     const topic = best.title || best.question || 'this topic';
-    const trimmed = truncate(best.answer);
-    return [`For ${topic}: ${trimmed}`, 'What should we focus on—services, pricing, or your project?'].join(
-      '\n'
-    );
+    const trimmed = truncate(firstSentence(best.answer));
+    return `For ${topic}: ${trimmed} What should we focus on—services, pricing, or your project?`;
   }
 
   return promptForDetails;
