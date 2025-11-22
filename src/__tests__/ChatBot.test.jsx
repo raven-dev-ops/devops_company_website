@@ -185,7 +185,7 @@ describe('ChatBot', () => {
     await actAsync(() => userEvent.click(screen.getByRole('button', { name: /send/i })));
 
     const fallbackText =
-      "Tell me what you're after—services, pricing, or your project—and I'll point you to details.";
+      'What should we focus on—services, pricing, or your project? I will keep it short.';
 
     expect(await screen.findByText('OFFLINE')).toBeInTheDocument();
     expect(await screen.findByText(fallbackText)).toBeInTheDocument();

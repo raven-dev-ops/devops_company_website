@@ -10,18 +10,16 @@ const normalize = (text) =>
     .split(/\s+/)
     .filter(Boolean);
 
-const isGreeting = (words) => words.some((w) => ['hi', 'hey', 'hello'].includes(w));
+const isGreeting = (words) =>
+  ['hi', 'hey', 'hello', 'yo', 'sup', "whats", "what's", 'whatsup'].some((g) => words.includes(g));
 const isHowAreYou = (words) => words.join(' ').includes('how are you') || words.includes('hru');
 const isQuoteIntent = (words) =>
   ['quote', 'pricing', 'estimate', 'cost', 'budget'].some((w) => words.includes(w));
 const projectKeywords = ['project', 'product', 'build', 'plan', 'launch', 'saas', 'app'];
 const isProjectIntent = (words) => words.some((w) => projectKeywords.includes(w));
+const isOutlineIntent = (words) =>
+  ['outline', 'plan', 'steps', 'roadmap'].some((w) => words.includes(w));
 const hasTimeframe = (text) => /\b(day|week|month|deadline|today|tomorrow|next)\b/i.test(text);
-
-const buildProjectAck = (raw) => {
-  const timeframeMention = hasTimeframe(raw) ? ' this week' : '';
-  return `Got it—you need help on that project${timeframeMention}. Want a quick outline or a Calendly link to chat live?`;
-};
 
 const truncate = (text, max = 140) => {
   if (!text) return '';
@@ -35,14 +33,20 @@ const firstSentence = (text) => {
   return parts[0] || text;
 };
 
-const projectFollowUp =
-  'Give me one line on what it does, who uses it, and your timeframe. I will suggest a next step.';
+const quickPlan = () =>
+  'Quick outline: call to lock scope, propose stack, then build & test. Want the Calendly link?';
+
+const buildProjectAck = (raw) => {
+  const timeframeMention = hasTimeframe(raw) ? ' this week' : '';
+  return `Got it—happy to help on that project${timeframeMention}. ${quickPlan()}`;
+};
+
 const promptForDetails =
-  'Tell me what you need—services, pricing, or your project—and I will point you to the right details.';
+  'What should we focus on—services, pricing, or your project? I will keep it short.';
 const nextStep = () =>
   Math.random() < 0.5
-    ? 'Want me to outline next steps or send a Calendly link for this week?'
-    : 'Should I share a quick plan or drop a Calendly link to chat live?';
+    ? 'Want a quick outline or a Calendly link to talk live?'
+    : 'Should I send a short plan or drop the Calendly link to chat this week?';
 const MIN_MATCH_SCORE = 2;
 
 const scoreEntry = (words, entry) => {
@@ -65,13 +69,16 @@ export const getOfflineReply = (message) => {
   if (!words.length) return null;
 
   if (isHowAreYou(words)) {
-    return 'Doing well and ready to help. Should we talk services, pricing, or your project?';
+    return 'Doing well and ready to help. Services, pricing, or your project?';
   }
   if (isGreeting(words)) {
-    return 'Hey! What are you working on—services, pricing, or a project idea?';
+    return 'All good here. Want to talk services, pricing, or your project?';
+  }
+  if (isOutlineIntent(words)) {
+    return quickPlan();
   }
   if (isQuoteIntent(words)) {
-    return 'I can help scope a quote. Share the idea, target users, and timeline, and I will suggest next steps.';
+    return 'I can help scope a quote. Share the idea, target users, and timeline. Want the Calendly link?';
   }
   if (isProjectIntent(words)) {
     return buildProjectAck(message);
