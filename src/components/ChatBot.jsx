@@ -242,7 +242,7 @@ const quickReplies = [
     setUserInput('');
     // Briefly hide bubble to avoid visual jump
     setBubbleVisible(false);
-    setTimeout(() => setBubbleVisible(true), 120);
+    setTimeout(() => setBubbleVisible(true), 350);
   };
 
   const handleQuickReply = (qr) => {
