@@ -79,6 +79,14 @@ const domainFollowups = [
   'If this touches PII/PCI, I will tailor auth and storage. What data fields do you store?',
   'For regulated data, we can isolate storage and tighten auth. Which users need access?',
 ];
+const insuranceFollowups = [
+  'For insurance data, we can keep policy/claims data isolated with strict auth. Which roles need access?',
+  'Insurance data often has PII; we can segment storage and logging. What policy/claims fields are in scope?',
+];
+const financeFollowups = [
+  'For finance/PCI, we can isolate payment flows and tighten auth. What payment/account data is stored?',
+  'Finance/PCI flows: we can vault sensitive data and add MFA. What data fields and integrations are in scope?',
+];
 const greetingReplies = [
   'All good here. Want to talk services, pricing, or your project?',
   'Howdy! What are you working on—services, pricing, or your project?',
@@ -89,6 +97,10 @@ const followupReplies = [
   'Should I share a short plan or send the Calendly link?',
   'Prefer a written outline, or jump on Calendly to chat this week?',
   'I can outline next steps, or send the Calendly link—your pick.',
+];
+const priceSecondTurn = [
+  'For rough ranges: starter tier for light usage, pro tier for heavier. Want those ranges or the Calendly link?',
+  'I can share rough ranges now or send the Calendly link to refine live. Which do you prefer?',
 ];
 
 const scoreEntry = (words, entry) => {
@@ -142,6 +154,12 @@ export const getOfflineReply = (message) => {
   }
   if (isDomainIntent(words)) {
     record('domain');
+    if (hasInsuranceTerms(words)) {
+      return randomChoice(insuranceFollowups);
+    }
+    if (hasFinanceTerms(words)) {
+      return randomChoice(financeFollowups);
+    }
     return randomChoice(domainFollowups);
   }
   if (isScheduleIntent(words)) {
