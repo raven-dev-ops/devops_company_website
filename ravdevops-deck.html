@@ -96,6 +96,33 @@
       text-transform: uppercase;
     }
 
+    .image-placeholder {
+      width: 320px;
+      height: 220px;
+      border: 1px dashed rgba(148, 163, 184, 0.4);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.04));
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.15);
+    }
+
+    .image-placeholder.tall {
+      height: 260px;
+    }
+
+    @media (max-width: 1024px) {
+      .image-placeholder {
+        width: 100%;
+        max-width: 440px;
+      }
+    }
+
     /* Two-panel layout */
     .left-panel {
       width: 55%;
@@ -460,6 +487,9 @@
       position: relative;
       height: 360px;
       width: 100%;
+      padding-left: 12px;
+      padding-right: 12px;
+      box-sizing: border-box;
     }
 
     /* Timeline slide */
@@ -804,49 +834,55 @@
       </div>
 
       <!-- Hero text -->
-      <div class="max-w-4xl mt-12">
-        <div class="mb-8">
-          <span class="pill-tag mb-6">
-            <i class="fa-solid fa-check-circle mr-2"></i>
-            Fractional DevOps Services
-          </span>
+      <div class="flex flex-col lg:flex-row gap-10 mt-12 items-start">
+        <div class="image-placeholder tall w-full lg:w-auto" aria-label="Placeholder image for hero slide">
+          HERO IMAGE
         </div>
 
-        <h1 class="brand-text text-5xl md:text-7xl font-bold leading-tight mb-6">
-          Fractional DevOps with <br/>
-          <span class="accent-text">Clear Timelines.</span>
-        </h1>
+        <div class="max-w-4xl">
+          <div class="mb-8">
+            <span class="pill-tag mb-6">
+              <i class="fa-solid fa-check-circle mr-2"></i>
+              Fractional DevOps Services
+            </span>
+          </div>
 
-        <p class="text-2xl text-slate-300 font-light leading-relaxed max-w-3xl mb-12">
-          I help small teams move from ad‑hoc releases to disciplined delivery:
-          <span class="text-white font-medium">CI/CD &amp; GitHub Actions pipelines, cloud automation,</span>
-          and <span class="text-white font-medium">SRE practices</span> tailored to your stack
-          (AWS, Azure, GCP, Django, Next.js, MongoDB, Stripe).
-        </p>
+          <h1 class="brand-text text-5xl md:text-7xl font-bold leading-tight mb-6">
+            Fractional DevOps with <br/>
+            <span class="accent-text">Clear Timelines.</span>
+          </h1>
 
-        <!-- Pillars -->
-        <div class="glass-card mt-8 border-l-4 border-l-blue-500">
-          <div class="flex flex-col md:flex-row justify-between items-center">
-            <div class="text-center px-4 border-b md:border-b-0 md:border-r border-slate-700 w-full md:w-1/3 mb-4 md:mb-0">
-              <div class="text-blue-400 text-3xl mb-2">
-                <i class="fa-solid fa-rocket"></i>
+          <p class="text-2xl text-slate-300 font-light leading-relaxed max-w-3xl mb-12">
+            I help small teams move from ad‑hoc releases to disciplined delivery:
+            <span class="text-white font-medium">CI/CD &amp; GitHub Actions pipelines, cloud automation,</span>
+            and <span class="text-white font-medium">SRE practices</span> tailored to your stack
+            (AWS, Azure, GCP, Django, Next.js, MongoDB, Stripe).
+          </p>
+
+          <!-- Pillars -->
+          <div class="glass-card mt-8 border-l-4 border-l-blue-500">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+              <div class="text-center px-4 border-b md:border-b-0 md:border-r border-slate-700 w-full md:w-1/3 mb-4 md:mb-0">
+                <div class="text-blue-400 text-3xl mb-2">
+                  <i class="fa-solid fa-rocket"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-1">Faster Releases</h3>
+                <p class="text-sm text-slate-400">CI/CD Automation &amp; AI Speed</p>
               </div>
-              <h3 class="font-bold text-lg mb-1">Faster Releases</h3>
-              <p class="text-sm text-slate-400">CI/CD Automation &amp; AI Speed</p>
-            </div>
-            <div class="text-center px-4 border-b md:border-b-0 md:border-r border-slate-700 w-full md:w-1/3 mb-4 md:mb-0">
-              <div class="text-purple-400 text-3xl mb-2">
-                <i class="fa-solid fa-shield-halved"></i>
+              <div class="text-center px-4 border-b md:border-b-0 md:border-r border-slate-700 w-full md:w-1/3 mb-4 md:mb-0">
+                <div class="text-purple-400 text-3xl mb-2">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-1">Fewer Outages</h3>
+                <p class="text-sm text-slate-400">SRE Guardrails &amp; Observability</p>
               </div>
-              <h3 class="font-bold text-lg mb-1">Fewer Outages</h3>
-              <p class="text-sm text-slate-400">SRE Guardrails &amp; Observability</p>
-            </div>
-            <div class="text-center px-4 w-full md:w-1/3">
-              <div class="text-emerald-400 text-3xl mb-2">
-                <i class="fa-solid fa-chart-line"></i>
+              <div class="text-center px-4 w-full md:w-1/3">
+                <div class="text-emerald-400 text-3xl mb-2">
+                  <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-1">Lower Waste</h3>
+                <p class="text-sm text-slate-400">Optimized Cloud Spend ROI</p>
               </div>
-              <h3 class="font-bold text-lg mb-1">Lower Waste</h3>
-              <p class="text-sm text-slate-400">Optimized Cloud Spend ROI</p>
             </div>
           </div>
         </div>
@@ -896,7 +932,7 @@
       <div class="pain-points mt-8">
         <div class="pain-point-item">
           <div class="pain-icon">
-            <i class="fa-solid fa-snail"></i>
+            <i class="fa-solid fa-clock-rotate-left"></i>
           </div>
           <div>
             <h3 class="text-xl font-bold mb-2 text-white">Ad-Hoc Release Cycles</h3>
@@ -1389,6 +1425,9 @@
     <div class="right-panel">
       <div class="grid-pattern"></div>
       <div class="relative z-10 w-full max-w-md mx-auto">
+        <div class="image-placeholder mb-6" aria-label="Placeholder image for emergency slide">
+          INCIDENT IMAGE
+        </div>
         <div class="mb-6 text-center">
           <p class="text-2xl font-bold brand-text mb-2">Recovery Roadmap</p>
           <p class="text-slate-400 text-sm">From Chaos to Stability</p>
@@ -1725,6 +1764,9 @@
 <section id="process" class="slide">
   <div class="slide-inner flex flex-row">
     <div class="left-panel">
+      <div class="image-placeholder tall mb-6" aria-label="Placeholder image for process slide">
+        PROCESS IMAGE
+      </div>
       <div class="mb-6">
         <span class="text-slate-400 font-semibold uppercase tracking-wider text-sm">Process Roadmap</span>
       </div>
@@ -1847,7 +1889,7 @@
 
       <div class="case-study-card">
         <div class="flex items-center mb-3">
-          <div class="bg-white text-slate-900 font-bold px-2 py-1 rounded text-xs uppercase tracking-wide mr-3">
+          <div class="bg-slate-900 text-white border border-slate-700 font-bold px-2 py-1 rounded text-xs uppercase tracking-wide mr-3">
             Case Study
           </div>
           <h3 class="text-xl font-bold text-white brand-text">
@@ -2019,6 +2061,9 @@
     </div>
 
     <div class="right-panel">
+      <div class="image-placeholder mb-8" aria-label="Placeholder image for investment slide">
+        PREMIUM IMAGE
+      </div>
       <div class="mb-12">
         <h3 class="text-2xl font-bold mb-6 brand-text text-white">Premium Positioning</h3>
         <div class="check-list">
@@ -2181,6 +2226,9 @@
         responsive: true,
         maintainAspectRatio: false,
         indexAxis: 'y',
+        layout: {
+          padding: { left: 24, right: 16, top: 8, bottom: 8 }
+        },
         plugins: {
           legend: { display: false },
           tooltip: {
@@ -2200,6 +2248,7 @@
             ticks: {
               color: '#94a3b8',
               font: { family: 'Inter' },
+              padding: 10,
               callback: function(value) { return value + '%'; }
             },
             max: 100
@@ -2208,7 +2257,8 @@
             grid: { display: false },
             ticks: {
               color: '#f8fafc',
-              font: { family: 'Space Grotesk', size: 13, weight: 'bold' }
+              font: { family: 'Space Grotesk', size: 13, weight: 'bold' },
+              padding: 14
             }
           }
         },
