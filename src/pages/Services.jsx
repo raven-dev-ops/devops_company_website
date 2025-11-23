@@ -111,49 +111,10 @@ export default function Services() {
       <header className="space-y-4 text-center">
         <p className="text-sm uppercase tracking-[0.3em] text-raven-cyan">Services</p>
         <h1 className="text-4xl font-bold text-white">How we ship confident software delivery</h1>
-        <p className="text-lg text-slate-300">
-          Clear DevOps engagements with outcomes you can measure.
-        </p>
-      </header>
-
-      <section className="grid gap-6 md:grid-cols-2">
-        {serviceAreas.map((service) => {
-          const imageStyle = service.flipImage ? { transform: 'scaleX(-1)' } : undefined;
-
-          return (
-            <div
-              key={service.title}
-              className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
-            >
-              <div className="flex flex-col items-center gap-3 text-center">
-                {service.image && (
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="h-40 w-auto max-w-full object-contain"
-                    style={imageStyle}
-                  />
-                )}
-                <h2 className="text-2xl font-semibold text-white">{service.title}</h2>
-              </div>
-              <p className="text-sm text-slate-300">{service.blurb}</p>
-              <ul className="space-y-2 text-sm text-slate-200">
-                {service.outcomes.map((outcome) => (
-                  <li key={outcome} className="flex items-start gap-2">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-raven-accent" />
-                    <span>{outcome}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-auto flex justify-center">
-                <span className="inline-flex rounded-full border border-raven-border/60 bg-raven-surface/60 px-3 py-1 text-xs font-semibold text-raven-cyan">
-                  {service.format}
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </section>
+      <p className="text-lg text-slate-300">
+        Clear DevOps engagements with outcomes you can measure.
+      </p>
+    </header>
 
       <section className="rounded-2xl border border-raven-border/70 bg-raven-card/60 p-8">
         <h2 className="text-2xl font-bold text-white">How engagements work</h2>
@@ -262,6 +223,45 @@ export default function Services() {
             );
           })}
         </div>
+      </section>
+
+      <section className="grid gap-6 md:grid-cols-2">
+        {serviceAreas.map((service) => {
+          const imageStyle = service.flipImage ? { transform: 'scaleX(-1)' } : undefined;
+
+          return (
+            <div
+              key={service.title}
+              className="flex h-full flex-col gap-4 rounded-2xl border border-raven-border/70 bg-raven-card/70 p-6"
+            >
+              <div className="flex flex-col items-center gap-3 text-center">
+                {service.image && (
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="h-40 w-auto max-w-full object-contain"
+                    style={imageStyle}
+                  />
+                )}
+                <h2 className="text-2xl font-semibold text-white">{service.title}</h2>
+              </div>
+              <p className="text-sm text-slate-300">{service.blurb}</p>
+              <ul className="space-y-2 text-sm text-slate-200">
+                {service.outcomes.map((outcome) => (
+                  <li key={outcome} className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-raven-accent" />
+                    <span>{outcome}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto flex justify-center">
+                <span className="inline-flex rounded-full border border-raven-border/60 bg-raven-surface/60 px-3 py-1 text-xs font-semibold text-raven-cyan">
+                  {service.format}
+                </span>
+              </div>
+            </div>
+          );
+        })}
       </section>
     </div>
   );
