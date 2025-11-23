@@ -116,6 +116,16 @@
       height: 260px;
     }
 
+    .image-placeholder.centered {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .image-placeholder.hero {
+      width: 360px;
+      height: 460px;
+    }
+
     @media (max-width: 1024px) {
       .image-placeholder {
         width: 100%;
@@ -703,6 +713,28 @@
       border: 1px solid rgba(56, 189, 248, 0.2);
     }
 
+    .slide-footer {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px 24px 0 24px;
+      border-top: 1px solid rgba(148, 163, 184, 0.25);
+      color: #94a3b8;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+      z-index: 20;
+    }
+
+    @media (max-width: 768px) {
+      .slide-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    }
+
     .top-nav-spacer {
       height: 48px; /* matches nav height */
       width: 100%;
@@ -845,12 +877,14 @@
       </div>
 
       <!-- Hero text -->
-      <div class="flex flex-col lg:flex-row gap-10 mt-12 items-start">
-        <div class="image-placeholder tall w-full lg:w-auto" aria-label="Placeholder image for hero slide">
-          HERO IMAGE
+      <div class="flex flex-col lg:flex-row gap-10 mt-12 items-start lg:items-start lg:justify-center">
+        <div class="flex justify-center w-full lg:w-2/5">
+          <div class="image-placeholder hero centered" aria-label="Placeholder image for hero slide">
+            HERO IMAGE
+          </div>
         </div>
 
-        <div class="max-w-4xl">
+        <div class="max-w-4xl flex-1">
           <div class="mb-8">
             <span class="pill-tag mb-6">
               <i class="fa-solid fa-check-circle mr-2"></i>
@@ -899,29 +933,13 @@
         </div>
       </div>
 
-      <!-- Hero footer -->
-      <div class="absolute bottom-12 left-24 right-24 flex flex-col md:flex-row md:justify-between md:items-center border-t border-slate-700 pt-6 text-slate-400 text-sm gap-3">
-        <div class="flex flex-wrap gap-4">
-          <span>
-            <i class="fa-solid fa-globe mr-2 text-blue-500"></i>
-            ravdevops.com
-          </span>
-          <span>
-            <i class="fa-solid fa-location-dot mr-2 text-blue-500"></i>
-            Kansas City, MO · Remote
-          </span>
-          <span>
-            <i class="fa-solid fa-ribbon mr-2 text-blue-500"></i>
-            U.S. Army Veteran‑Owned
-          </span>
-        </div>
-        <div class="text-xs md:text-sm">
-          Premium Pitch Deck · Confidential
-        </div>
-      </div>
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- PROBLEM SLIDE -->
 <section id="problem" class="slide">
@@ -1035,6 +1053,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- WHY RAVDEVOPS -->
 <section id="why" class="slide">
@@ -1136,6 +1158,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- WHAT WE DO: THREE PILLARS -->
 <section id="services" class="slide">
@@ -1250,6 +1276,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- AI-POWERED DEVELOPMENT -->
 <section id="ai" class="slide">
@@ -1364,6 +1394,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- EMERGENCY CLEANUP -->
 <section id="emergency" class="slide">
@@ -1436,8 +1470,10 @@
     <div class="right-panel">
       <div class="grid-pattern"></div>
       <div class="relative z-10 w-full max-w-md mx-auto">
-        <div class="image-placeholder mb-6" aria-label="Placeholder image for emergency slide">
-          INCIDENT IMAGE
+        <div class="flex justify-center mb-6">
+          <div class="image-placeholder centered" aria-label="Placeholder image for emergency slide">
+            INCIDENT IMAGE
+          </div>
         </div>
         <div class="mb-6 text-center">
           <p class="text-2xl font-bold brand-text mb-2">Recovery Roadmap</p>
@@ -1526,6 +1562,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- FRACTIONAL DEVOPS -->
 <section id="fractional" class="slide">
@@ -1648,6 +1688,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- IMPACT METRICS -->
 <section id="metrics" class="slide">
@@ -1775,8 +1819,10 @@
 <section id="process" class="slide">
   <div class="slide-inner flex flex-row">
     <div class="left-panel">
-      <div class="image-placeholder tall mb-6" aria-label="Placeholder image for process slide">
-        PROCESS IMAGE
+      <div class="flex justify-center mb-6">
+        <div class="image-placeholder tall centered" aria-label="Placeholder image for process slide">
+          PROCESS IMAGE
+        </div>
       </div>
       <div class="mb-6">
         <span class="text-slate-400 font-semibold uppercase tracking-wider text-sm">Process Roadmap</span>
@@ -1885,6 +1931,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- PROVEN RESULTS -->
 <section id="results" class="slide">
@@ -2016,6 +2066,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <!-- INVESTMENT & NEXT STEPS -->
 <section id="investment" class="slide">
@@ -2072,8 +2126,10 @@
     </div>
 
     <div class="right-panel">
-      <div class="image-placeholder mb-8" aria-label="Placeholder image for investment slide">
-        PREMIUM IMAGE
+      <div class="flex justify-center mb-8">
+        <div class="image-placeholder centered" aria-label="Placeholder image for investment slide">
+          PREMIUM IMAGE
+        </div>
       </div>
       <div class="mb-12">
         <h3 class="text-2xl font-bold mb-6 brand-text text-white">Premium Positioning</h3>
@@ -2116,6 +2172,10 @@
     </div>
   </div>
 </section>
+<div class="slide-footer">
+  <span>RavDevOps · Premium Pitch Deck</span>
+  <span>Confidential &amp; Proprietary</span>
+</div>
 
 <script>
   // Slide navigation (next/previous controller instead of manual scrolling)
