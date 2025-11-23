@@ -676,7 +676,9 @@
       padding: 8px 24px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 20px;
+      text-align: center;
     }
 
     .top-nav a {
@@ -686,10 +688,19 @@
       color: #cbd5e1;
       margin-left: 16px;
       text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 999px;
+      transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     }
 
     .top-nav a:hover {
       color: #38bdf8;
+    }
+
+    .top-nav a.active {
+      color: #0ea5e9;
+      background-color: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.2);
     }
 
     .top-nav-spacer {
@@ -789,7 +800,7 @@
       RavDevOps · Fractional DevOps
     </span>
   </div>
-  <div class="flex items-center text-xs">
+  <div class="flex items-center text-xs" id="topNavLinks">
     <a href="#hero">Hero</a>
     <a href="#problem">Problem</a>
     <a href="#services">Services</a>
@@ -2113,12 +2124,14 @@
     const prevBtn = document.getElementById('prevSlide');
     const nextBtn = document.getElementById('nextSlide');
     const indicator = document.getElementById('slideIndicator');
+    const navLinksContainer = document.getElementById('topNavLinks');
     const nav = document.querySelector('.top-nav');
     const navOffset = (nav ? nav.offsetHeight : 0) + 8;
     let currentIndex = 0;
     let isAnimating = false;
 
     if (!slides.length || !prevBtn || !nextBtn) return;
+    const navLinks = navLinksContainer ? Array.from(navLinksContainer.querySelectorAll('a')) : [];
 
     const clampIndex = (value) => Math.max(0, Math.min(slides.length - 1, value));
 
@@ -2128,6 +2141,15 @@
       }
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex === slides.length - 1;
+
+      if (navLinks.length) {
+        navLinks.forEach((link) => link.classList.remove('active'));
+        const id = slides[currentIndex]?.id;
+        if (id) {
+          const active = navLinks.find((link) => link.getAttribute('href') === '#' + id);
+          if (active) active.classList.add('active');
+        }
+      }
     }
 
     function scrollToSlide(index) {
