@@ -24,6 +24,7 @@ Marketing/demo site for Raven Development Operations. Built with React, Vite, Ta
 - `chat-assistant-backend/` - FastAPI + Postgres assistant backend deployed to Cloud Run and fronted by API Gateway
 - `OpenAuxilium/` - optional legacy Node assistant backend (not used in production)
 - `wiki.md`, `roadmap.md`, `timeline.md` - internal docs and planning notes
+- `public/ravdevops-deck.html` - static pitch deck (accessible at `https://ravdevops.com/ravdevops-deck.html`)
 
 ## Content Data
 - Portfolio and blog entries (`src/data/portfolio.js`, `src/data/blogPosts.js`) enumerate every public repo under [https://github.com/raven-dev-ops](https://github.com/raven-dev-ops) with direct GitHub links.

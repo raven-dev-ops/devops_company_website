@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>RavDevOps – Fractional DevOps Pitch Deck</title>
+
+  <!-- Tailwind & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Chart.js for metrics slide -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* Global */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #020617; /* slate-950 */
+      color: #f8fafc;
+    }
+
+    .brand-text {
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .slide {
+      width: 100%;
+      min-height: 720px;
+      display: flex;
+      justify-content: center;
+      background-color: #0f172a;
+      position: relative;
+      padding: 40px 0;
+    }
+
+    .slide-inner {
+      width: 1280px;
+      min-height: 640px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      background-color: #0f172a;
+    }
+
+    /* Hero */
+    .slide-hero .slide-inner {
+      background-image: url("https://page.gensparksite.com/slides_images/3f30698f696b11770cf4a623bdd35eb9.webp");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.85);
+      z-index: 1;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 100px;
+      min-height: 640px;
+    }
+
+    .accent-text {
+      color: #38bdf8;
+    }
+
+    .glass-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px 32px;
+    }
+
+    .pill-tag {
+      background-color: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+    }
+
+    /* Two-panel layout */
+    .left-panel {
+      width: 55%;
+      padding: 64px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+      background-color: #0f172a;
+    }
+
+    .right-panel {
+      width: 45%;
+      position: relative;
+      background-color: #1e293b;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    /* Problem slide */
+    .pain-point-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 28px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      padding-bottom: 24px;
+    }
+
+    .pain-point-item:last-child {
+      margin-bottom: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .pain-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+
+    .stat-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 8px;
+      color: #ef4444;
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    /* Why slide */
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 36px;
+    }
+
+    .feature-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-color: rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-right: 24px;
+      flex-shrink: 0;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .card-visual {
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease;
+    }
+
+    .card-visual:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .check-list-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+
+    .check-icon {
+      color: #38bdf8;
+      margin-right: 12px;
+      font-size: 0.9rem;
+    }
+
+    /* Pillars */
+    .pillar-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      padding-bottom: 28px;
+    }
+
+    .pillar-item:last-child {
+      margin-bottom: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .pillar-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-right: 24px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .pillar-item:hover .pillar-icon {
+      transform: scale(1.05);
+    }
+
+    .icon-ai {
+      background-color: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.2);
+    }
+
+    .icon-emergency {
+      background-color: rgba(249, 115, 22, 0.15);
+      color: #fb923c;
+      border: 1px solid rgba(249, 115, 22, 0.2);
+    }
+
+    .icon-fractional {
+      background-color: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .outcome-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .outcome-card:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .glow-orb {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    /* AI slide extras */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* Emergency slide */
+    .process-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      padding: 20px;
+      border-radius: 16px;
+      background-color: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .process-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .process-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+
+    .icon-triage { background-color: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .icon-recovery { background-color: rgba(249, 115, 22, 0.15); color: #f97316; }
+    .icon-overhaul { background-color: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .icon-deliver { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
+
+    .status-card {
+      background-color: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    .status-step {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .status-step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-line {
+      position: absolute;
+      left: 16px;
+      top: 32px;
+      bottom: -32px;
+      width: 2px;
+      background-color: rgba(255, 255, 255, 0.1);
+      z-index: 0;
+    }
+
+    .status-step:last-child .step-line {
+      display: none;
+    }
+
+    .step-indicator {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background-color: #1e293b;
+      border: 2px solid #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      margin-right: 16px;
+      font-size: 0.875rem;
+      color: #94a3b8;
+    }
+
+    .step-active {
+      border-color: #ef4444;
+      color: #ef4444;
+      background-color: rgba(239, 68, 68, 0.1);
+    }
+
+    .step-complete {
+      border-color: #10b981;
+      color: #10b981;
+      background-color: rgba(16, 185, 129, 0.1);
+    }
+
+    .grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* Fractional slide */
+    .value-card {
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+      position: relative;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .grid-lines {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Metrics slide */
+    .card-glass {
+      background-color: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(56, 189, 248, 0.1);
+      border-radius: 16px;
+      backdrop-filter: blur(4px);
+      transition: transform 0.2s ease;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 360px;
+      width: 100%;
+    }
+
+    /* Timeline slide */
+    .step-card {
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 32px;
+    }
+
+    .step-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 11px;
+      top: 28px;
+      bottom: -32px;
+      width: 2px;
+      background-color: #334155;
+    }
+
+    .step-card:last-child .timeline-line {
+      display: none;
+    }
+
+    .step-dot {
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #0f172a;
+      border: 2px solid #38bdf8;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-dot-inner {
+      width: 10px;
+      height: 10px;
+      background-color: #38bdf8;
+      border-radius: 50%;
+    }
+
+    .time-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      display: inline-block;
+      background-color: rgba(56, 189, 248, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .content-box {
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px 24px;
+      transition: all 0.3s ease;
+    }
+
+    .content-box:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    /* Proven results */
+    .case-study-card {
+      background-color: rgba(56, 189, 248, 0.05);
+      border-left: 4px solid #38bdf8;
+      padding: 24px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 32px;
+    }
+
+    .sector-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
+
+    .sector-item:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .sector-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background-color: rgba(148, 163, 184, 0.1);
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+    }
+
+    .deliverable-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .deliverable-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-color: rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Investment slide */
+    .model-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      background-color: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .model-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .model-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background-color: rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-right: 24px;
+      flex-shrink: 0;
+    }
+
+    .highlight-card {
+      background-color: #38bdf8;
+      border-radius: 24px;
+      padding: 40px;
+      margin-top: auto;
+      color: #0f172a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Simple top nav for scrolling between sections (optional) */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: linear-gradient(to right, #020617, #0f172a);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .top-nav a {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #cbd5e1;
+      margin-left: 16px;
+      text-decoration: none;
+    }
+
+    .top-nav a:hover {
+      color: #38bdf8;
+    }
+
+    .top-nav-spacer {
+      height: 48px; /* matches nav height */
+      width: 100%;
+    }
+
+    .slide-controls {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 60;
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 999px;
+      padding: 10px 14px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .slide-controls button {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(14, 165, 233, 0.15));
+      color: #e2e8f0;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .slide-controls button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(56, 189, 248, 0.6);
+      color: #ffffff;
+    }
+
+    .slide-controls button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .slide-indicator {
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      padding: 0 6px;
+      min-width: 110px;
+      text-align: center;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .slide-controls {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        bottom: 16px;
+        padding: 8px 12px;
+      }
+
+      .slide-indicator {
+        display: none;
+      }
+
+      .slide-controls button {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 1280px) {
+      .slide-inner {
+        width: 100%;
+      }
+      .left-panel, .right-panel {
+        padding: 32px 24px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Top navigation (anchors to sections) -->
+<nav class="top-nav">
+  <div class="flex items-center gap-3">
+    <div class="w-7 h-7 bg-blue-500 rounded-md flex items-center justify-center">
+      <i class="fa-solid fa-cube text-white text-xs"></i>
+    </div>
+    <span class="brand-text text-sm font-semibold text-slate-100">
+      RavDevOps · Fractional DevOps
+    </span>
+  </div>
+  <div class="flex items-center text-xs">
+    <a href="#hero">Hero</a>
+    <a href="#problem">Problem</a>
+    <a href="#services">Services</a>
+    <a href="#ai">AI</a>
+    <a href="#emergency">Emergency</a>
+    <a href="#fractional">Fractional</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#process">Process</a>
+    <a href="#results">Results</a>
+    <a href="#investment">Next Steps</a>
+  </div>
+</nav>
+<div class="top-nav-spacer"></div>
+
+<!-- Slide controls (next/previous) -->
+<div class="slide-controls" aria-label="Slide navigation">
+  <button type="button" id="prevSlide" aria-label="Previous slide">
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+  <div class="slide-indicator" id="slideIndicator" aria-live="polite">
+    Slide 1
+  </div>
+  <button type="button" id="nextSlide" aria-label="Next slide">
+    <i class="fa-solid fa-arrow-right"></i>
+  </button>
+</div>
+
+<!-- HERO SLIDE -->
+<section id="hero" class="slide slide-hero">
+  <div class="slide-inner">
+    <div class="overlay"></div>
+    <div class="content-wrapper">
+
+      <!-- Logo -->
+      <div class="absolute top-16 left-24 flex items-center gap-3 opacity-80">
+        <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+          <i class="fa-solid fa-cube text-white text-sm"></i>
+        </div>
+        <span class="font-semibold tracking-wider text-sm text-slate-300 uppercase">
+          Raven Development Operations
+        </span>
+      </div>
+
+      <!-- Hero text -->
+      <div class="max-w-4xl mt-12">
+        <div class="mb-8">
+          <span class="pill-tag mb-6">
+            <i class="fa-solid fa-check-circle mr-2"></i>
+            Fractional DevOps Services
+          </span>
+        </div>
+
+        <h1 class="brand-text text-5xl md:text-7xl font-bold leading-tight mb-6">
+          Fractional DevOps with <br/>
+          <span class="accent-text">Clear Timelines.</span>
+        </h1>
+
+        <p class="text-2xl text-slate-300 font-light leading-relaxed max-w-3xl mb-12">
+          I help small teams move from ad‑hoc releases to disciplined delivery:
+          <span class="text-white font-medium">CI/CD &amp; GitHub Actions pipelines, cloud automation,</span>
+          and <span class="text-white font-medium">SRE practices</span> tailored to your stack
+          (AWS, Azure, GCP, Django, Next.js, MongoDB, Stripe).
+        </p>
+
+        <!-- Pillars -->
+        <div class="glass-card mt-8 border-l-4 border-l-blue-500">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center px-4 border-b md:border-b-0 md:border-r border-slate-700 w-full md:w-1/3 mb-4 md:mb-0">
+              <div class="text-blue-400 text-3xl mb-2">
+                <i class="fa-solid fa-rocket"></i>
+              </div>
+              <h3 class="font-bold text-lg mb-1">Faster Releases</h3>
+              <p class="text-sm text-slate-400">CI/CD Automation &amp; AI Speed</p>
+            </div>
+            <div class="text-center px-4 border-b md:border-b-0 md:border-r border-slate-700 w-full md:w-1/3 mb-4 md:mb-0">
+              <div class="text-purple-400 text-3xl mb-2">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <h3 class="font-bold text-lg mb-1">Fewer Outages</h3>
+              <p class="text-sm text-slate-400">SRE Guardrails &amp; Observability</p>
+            </div>
+            <div class="text-center px-4 w-full md:w-1/3">
+              <div class="text-emerald-400 text-3xl mb-2">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <h3 class="font-bold text-lg mb-1">Lower Waste</h3>
+              <p class="text-sm text-slate-400">Optimized Cloud Spend ROI</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero footer -->
+      <div class="absolute bottom-12 left-24 right-24 flex flex-col md:flex-row md:justify-between md:items-center border-t border-slate-700 pt-6 text-slate-400 text-sm gap-3">
+        <div class="flex flex-wrap gap-4">
+          <span>
+            <i class="fa-solid fa-globe mr-2 text-blue-500"></i>
+            ravdevops.com
+          </span>
+          <span>
+            <i class="fa-solid fa-location-dot mr-2 text-blue-500"></i>
+            Kansas City, MO · Remote
+          </span>
+          <span>
+            <i class="fa-solid fa-ribbon mr-2 text-blue-500"></i>
+            U.S. Army Veteran‑Owned
+          </span>
+        </div>
+        <div class="text-xs md:text-sm">
+          Premium Pitch Deck · Confidential
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SLIDE -->
+<section id="problem" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-4">
+        <span class="text-slate-400 font-semibold uppercase tracking-wider text-sm">Current State</span>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-6">
+        The Problem: <br/>
+        <span class="text-slate-400">Delivery Drag, Incidents,</span> <br/>
+        &amp; <span class="text-red-400">Cloud Waste</span>
+      </h1>
+      <p class="text-slate-400 text-base mt-2 max-w-xl">
+        For small engineering teams and growing small businesses, every delayed release or lingering incident
+        hits cashflow and customer trust immediately.
+      </p>
+
+      <div class="pain-points mt-8">
+        <div class="pain-point-item">
+          <div class="pain-icon">
+            <i class="fa-solid fa-snail"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Ad-Hoc Release Cycles</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Manual deployments slow feature velocity and increase risk. Teams hesitate to ship,
+              leading to massive, dangerous releases.
+            </p>
+          </div>
+        </div>
+
+        <div class="pain-point-item">
+          <div class="pain-icon">
+            <i class="fa-solid fa-fire-flame-curved"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Frequent, Costly Incidents</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Long recovery times (MTTR) due to poor observability. "It works on my machine" syndrome delays fixes.
+            </p>
+          </div>
+        </div>
+
+        <div class="pain-point-item">
+          <div class="pain-icon">
+            <i class="fa-solid fa-money-bill-trend-up"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Unchecked Cloud Waste</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Rising infrastructure bills without governance, reserved capacity strategies,
+              or rightsizing policies.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="grid-bg"></div>
+      <div class="relative z-10">
+        <div class="stat-card">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="stat-number">50%</div>
+              <p class="text-lg font-medium text-white">Dev Time Lost to Toil</p>
+            </div>
+            <div class="bg-red-500/20 p-3 rounded-full text-red-500">
+              <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+            </div>
+          </div>
+          <p class="text-slate-400 mt-4 text-sm">
+            Small teams routinely lose 40–60% of engineering time to manual releases, firefighting,
+            and technical debt instead of shipping features.
+          </p>
+        </div>
+
+        <div class="stat-card">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="stat-number">$10K+</div>
+              <p class="text-lg font-medium text-white">Hourly Downtime Exposure</p>
+            </div>
+            <div class="bg-red-500/20 p-3 rounded-full text-red-500">
+              <i class="fa-solid fa-server text-xl"></i>
+            </div>
+          </div>
+          <p class="text-slate-400 mt-4 text-sm">
+            Even “small” SaaS and e‑commerce outages can add up to five‑figure losses per day once
+            revenue, support, and reputation are included.
+          </p>
+        </div>
+
+        <div class="stat-card">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="stat-number">30%</div>
+              <p class="text-lg font-medium text-white">Cloud Spend Wasted</p>
+            </div>
+            <div class="bg-red-500/20 p-3 rounded-full text-red-500">
+              <i class="fa-solid fa-cloud-arrow-down text-xl"></i>
+            </div>
+          </div>
+          <p class="text-slate-400 mt-4 text-sm">
+            Organizations regularly estimate around a third of their cloud bill is wasted on idle resources,
+            over‑provisioned instances, and forgotten services.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY RAVDEVOPS -->
+<section id="why" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-6">
+        <span class="text-sky-400 font-bold uppercase tracking-wider text-sm bg-sky-900/30 px-3 py-1 rounded-full">
+          Value Proposition
+        </span>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-4 text-white">
+        From Chaos to <br/>
+        <span class="text-sky-400">Disciplined Delivery</span>
+      </h1>
+      <p class="text-slate-300 text-lg leading-relaxed mb-10">
+        Raven Development Operations is a solo DevOps consultancy led by a U.S. Army veteran,
+        focused on small teams that need enterprise‑grade delivery without enterprise headcount.
+      </p>
+
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fa-solid fa-stopwatch"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Clear Timelines &amp; Milestones</h3>
+            <p class="text-slate-400 leading-relaxed">
+              No black boxes. You get a written 60–90 day plan, weekly progress updates,
+              and explicit hand‑off milestones, instead of vague “we’ll see” consulting.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Executive-Ready Reporting</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Progress framed in release cadence, MTTR, and cloud spend — not just technical jargon —
+              so founders and non‑technical leaders can see impact.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fa-solid fa-users-gear"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Fractional Premium Model</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Plug in senior DevOps leadership and implementation for a slice of the month,
+              instead of carrying full‑time platform headcount you don’t yet need.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="grid-bg" style="opacity:0.03;"></div>
+      <div class="relative z-10 flex flex-col justify-center h-full">
+        <div class="card-visual">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 rounded-full bg-sky-500/20 flex items-center justify-center text-sky-400 mr-4">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white">Tailored to Your Stack</h3>
+          </div>
+          <p class="text-slate-400 text-sm mb-4">
+            CI/CD and guardrails designed around your actual architecture — GitHub Actions, AWS/Azure/GCP,
+            Django, Next.js, and the services you already use.
+          </p>
+          <div class="border-t border-slate-700 pt-4">
+            <div class="check-list-item"><i class="fa-solid fa-check check-icon"></i>Custom CI/CD Pipelines</div>
+            <div class="check-list-item"><i class="fa-solid fa-check check-icon"></i>Right-Sized Infrastructure</div>
+          </div>
+        </div>
+
+        <div class="card-visual">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mr-4">
+              <i class="fa-solid fa-book-open"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white">Owner Documentation</h3>
+          </div>
+          <p class="text-slate-400 text-sm mb-4">
+            Everything is built for hand‑off. Runbooks, architecture diagrams, and onboarding docs live with
+            your code so you’re never locked to a vendor.
+          </p>
+          <div class="border-t border-slate-700 pt-4">
+            <div class="check-list-item"><i class="fa-solid fa-check check-icon"></i>Visual Architecture Diagrams</div>
+            <div class="check-list-item"><i class="fa-solid fa-check check-icon"></i>Step-by-Step Runbooks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE DO: THREE PILLARS -->
+<section id="services" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-6">
+        <span class="text-cyan-400 font-bold uppercase tracking-widest text-xs bg-cyan-950/50 px-3 py-1 rounded-full border border-cyan-900">
+          Our Services
+        </span>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-12 text-white">
+        What We Do: <br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+          The Three Pillars
+        </span>
+      </h1>
+
+      <div class="pillars-list">
+        <div class="pillar-item group">
+          <div class="pillar-icon icon-ai">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold mb-2 text-white group-hover:text-purple-300 transition-colors">
+              AI-Powered Development
+            </h3>
+            <p class="text-slate-400 leading-relaxed">
+              Ship AI‑enabled features faster with GenAI‑assisted coding and analytics.
+              Introduce copilots and RAG search into your Django / Next.js apps with
+              the same CI/CD and cloud patterns used in client projects.
+            </p>
+          </div>
+        </div>
+
+        <div class="pillar-item group">
+          <div class="pillar-icon icon-emergency">
+            <i class="fa-solid fa-kit-medical"></i>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold mb-2 text-white group-hover:text-orange-300 transition-colors">
+              Emergency Cleanup
+            </h3>
+            <p class="text-slate-400 leading-relaxed">
+              24/7 triage, stabilization, and recovery with a targeted 72‑hour window
+              to stop the bleeding, restore core paths, and ship a remediation roadmap.
+            </p>
+          </div>
+        </div>
+
+        <div class="pillar-item group">
+          <div class="pillar-icon icon-fractional">
+            <i class="fa-solid fa-infinity"></i>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold mb-2 text-white group-hover:text-cyan-300 transition-colors">
+              Fractional DevOps
+            </h3>
+            <p class="text-slate-400 leading-relaxed">
+              Ongoing DevOps support — CI/CD, IaC, observability, and FinOps — delivered
+              via GitHub Actions and cloud‑native tooling so small teams can operate
+              like a platform group without hiring one.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="grid-bg"></div>
+      <div class="glow-orb bg-purple-600 top-20 right-20"></div>
+      <div class="glow-orb bg-cyan-600 bottom-20 left-20"></div>
+      <div class="relative z-10 flex flex-col justify-center h-full space-y-6">
+        <div class="outcome-card">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="text-lg font-bold text-purple-300">Velocity</h4>
+            <i class="fa-solid fa-bolt text-purple-400 text-xl"></i>
+          </div>
+          <div class="w-full bg-slate-700 h-1.5 rounded-full mb-3 overflow-hidden">
+            <div class="bg-purple-500 h-full rounded-full" style="width: 85%"></div>
+          </div>
+          <p class="text-sm text-slate-400">
+            Accelerated feature delivery with automated pipelines and AI-assisted workflows.
+          </p>
+        </div>
+
+        <div class="outcome-card">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="text-lg font-bold text-orange-300">Resilience</h4>
+            <i class="fa-solid fa-shield-halved text-orange-400 text-xl"></i>
+          </div>
+          <div class="w-full bg-slate-700 h-1.5 rounded-full mb-3 overflow-hidden">
+            <div class="bg-orange-500 h-full rounded-full" style="width: 95%"></div>
+          </div>
+          <p class="text-sm text-slate-400">
+            Robust infrastructure that withstands spikes and failures.
+          </p>
+        </div>
+
+        <div class="outcome-card">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="text-lg font-bold text-cyan-300">Efficiency</h4>
+            <i class="fa-solid fa-chart-line text-cyan-400 text-xl"></i>
+          </div>
+          <div class="w-full bg-slate-700 h-1.5 rounded-full mb-3 overflow-hidden">
+            <div class="bg-cyan-500 h-full rounded-full" style="width: 75%"></div>
+          </div>
+          <p class="text-sm text-slate-400">
+            Optimized cloud spend and reduced operational toil.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI-POWERED DEVELOPMENT -->
+<section id="ai" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-4">
+        <span class="text-purple-400 font-semibold uppercase tracking-wider text-sm">Service Pillar 01</span>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-10">
+        AI-Powered <br/>
+        <span class="text-white">Development:</span> <br/>
+        <span class="text-purple-400">Speed &amp; ROI</span>
+      </h1>
+
+      <div class="features">
+        <div class="feature-item">
+          <div class="feature-icon" style="background-color:rgba(139,92,246,0.1);color:#a78bfa;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Accelerated Delivery</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Ship features faster with GenAI‑assisted coding, automated test generation, and
+              CI‑ready Docker images for the same kinds of Django and Next.js backends used in your portfolio.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon" style="background-color:rgba(139,92,246,0.1);color:#a78bfa;">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Embedded AI Features</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Integrate RAG search, copilots, and predictive analytics directly into your product
+              with secure patterns on AWS, Azure, or GCP — wired into Django / Next.js services.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon" style="background-color:rgba(139,92,246,0.1);color:#a78bfa;">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Automated Guardrails</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Enforce code quality, security checks, and performance baselines automatically before
+              any code hits production, so AI‑powered changes are as safe as everything else.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="grid-overlay"></div>
+      <div class="relative z-10">
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-white mb-2 brand-text">Target Outcomes</h2>
+          <p class="text-slate-400 text-sm">
+            Metrics we focus on improving over your first 90 days of DevOps work together.
+          </p>
+        </div>
+
+        <div class="stat-card">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="stat-number" style="color:#38bdf8;font-size:2.5rem;">2x</div>
+              <p class="text-lg font-medium text-white">Feature Velocity</p>
+            </div>
+            <div class="bg-purple-500/20 p-3 rounded-full text-purple-400">
+              <i class="fa-solid fa-forward-fast text-xl"></i>
+            </div>
+          </div>
+          <p class="text-slate-400 mt-3 text-sm">
+            Target: up to 2× more features released per quarter by reducing manual friction in your pipelines.
+          </p>
+        </div>
+
+        <div class="stat-card">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="stat-number" style="color:#38bdf8;font-size:2.5rem;">-40%</div>
+              <p class="text-lg font-medium text-white">Lead Time</p>
+            </div>
+            <div class="bg-blue-500/20 p-3 rounded-full text-blue-400">
+              <i class="fa-solid fa-stopwatch text-xl"></i>
+            </div>
+          </div>
+          <p class="text-slate-400 mt-3 text-sm">
+            Target: 40%+ reduction in time from code commit to production deploy as automation rolls out.
+          </p>
+        </div>
+
+        <div class="stat-card">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="stat-number" style="color:#38bdf8;font-size:2.5rem;">99%</div>
+              <p class="text-lg font-medium text-white">Release Confidence</p>
+            </div>
+            <div class="bg-green-500/20 p-3 rounded-full text-green-400">
+              <i class="fa-solid fa-check-double text-xl"></i>
+            </div>
+          </div>
+          <p class="text-slate-400 mt-3 text-sm">
+            Target: confidence that changes passing automated quality gates rarely cause production‑blocking issues.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMERGENCY CLEANUP -->
+<section id="emergency" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-4">
+        <p class="text-red-400 font-semibold uppercase tracking-wider text-sm">
+          <i class="fa-solid fa-circle-exclamation mr-2"></i>Crisis Management
+        </p>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-8">
+        Emergency Cleanup <br/>
+        &amp; <span class="text-blue-400">Overhaul</span>
+      </h1>
+      <div class="space-y-4">
+        <div class="process-item">
+          <div class="process-icon-wrapper icon-triage">
+            <i class="fa-solid fa-kit-medical"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white mb-1">Rapid Triage &amp; Stabilization</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Assess critical paths, contain damage, and establish immediate observability to stop the bleeding —
+              with written steps to reach a stable state as quickly as possible.
+            </p>
+          </div>
+        </div>
+
+        <div class="process-item">
+          <div class="process-icon-wrapper icon-recovery">
+            <i class="fa-solid fa-route"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white mb-1">Recovery Strategy</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Deploy hotfixes, implement rollback/forward strategies, and manage incident communications
+              so customers know what’s happening and when.
+            </p>
+          </div>
+        </div>
+
+        <div class="process-item">
+          <div class="process-icon-wrapper icon-overhaul">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white mb-1">Infrastructure Overhaul</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Harden infrastructure, address root causes, reduce toil, and eliminate accumulated technical debt
+              so the same disaster doesn’t repeat.
+            </p>
+          </div>
+        </div>
+
+        <div class="process-item">
+          <div class="process-icon-wrapper icon-deliver">
+            <i class="fa-solid fa-file-contract"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white mb-1">Key Deliverables</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+              Detailed incident postmortem, prioritized remediation roadmap, and owner‑ready documentation
+              stored alongside your code in GitHub.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="grid-pattern"></div>
+      <div class="relative z-10 w-full max-w-md mx-auto">
+        <div class="mb-6 text-center">
+          <p class="text-2xl font-bold brand-text mb-2">Recovery Roadmap</p>
+          <p class="text-slate-400 text-sm">From Chaos to Stability</p>
+        </div>
+        <div class="status-card">
+          <div class="status-step">
+            <div class="step-line"></div>
+            <div class="step-indicator step-active">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center mb-1">
+                <h4 class="font-bold text-red-400 text-sm">Critical Incident</h4>
+                <span class="text-xs bg-red-500/10 text-red-400 px-2 py-0.5 rounded border border-red-500/20">
+                  T-0 Hours
+                </span>
+              </div>
+              <p class="text-slate-500 text-xs">System outage, data risk, high latency</p>
+            </div>
+          </div>
+
+          <div class="status-step">
+            <div class="step-line"></div>
+            <div class="step-indicator step-complete">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center mb-1">
+                <h4 class="font-bold text-white text-sm">Containment</h4>
+                <span class="text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">
+                  T+2 Hours
+                </span>
+              </div>
+              <p class="text-slate-400 text-xs">Stop loss, stabilize core services</p>
+            </div>
+          </div>
+
+          <div class="status-step">
+            <div class="step-line"></div>
+            <div class="step-indicator bg-blue-500/10 border-blue-500 text-blue-400">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center mb-1">
+                <h4 class="font-bold text-white text-sm">Root Cause Analysis</h4>
+                <span class="text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">
+                  T+24 Hours
+                </span>
+              </div>
+              <p class="text-slate-400 text-xs">Identify triggers, patch vulnerabilities</p>
+            </div>
+          </div>
+
+          <div class="status-step">
+            <div class="step-line"></div>
+            <div class="step-indicator bg-green-500/10 border-green-500 text-green-400">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center mb-1">
+                <h4 class="font-bold text-white text-sm">Full Restoration</h4>
+                <span class="text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded border border-slate-600">
+                  T+48 Hours
+                </span>
+              </div>
+              <p class="text-slate-400 text-xs">System hardened, docs updated</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center">
+          <div class="text-blue-400 text-xl mr-4">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div>
+            <p class="text-xs text-blue-300 font-semibold uppercase tracking-wide mb-1">
+              RavDevOps Promise
+            </p>
+            <p class="text-white text-sm font-medium">
+              24/7 Emergency Response · Targeted 72‑Hour Stabilization
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRACTIONAL DEVOPS -->
+<section id="fractional" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-6">
+        <p class="text-blue-400 font-bold uppercase tracking-widest text-xs bg-blue-900/20 inline-block px-3 py-1 rounded-full border border-blue-500/20">
+          The Solution Model
+        </p>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-2 text-white">
+        Fractional DevOps
+      </h1>
+      <h2 class="brand-text text-3xl font-light leading-tight mb-6 text-slate-400">
+        Enterprise expertise, <span class="text-blue-400 font-semibold">zero overhead.</span>
+      </h2>
+      <p class="text-slate-300 text-sm leading-relaxed mb-8 max-w-xl">
+        Solo, founder‑led DevOps consultancy for small teams that need AWS/Azure/GCP pipelines,
+        infrastructure‑as‑code, and observability — without hiring a full‑time platform team.
+      </p>
+
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Senior Leadership on Retainer</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Work directly with the founder on strategy and implementation.
+              No junior hand‑offs — just senior guidance and hands‑on delivery.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Flexible, Scalable Capacity</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Scale up for launches or migrations, then down for maintenance.
+              Most clients start with a 90‑day build‑out and continue on a lighter retainer.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fa-solid fa-network-wired"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-white">Enterprise-Grade Governance</h3>
+            <p class="text-slate-400 leading-relaxed">
+              GitHub Actions pipelines, IaC baselines, and security policies that scale
+              as your organization grows, instead of becoming a bottleneck.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="grid-lines">
+        <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"></path>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)"></rect>
+        </svg>
+      </div>
+      <div class="relative z-10">
+        <div class="value-card">
+          <div class="flex justify-between items-start mb-4">
+            <div class="bg-blue-500/20 p-3 rounded-xl text-blue-400">
+              <i class="fa-solid fa-stopwatch text-xl"></i>
+            </div>
+            <span class="text-emerald-400 text-sm font-bold bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">
+              Immediate Start
+            </span>
+          </div>
+          <h3 class="card-title">Zero Hiring Lag</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Skip the 3–6 month recruiting and ramp‑up cycle. We can start designing and shipping
+            improved pipelines in weeks, not quarters.
+          </p>
+        </div>
+
+        <div class="value-card">
+          <div class="flex justify-between items-start mb-4">
+            <div class="bg-purple-500/20 p-3 rounded-xl text-purple-400">
+              <i class="fa-solid fa-chart-pie text-xl"></i>
+            </div>
+            <span class="text-slate-300 text-sm font-medium">Cost Efficiency</span>
+          </div>
+          <h3 class="card-title">Rightsized Investment</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Get CTO‑level DevOps strategy and senior execution for less than the cost
+            of a single mid‑level full‑time hire.
+          </p>
+        </div>
+
+        <div class="value-card">
+          <div class="flex justify-between items-start mb-4">
+            <div class="bg-indigo-500/20 p-3 rounded-xl text-indigo-400">
+              <i class="fa-solid fa-bullseye text-xl"></i>
+            </div>
+            <span class="text-slate-300 text-sm font-medium">Outcome Focused</span>
+          </div>
+          <h3 class="card-title">Clear KPIs &amp; Results</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Work is planned around measurable improvements in deployment frequency,
+            stability, and cloud spend — not just closing tickets.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT METRICS -->
+<section id="metrics" class="slide">
+  <div class="slide-inner flex flex-col">
+    <!-- Header -->
+    <div class="px-10 md:px-16 pt-8 pb-6 flex flex-col md:flex-row md:justify-between md:items-end border-b border-slate-800">
+      <div>
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
+            <i class="fa-solid fa-chart-column text-xs text-white"></i>
+          </div>
+          <span class="text-blue-400 font-semibold uppercase tracking-widest text-xs">Measurable ROI</span>
+        </div>
+        <h1 class="brand-text text-3xl md:text-4xl font-bold text-white leading-tight">
+          Impact Metrics We Focus On
+        </h1>
+      </div>
+      <div class="text-right pb-2 mt-4 md:mt-0">
+        <p class="text-slate-400 text-sm md:text-lg font-light">
+          Outcomes we target within <span class="text-white font-medium">the first 90 days</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="flex flex-1 flex-col md:flex-row px-10 md:px-16 py-8 gap-10">
+      <!-- KPI Cards -->
+      <div class="w-full md:w-5/12 flex flex-col justify-between gap-4">
+        <div class="card-glass p-6 flex items-center gap-5">
+          <div class="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-rocket text-2xl text-blue-400"></i>
+          </div>
+          <div>
+            <div class="text-4xl font-bold text-white brand-text">2-5x</div>
+            <p class="text-slate-400 text-sm font-medium uppercase tracking-wide mt-1">
+              Deployment Frequency (DORA)
+            </p>
+            <p class="text-slate-500 text-xs mt-1">
+              From monthly to weekly/daily for most small teams.
+            </p>
+          </div>
+        </div>
+
+        <div class="card-glass p-6 flex items-center gap-5">
+          <div class="w-14 h-14 rounded-full bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-shield-halved text-2xl text-purple-400"></i>
+          </div>
+          <div>
+            <div class="text-4xl font-bold text-white brand-text">70%</div>
+            <p class="text-slate-400 text-sm font-medium uppercase tracking-wide mt-1">
+              Faster Recovery (MTTR)
+            </p>
+            <p class="text-slate-500 text-xs mt-1">
+              Shorter time to restore service via better alerts, runbooks, and rollback paths.
+            </p>
+          </div>
+        </div>
+
+        <div class="card-glass p-6 flex items-center gap-5">
+          <div class="w-14 h-14 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-sack-dollar text-2xl text-emerald-400"></i>
+          </div>
+          <div>
+            <div class="text-4xl font-bold text-white brand-text">35%</div>
+            <p class="text-slate-400 text-sm font-medium uppercase tracking-wide mt-1">
+              Cloud Spend Reduction
+            </p>
+            <p class="text-slate-500 text-xs mt-1">
+              Rightsizing and waste removal on AWS, Azure, and GCP.
+            </p>
+          </div>
+        </div>
+
+        <div class="card-glass p-6 flex items-center gap-5">
+          <div class="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-code-branch text-2xl text-orange-400"></i>
+          </div>
+          <div>
+            <div class="text-4xl font-bold text-white brand-text">60%</div>
+            <p class="text-slate-400 text-sm font-medium uppercase tracking-wide mt-1">
+              Lead Time Reduction
+            </p>
+            <p class="text-slate-500 text-xs mt-1">
+              Shorter path from commit to production for business‑critical changes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="w-full md:w-7/12 flex flex-col">
+        <div class="card-glass p-8 flex-1 border border-slate-700 bg-slate-800/30">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold text-white">Performance Transformation</h3>
+            <div class="flex gap-4 text-sm">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-slate-600"></span>
+                <span class="text-slate-400">Industry Avg</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                <span class="text-white font-medium">With RavDevOps</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="impactChart"></canvas>
+          </div>
+          <p class="mt-4 text-center text-slate-500 text-sm italic">
+            *Based on typical targets and early outcomes from small-team DevOps engagements (first 90 days).*
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="px-10 md:px-16 py-4 flex justify-between items-center text-slate-500 text-xs border-t border-slate-800/50 mt-auto">
+      <p>RavDevOps Premium Pitch Deck</p>
+      <p>Confidential &amp; Proprietary</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS / TIMELINE -->
+<section id="process" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-6">
+        <span class="text-slate-400 font-semibold uppercase tracking-wider text-sm">Process Roadmap</span>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-8">
+        How It Works: <br/>
+        <span class="text-sky-400">From Chaos to Clarity</span>
+      </h1>
+      <p class="text-slate-300 text-lg leading-relaxed mb-10">
+        A structured 90‑day engagement model: we start with a DevOps discovery (the same call you book on ravdevops.com),
+        then move from diagnostics to delivery with clear milestones at every step.
+      </p>
+      <div class="flex items-center gap-4 text-slate-400">
+        <div class="flex -space-x-2">
+          <div class="w-10 h-10 rounded-full bg-slate-700 border-2 border-slate-900 flex items-center justify-center text-xs">JS</div>
+          <div class="w-10 h-10 rounded-full bg-slate-700 border-2 border-slate-900 flex items-center justify-center text-xs">MK</div>
+          <div class="w-10 h-10 rounded-full bg-slate-700 border-2 border-slate-900 flex items-center justify-center text-xs">AL</div>
+        </div>
+        <span class="text-sm font-medium">Dedicated Team</span>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="step-card">
+        <div class="timeline-line"></div>
+        <div class="step-dot">
+          <div class="step-dot-inner"></div>
+        </div>
+        <div class="content-box">
+          <div class="flex justify-between items-baseline mb-1">
+            <h3 class="text-xl font-bold text-white">Discovery &amp; Diagnostics</h3>
+            <span class="time-badge">Week 0–1</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Deep dive into pipelines, infrastructure, observability, and risk.
+            Identify quick wins and map the critical path to stability and speed.
+          </p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="timeline-line"></div>
+        <div class="step-dot">
+          <div class="step-dot-inner"></div>
+        </div>
+        <div class="content-box">
+          <div class="flex justify-between items-baseline mb-1">
+            <h3 class="text-xl font-bold text-white">Foundations</h3>
+            <span class="time-badge">Weeks 1–2</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Establish CI/CD pipelines, branching models, IaC baselines, and core monitoring alerts.
+            This is the groundwork that makes every change testable and traceable.
+          </p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="timeline-line"></div>
+        <div class="step-dot">
+          <div class="step-dot-inner"></div>
+        </div>
+        <div class="content-box">
+          <div class="flex justify-between items-baseline mb-1">
+            <h3 class="text-xl font-bold text-white">Rollout &amp; Stabilization</h3>
+            <span class="time-badge">Weeks 2–4</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Deploy preview environments, define SLOs, create runbooks, and implement initial cost controls.
+          </p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="timeline-line"></div>
+        <div class="step-dot">
+          <div class="step-dot-inner"></div>
+        </div>
+        <div class="content-box">
+          <div class="flex justify-between items-baseline mb-1">
+            <h3 class="text-xl font-bold text-white">Scale &amp; Harden</h3>
+            <span class="time-badge">Month 2</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Implement SRE guardrails, conduct chaos drills, set up auto-scaling, and enforce policy-as-code.
+          </p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="timeline-line"></div>
+        <div class="step-dot">
+          <div class="step-dot-inner"></div>
+        </div>
+        <div class="content-box">
+          <div class="flex justify-between items-baseline mb-1">
+            <h3 class="text-xl font-bold text-white">Prove ROI</h3>
+            <span class="time-badge">Day 60–90</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Measure impact in release cadence, MTTR reduction, and cloud spend.
+            Plan the next strategic milestones or a lighter fractional DevOps retainer.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVEN RESULTS -->
+<section id="results" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-4">
+        <p class="text-slate-400 font-semibold uppercase tracking-wider text-sm">Track Record</p>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-8">
+        Proven Results <br/>
+        <span class="text-slate-400 text-3xl md:text-4xl">Trusted by Innovators</span>
+      </h1>
+
+      <div class="case-study-card">
+        <div class="flex items-center mb-3">
+          <div class="bg-white text-slate-900 font-bold px-2 py-1 rounded text-xs uppercase tracking-wide mr-3">
+            Case Study
+          </div>
+          <h3 class="text-xl font-bold text-white brand-text">
+            TwiinZ Beard, Balm, &amp; Essentials
+          </h3>
+        </div>
+        <p class="text-slate-300 leading-relaxed mb-3">
+          E‑commerce overhaul for TwiinZ Beard Balm &amp; Essentials — a 100% veteran‑owned,
+          family‑operated grooming brand. Delivered a Squarespace storefront, product catalog
+          integration, and owner‑ready documentation so they can run the shop without a developer.
+        </p>
+        <div class="flex items-center text-sky-400 text-sm font-medium">
+          <i class="fa-solid fa-circle-check mr-2"></i>
+          <p>Step-by-step onboarding &amp; video walkthroughs.</p>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <p class="text-slate-500 text-sm uppercase tracking-wider font-bold mb-4">Experience Across</p>
+
+        <div class="sector-item">
+          <div class="sector-icon">
+            <i class="fa-solid fa-rocket"></i>
+          </div>
+          <div>
+            <p class="text-white font-bold">Small SaaS &amp; E-commerce</p>
+            <p class="text-slate-400 text-sm">
+              Rapid scaling and storefront optimization for growing online businesses.
+            </p>
+          </div>
+        </div>
+
+        <div class="sector-item">
+          <div class="sector-icon">
+            <i class="fa-solid fa-server"></i>
+          </div>
+          <div>
+            <p class="text-white font-bold">Internal Platform Teams</p>
+            <p class="text-slate-400 text-sm">
+              Developer experience (DevEx), CI/CD, and tooling for internal platforms.
+            </p>
+          </div>
+        </div>
+
+        <div class="sector-item">
+          <div class="sector-icon">
+            <i class="fa-solid fa-palette"></i>
+          </div>
+          <div>
+            <p class="text-white font-bold">Art Bay Backend (Django)</p>
+            <p class="text-slate-400 text-sm">
+              Modular Django backbone for storefronts with payments, orders, and CI‑ready Docker images
+              (Django · Docker · PostgreSQL).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="grid-bg"></div>
+      <div class="relative z-10">
+        <h3 class="brand-text text-2xl font-bold text-white mb-8 text-center">Deliverables You Keep</h3>
+
+        <div class="deliverable-card">
+          <div class="deliverable-icon">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-white mb-1">Owner Documentation</h4>
+            <p class="text-slate-400 text-sm">
+              Full transfer of knowledge — architecture notes, runbooks, and onboarding docs.
+            </p>
+          </div>
+        </div>
+
+        <div class="deliverable-card">
+          <div class="deliverable-icon">
+            <i class="fa-solid fa-code-branch"></i>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-white mb-1">Live Runbooks</h4>
+            <p class="text-slate-400 text-sm">
+              Actionable guides for incident response and recurring operational tasks.
+            </p>
+          </div>
+        </div>
+
+        <div class="deliverable-card">
+          <div class="deliverable-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-white mb-1">Executive Dashboards</h4>
+            <p class="text-slate-400 text-sm">
+              Real-time visibility into system health, delivery metrics, and cloud spend.
+            </p>
+          </div>
+        </div>
+
+        <div class="deliverable-card">
+          <div class="deliverable-icon">
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-white mb-1">Improvement Roadmap</h4>
+            <p class="text-slate-400 text-sm">
+              Data-driven plan for the next 90 days of reliability and delivery work.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTMENT & NEXT STEPS -->
+<section id="investment" class="slide">
+  <div class="slide-inner flex flex-row">
+    <div class="left-panel">
+      <div class="mb-4">
+        <p class="text-blue-400 font-semibold uppercase tracking-wider text-sm">Engagement Models</p>
+      </div>
+      <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-10">
+        Investment &amp; <br/>
+        <span class="text-blue-400">Next Steps</span>
+      </h1>
+
+      <div class="models-list">
+        <div class="model-item">
+          <div class="model-icon">
+            <i class="fa-solid fa-broom"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-1 text-white">Emergency Cleanup Sprint</h3>
+            <p class="text-slate-400 leading-relaxed text-sm">
+              Rapid stabilization, triage, and remediation roadmap.
+              Targeted 72‑hour window to restore core services and document root causes.
+            </p>
+          </div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-icon">
+            <i class="fa-solid fa-infinity"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-1 text-white">Fractional DevOps Retainer</h3>
+            <p class="text-slate-400 leading-relaxed text-sm">
+              Ongoing CI/CD, SRE, and FinOps execution with clear KPIs.
+              A predictable monthly bucket of time aligned with your roadmap.
+            </p>
+          </div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-icon">
+            <i class="fa-solid fa-rocket"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-1 text-white">AI Build Accelerator</h3>
+            <p class="text-slate-400 leading-relaxed text-sm">
+              Scoped delivery of one AI-powered feature — a copilot, RAG search, or workflow automation —
+              built on top of your existing stack with governance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="mb-12">
+        <h3 class="text-2xl font-bold mb-6 brand-text text-white">Premium Positioning</h3>
+        <div class="check-list">
+          <div class="check-list-item">
+            <i class="fa-solid fa-check-circle check-icon"></i>
+            <p class="text-slate-300 text-lg">Outcomes-First Approach</p>
+          </div>
+          <div class="check-list-item">
+            <i class="fa-solid fa-check-circle check-icon"></i>
+            <p class="text-slate-300 text-lg">Milestone-Driven Delivery</p>
+          </div>
+          <div class="check-list-item">
+            <i class="fa-solid fa-check-circle check-icon"></i>
+            <p class="text-slate-300 text-lg">Executive-Ready Reporting</p>
+          </div>
+          <div class="check-list-item">
+            <i class="fa-solid fa-check-circle check-icon"></i>
+            <p class="text-slate-300 text-lg">Owner Documentation</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-card">
+        <div class="relative z-10">
+          <h3 class="text-2xl font-bold mb-2 brand-text">Ready to Scale?</h3>
+          <p class="mb-6 text-slate-800 font-medium">
+            Book a 30‑minute DevOps diagnostic to quantify ROI and map a 60–90 day plan.
+          </p>
+          <a href="https://ravdevops.com/contact" target="_blank" rel="noopener"
+             class="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold inline-flex items-center cursor-pointer">
+            Book at ravdevops.com/contact
+            <i class="fa-solid fa-arrow-right ml-3"></i>
+          </a>
+        </div>
+        <div style="position: absolute; right: -20px; bottom: -20px; font-size: 10rem; opacity: 0.1; color: black;">
+          <i class="fa-solid fa-calendar-check"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Slide navigation (next/previous controller instead of manual scrolling)
+  document.addEventListener('DOMContentLoaded', function() {
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    const indicator = document.getElementById('slideIndicator');
+    const nav = document.querySelector('.top-nav');
+    const navOffset = (nav ? nav.offsetHeight : 0) + 8;
+    let currentIndex = 0;
+    let isAnimating = false;
+
+    if (!slides.length || !prevBtn || !nextBtn) return;
+
+    const clampIndex = (value) => Math.max(0, Math.min(slides.length - 1, value));
+
+    function updateUi() {
+      if (indicator) {
+        indicator.textContent = 'Slide ' + (currentIndex + 1) + ' / ' + slides.length;
+      }
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === slides.length - 1;
+    }
+
+    function scrollToSlide(index) {
+      const targetIndex = clampIndex(index);
+      const target = slides[targetIndex];
+      if (!target) return;
+
+      const top = window.pageYOffset + target.getBoundingClientRect().top - navOffset;
+      isAnimating = true;
+      window.scrollTo({ top, behavior: 'smooth' });
+      currentIndex = targetIndex;
+      updateUi();
+      setTimeout(() => { isAnimating = false; }, 500);
+    }
+
+    prevBtn.addEventListener('click', () => scrollToSlide(currentIndex - 1));
+    nextBtn.addEventListener('click', () => scrollToSlide(currentIndex + 1));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+        event.preventDefault();
+        scrollToSlide(currentIndex + 1);
+      } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        scrollToSlide(currentIndex - 1);
+      }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible.length) {
+        const nextIndex = slides.indexOf(visible[0].target);
+        if (nextIndex !== -1 && nextIndex !== currentIndex && !isAnimating) {
+          currentIndex = nextIndex;
+          updateUi();
+        }
+      }
+    }, { threshold: 0.45 });
+
+    slides.forEach((slide) => observer.observe(slide));
+
+    const hash = window.location.hash.replace('#', '');
+    const hashedIndex = slides.findIndex((slide) => slide.id === hash);
+    if (hashedIndex >= 0) {
+      scrollToSlide(hashedIndex);
+    } else {
+      const firstVisible = slides.findIndex((slide) => {
+        const rect = slide.getBoundingClientRect();
+        return rect.top <= navOffset + 20 && rect.bottom >= navOffset + 20;
+      });
+      currentIndex = firstVisible >= 0 ? firstVisible : 0;
+      updateUi();
+    }
+  });
+</script>
+
+<script>
+  // Chart.js initialization for Impact Metrics slide
+  document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('impactChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const data = {
+      labels: ['Release Velocity', 'System Uptime', 'Cost Efficiency', 'Dev Productivity'],
+      datasets: [
+        {
+          label: 'Industry Average',
+          data: [30, 85, 60, 45],
+          backgroundColor: 'rgba(100, 116, 139, 0.3)',
+          borderColor: 'rgba(100, 116, 139, 0.5)',
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.6,
+          categoryPercentage: 0.8
+        },
+        {
+          label: 'With RavDevOps',
+          data: [95, 99, 90, 88],
+          backgroundColor: '#38bdf8',
+          borderColor: '#0ea5e9',
+          borderWidth: 0,
+          borderRadius: 4,
+          barPercentage: 0.6,
+          categoryPercentage: 0.8
+        }
+      ]
+    };
+
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            titleColor: '#f8fafc',
+            bodyColor: '#cbd5e1',
+            borderColor: 'rgba(56, 189, 248, 0.2)',
+            borderWidth: 1,
+            padding: 12,
+            titleFont: { family: 'Space Grotesk', size: 14 },
+            bodyFont: { family: 'Inter', size: 12 }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(148, 163, 184, 0.1)', drawBorder: false },
+            ticks: {
+              color: '#94a3b8',
+              font: { family: 'Inter' },
+              callback: function(value) { return value + '%'; }
+            },
+            max: 100
+          },
+          y: {
+            grid: { display: false },
+            ticks: {
+              color: '#f8fafc',
+              font: { family: 'Space Grotesk', size: 13, weight: 'bold' }
+            }
+          }
+        },
+        animation: { duration: 1500, easing: 'easeOutQuart' }
+      }
+    };
+
+    new Chart(ctx, config);
+  });
+</script>
+
+</body>
+</html>
