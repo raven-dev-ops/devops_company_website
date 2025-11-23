@@ -126,6 +126,31 @@
       height: 460px;
     }
 
+    .deck-photo {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 18px;
+      object-fit: cover;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+      background-color: #0f172a;
+    }
+
+    .deck-photo.hero {
+      max-width: 420px;
+      height: 520px;
+    }
+
+    .deck-photo.tall {
+      max-width: 420px;
+      height: 320px;
+    }
+
+    .deck-photo.wide {
+      max-width: 440px;
+      height: 260px;
+    }
+
     .source-note {
       color: #94a3b8;
       font-size: 11px;
@@ -886,9 +911,7 @@
       <!-- Hero text -->
       <div class="flex flex-col lg:flex-row gap-10 mt-12 items-start lg:items-start lg:justify-center">
         <div class="flex justify-center w-full lg:w-2/5">
-          <div class="image-placeholder hero centered" aria-label="Placeholder image for hero slide">
-            HERO IMAGE
-          </div>
+          <img src="/hero_image.jpg" alt="Raven DevOps lead consultant portrait" class="deck-photo hero centered" loading="lazy"/>
         </div>
 
         <div class="max-w-4xl flex-1">
@@ -1487,9 +1510,7 @@
       <div class="grid-pattern"></div>
       <div class="relative z-10 w-full max-w-md mx-auto">
         <div class="flex justify-center mb-6">
-          <div class="image-placeholder centered" aria-label="Placeholder image for emergency slide">
-            INCIDENT IMAGE
-          </div>
+          <img src="/incident_image.png" alt="Incident response illustration" class="deck-photo wide centered" loading="lazy"/>
         </div>
         <div class="mb-6 text-center">
           <p class="text-2xl font-bold brand-text mb-2">Recovery Roadmap</p>
@@ -1866,9 +1887,7 @@
   <div class="slide-inner flex flex-row">
     <div class="left-panel">
       <div class="flex justify-center mb-6">
-        <div class="image-placeholder tall centered" aria-label="Placeholder image for process slide">
-          PROCESS IMAGE
-        </div>
+        <img src="/process_image.png" alt="Process roadmap illustration" class="deck-photo tall centered" loading="lazy"/>
       </div>
       <div class="mb-6">
         <span class="text-slate-400 font-semibold uppercase tracking-wider text-sm">Process Roadmap</span>
@@ -2182,9 +2201,7 @@
 
     <div class="right-panel">
       <div class="flex justify-center mb-8">
-        <div class="image-placeholder centered" aria-label="Placeholder image for investment slide">
-          PREMIUM IMAGE
-        </div>
+        <img src="/premium_image.png" alt="Premium positioning visual" class="deck-photo wide centered" loading="lazy"/>
       </div>
       <div class="mb-12">
         <h3 class="text-2xl font-bold mb-6 brand-text text-white">Premium Positioning</h3>
