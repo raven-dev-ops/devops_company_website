@@ -866,6 +866,67 @@
       }
     }
 
+    @media (max-width: 1024px) {
+      .slide {
+        padding: 28px 0 72px;
+        min-height: auto;
+      }
+
+      .slide-inner {
+        min-height: auto;
+        padding: 0 16px;
+      }
+
+      .slide-inner.flex {
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .left-panel, .right-panel {
+        width: 100%;
+        padding: 26px 20px;
+        box-sizing: border-box;
+      }
+
+      .right-panel {
+        border-top: 1px solid rgba(148, 163, 184, 0.12);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-wrapper {
+        padding: 36px 20px;
+        min-height: auto;
+      }
+
+      h1.brand-text {
+        font-size: 2.25rem;
+        line-height: 1.2;
+      }
+
+      .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 12px;
+      }
+
+      #topNavLinks {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        gap: 10px;
+      }
+
+      #topNavLinks a {
+        white-space: nowrap;
+      }
+
+      .top-nav-spacer {
+        height: 72px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -986,7 +1047,7 @@
         <span class="text-slate-400 font-semibold uppercase tracking-wider text-sm">Current State</span>
       </div>
       <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-6">
-        The Problem: <br/>
+        The Problem<br/>
         <span class="text-slate-400">Delivery Drag, Incidents,</span> <br/>
         &amp; <span class="text-red-400">Cloud Waste</span>
       </h1>
@@ -1219,7 +1280,7 @@
         </span>
       </div>
       <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-12 text-white">
-        What We Do: <br/>
+        What We Do<br/>
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
           The Three Pillars
         </span>
@@ -1336,7 +1397,7 @@
       </div>
       <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-10">
         AI-Powered <br/>
-        <span class="text-white">Development:</span> <br/>
+        <span class="text-white">Development</span> <br/>
         <span class="text-purple-400">Speed &amp; ROI</span>
       </h1>
 
@@ -1900,7 +1961,7 @@
         <span class="text-slate-400 font-semibold uppercase tracking-wider text-sm">Process Roadmap</span>
       </div>
       <h1 class="brand-text text-4xl md:text-5xl font-bold leading-tight mb-8">
-        How It Works: <br/>
+        How It Works<br/>
         <span class="text-sky-400">From Chaos to Clarity</span>
       </h1>
       <p class="text-slate-300 text-lg leading-relaxed mb-10">
