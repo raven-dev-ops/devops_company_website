@@ -25,9 +25,9 @@ body {
 }
 
 .dark body {
-  /* Dark theme: keep the darker texture */
+  /* Dark theme: switch to lightweight static background to avoid 40MB GIF */
   background-color: #020617;
-  background-image: url('./assets/site_background_dark.gif');
+  background-image: url('./assets/site_background_light.png');
 }
 
 h1, h2, h3 {

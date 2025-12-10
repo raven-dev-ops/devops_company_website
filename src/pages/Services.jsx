@@ -2,7 +2,7 @@ import React from 'react';
 import { serviceAreas } from '../data/services';
 import SeoHead from '../components/SeoHead';
 import ravenHomeLogo from '../assets/raven_home_logo.png';
-import siteBackgroundDark from '../assets/site_background_dark.gif';
+import siteBackgroundDark from '../assets/site_background_light.png';
 import siteBackgroundLight from '../assets/site_background_light.png';
 
 const steps = [

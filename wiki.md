@@ -53,3 +53,9 @@ Add a `.env.local` with `VITE_CHAT_API_BASE` if you want to point to a different
 - Keep secrets (API tokens, DB creds, admin tokens) out of Git; use platform secrets.
 - Monitoring: rely on hosting/platform logs; expand as needed.
 - The production backend lives in `chat-assistant-backend/` (FastAPI + Postgres). `OpenAuxilium/` is legacy/local-only.
+
+## Hosting & Domain (current status)
+- The Netlify production deploy is healthy at the latest unique URL (see Netlify deploy logs), but `ravdevops.com`/`www.ravdevops.com` currently return a 307→403 because DNS is not pointed at Netlify.
+- To serve from Netlify: on NS1 (current nameservers), set apex A records to `75.2.60.5` and `99.83.190.102`; set `www` CNAME to `ravdevops.netlify.app`; remove other A/ALIAS targets. Keep TTL low (300s), wait for propagation, then `curl -I https://ravdevops.com` should return 200.
+- If migrating hosting to Google Cloud Run + HTTPS Load Balancer: deploy the frontend to Cloud Storage + Cloud CDN or to a static site on Cloud Run; provision a global HTTPS load balancer with a managed cert for `ravdevops.com`/`www.ravdevops.com`; point NS1 apex A to the LB IPv4 (and AAAA if issued), and `www` CNAME to the LB hostname. Add the new origins to CORS allowlist on the assistant backend.
+- Keep `VITE_CHAT_API_BASE` aligned with the active assistant backend (Cloud Run gateway preferred; Heroku is only a temporary fallback). Update Netlify environment variables (or `netlify.toml`) before the next deploy.
